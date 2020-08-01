@@ -6,14 +6,14 @@ public class User {
     private String email;
     private String address;
 
+    public User() {}
+
     public User(String name, String phoneNumber, String email, String address) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
     }
-
-    public User() {}
 
     public String getName() {
         return name;
