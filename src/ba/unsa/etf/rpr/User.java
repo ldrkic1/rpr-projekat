@@ -1,4 +1,4 @@
-package sample;
+package ba.unsa.etf.rpr;
 
 public class User {
     private String name;
