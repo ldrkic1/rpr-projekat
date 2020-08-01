@@ -34,9 +34,9 @@
     -fx-border-radius: 2px;
     -fx-border-width: 2px;
 }
-.poljeIspravno {
+.fieldCorrect {
 
 }
-.poljeNeispravno {
+.fieldIncorrect {
 
 }
