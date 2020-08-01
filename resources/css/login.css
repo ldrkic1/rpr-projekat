@@ -21,6 +21,9 @@
     -fx-font-size: 12px;
     -fx-padding: 10 20 10 20;
 }
+.button:hover {
+    -fx-background-color: linear-gradient(#4a609c, #6191b1);
+}
 .label {
     -fx-text-fill: #131e45;
     -fx-font-weight: bold;
