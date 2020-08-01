@@ -71,4 +71,8 @@ public class Actor {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public void addMovie(Movie movie) {
+        filmography.add(movie);
+    }
 }

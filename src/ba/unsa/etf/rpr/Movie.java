@@ -110,4 +110,8 @@ public class Movie {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public void addActor(Actor actor) {
+        mainActors.add(actor);
+    }
 }
