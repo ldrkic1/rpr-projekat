@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS "employee" (
 	"password"	TEXT,
 	PRIMARY KEY("id")
 );
+INSERT INTO 'employee' VALUES (1, 'user', 'password');
+INSERT INTO 'employee' VALUES (2,'ldrkic1','lamka123');
 CREATE TABLE IF NOT EXISTS "user" (
 	"id"	INTEGER,
 	"first_name"	TEXT,
@@ -14,6 +16,8 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"room_number"	INTEGER,
 	PRIMARY KEY("id")
 );
+INSERT INTO 'user' VALUES (1, 'Lamija', 'Drkić', 'lamka', 'lamka123', 26);
+INSERT INTO 'user' VALUES (2, 'Dino', 'Merlin', 'merlin', 'svejelaz', 50);
 CREATE TABLE IF NOT EXISTS "actor" (
 	"id"	INTEGER,
 	"first_name"	TEXT,
