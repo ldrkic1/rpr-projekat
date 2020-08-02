@@ -7,7 +7,6 @@ public class Movie {
     private ArrayList<String> genre;
     private int year;
     private String director;
-    private String writer;
     private ArrayList<Actor> mainActors;
     private String description;
     private int durationMinutes;
@@ -18,12 +17,11 @@ public class Movie {
         mainActors = new ArrayList<>();
     }
 
-    public Movie(String title, ArrayList<String> genre, int year, String director, String writer, ArrayList<Actor> mainActors, String description, int durationMinutes, double rating, String image) {
+    public Movie(String title, ArrayList<String> genre, int year, String director, ArrayList<Actor> mainActors, String description, int durationMinutes, double rating, String image) {
         this.title = title;
         this.genre = genre;
         this.year = year;
         this.director = director;
-        this.writer = writer;
         this.mainActors = mainActors;
         this.description = description;
         this.durationMinutes = durationMinutes;
@@ -61,14 +59,6 @@ public class Movie {
 
     public void setDirector(String director) {
         this.director = director;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
     }
 
     public ArrayList<Actor> getMainActors() {
