@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr;
 import java.util.ArrayList;
 
 public class Content {
+    private int id;
     private String title;
     private ArrayList<Genre> genre;
     private int year;
@@ -16,7 +17,8 @@ public class Content {
 
     }
 
-    public Content(String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image) {
+    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image) {
+        this.id = id;
         this.title = title;
         this.genre = genre;
         this.year = year;
@@ -25,6 +27,14 @@ public class Content {
         this.description = description;
         this.rating = rating;
         this.image = image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

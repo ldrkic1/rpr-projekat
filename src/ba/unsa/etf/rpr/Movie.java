@@ -13,8 +13,8 @@ public class Movie extends Content {
         this.durationMinutes = durationMinutes;
     }
 
-    public Movie(String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, int durationMinutes) {
-        super(title, genre, year, director, mainActors, description, rating, image);
+    public Movie(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, int durationMinutes) {
+        super(id, title, genre, year, director, mainActors, description, rating, image);
         this.durationMinutes = durationMinutes;
     }
 
