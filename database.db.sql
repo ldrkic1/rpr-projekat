@@ -99,6 +99,7 @@ INSERT INTO 'content_actor' VALUES (16,10,8);
 INSERT INTO 'content_actor' VALUES (17,11,8);
 INSERT INTO 'content_actor' VALUES (18,13,9);
 INSERT INTO 'content_actor' VALUES (19,14,9);
+
 CREATE TABLE IF NOT EXISTS "movie" (
 	"id"	INTEGER,
 	"duration_minutes"	INTEGER,
