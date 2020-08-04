@@ -36,6 +36,11 @@ INSERT INTO 'actor' VALUES (6, 'Leyla Lydia','Tuğutlu','Leyla Lydia Tuğutlu ro
 INSERT INTO 'actor' VALUES (7, 'Hande', 'Erçel','Hande Erçel je turska televizijska glumica i manekenka. Poznata je po glavnoj ulozi u Aşk Laftan Anlamazu kao Hayat Uzun. 2020. godine Erçel je postavljen u vodeću ulogu u Sen Çal Kapımı zajedno s Keremom Bürsinom.','24.11.1993','https://swall.teahub.io/photos/small/243-2430681_hayat-hd-wallpaper-for-iphone-and-all-android.jpg');
 INSERT INTO 'actor' VALUES (8, 'Çağatay','Ulusoy','Çağatay Ulusoy turski je model i glumac bošnjačkog porijekla. Nakon što je završio srednju školu, Ulusoy je prvo počeo studirati na Odjelu za dizajn i uređenje vrta u Istanbulu na Sveučilištu. Tada je radio kao model. 2010. godine pobijedio je u takmičenju modela i proglašen je najboljim modelom Turske','23.9.1990','https://i.pinimg.com/564x/57/9f/d2/579fd20a7d3a441670a78b65a0ddf29d.jpg');
 INSERT INTO 'actor' VALUES (9, 'Aras Bulut', 'İynemli','Aras Bulut İynemli je turski glumac. Smatran jednim od najtalentiranijih turskih glumaca, Iynemli je od početka karijere osvojio brojne pohvale za svoju glumu. Od djetinjstva odlikuje se lijepim izgledom, šarmom i karizmom. Proizvođači i agenti filmskih tvrtki odmah su to zabilježili.','25.8.1990','https://i.pinimg.com/564x/05/38/70/053870aa1a3c0bd63e6b428af6706301.jpg');
+INSERT INTO 'actor' VALUES (10, 'Shane', 'West','Shannon Bruce Westgarth Snaith poznatiji kao Shane West, američki je glumac, muzičar i tekstopisac. Trenutno ima niz projekata koji čekaju izdanje, uključujući „Gossamer Folds“ i „No Running“. Osim glume, West je nastupio s pank rock bendom Germs i Jonny Was, te Twilight Creeps.','10.6.1978','https://i.pinimg.com/564x/bf/76/55/bf7655b6cc051096b4707487c41bf65d.jpg');
+INSERT INTO 'actor' VALUES (11, 'Mandy', 'Moore','Amanda Leigh Moore rođena je u Nashua, New Hampshire, 10. aprila 1984. Tokom djetinjstva, njena porodica se preselila u Orlando na Floridi, gdje je odrasla. Nakon što je vidjela mjuzikl "Oklahoma!", Odlučila je da želi nastaviti karijeru u pjevanju. Dokazala se kao nevjerojatan talent kako u pjevanju tako i u glumi. Njezin je najveći san jednoga dana nastupiti na Broadwayu.', '10.4.1984','https://i.pinimg.com/564x/82/3b/10/823b10f5adeec8bf104971ff265bdabc.jpg');
+INSERT INTO 'actor' VALUES (12, 'Erkan Kolçak', 'Köstendil','Erkan Kolçak Köstendil turski je glumac i pevač rođen 1983. godine u Bursi. Pohađao je Univerzitet Mimara Sinana za primenjene umetnosti. Na 47. Međunarodnom filmskom festivalu u Antaliji „Zlatna narandža“ osvojio je posebnu nagradu za scenarij, najbolju fotografiju, najboljeg režisera i za najbolji film.','16.1.1983','https://i.pinimg.com/564x/75/4e/38/754e38483d8dac14b7b5e2b3569cafa9.jpg');
+INSERT INTO 'actor' VALUES (13, 'Channing', 'Tatum', 'Channing Matthew Tatum, poznatiji kao Channing Tatum, je američki glumac, producent i bivši model. Radio je kao model i onda se posvetio glumi.','24.4.1980','https://i.pinimg.com/564x/e1/62/24/e162246f11cead312ac2a18ceac804f2.jpg');
+INSERT INTO 'actor' VALUES (14, 'Amanda', 'Seyfried','Amanda Michelle Seyfred američka je glumica, pjevačica i pjesnikinja. Karijeru je započela kao dječji model kad joj je bilo jedanaest godina, a sa petnaest godina počela je glumiti, prvo u manjim ulogama, a kasnije u serijama.','3.12.1985', 'https://i.pinimg.com/564x/4a/d5/d6/4ad5d6ad36099924bfb5b5ef5c2059f7.jpg');
 CREATE TABLE IF NOT EXISTS "genre" (
 	"id"	INTEGER,
 	"name"	TEXT,
@@ -47,6 +52,7 @@ INSERT INTO 'genre' VALUES (3,'Akcija');
 INSERT INTO 'genre' VALUES (4,'Romantika');
 INSERT INTO 'genre' VALUES (5,'Krimi');
 INSERT INTO 'genre' VALUES (6,'Triler');
+INSERT INTO 'genre' VALUES (7,'Ratni');
 CREATE TABLE IF NOT EXISTS "content" (
 	"id"	INTEGER,
 	"title"	TEXT,
@@ -64,6 +70,8 @@ INSERT INTO 'content' VALUES (4, 'Delibal', 2015, 'Ali Bilgin', 'Dvoje mladih lj
 INSERT INTO 'content' VALUES (5,'Sen Çal Kapimi',2020,'Yusuf Pirhasan','Zbog okolnosti, Serkan i Eda će se morati pretvarati da su zaručeni. Komedija počinje. A romantika?',7.5,'https://m.media-amazon.com/images/M/MV5BMGQyZDQ4MzktMGZjNy00NDM1LWI4NmItMmQxOGFlYzZlZmRkXkEyXkFqcGdeQXVyMTE5NDAwMjg5._V1_SX562_CR0,0,562,999_AL_.jpg');
 INSERT INTO 'content' VALUES (6, 'Içerde', 2016, 'Uluç Bayraktar', 'Priča o dva brata rastrgana jedan od drugog. Sada na suprotnim stranama zakona, braća Sarp i Mert postavljaju se jedan protiv drugog, nesvjesni svog bratstva.',8.0,'https://upload.wikimedia.org/wikipedia/sr/4/46/Icerde.png');
 INSERT INTO 'content' VALUES (7, 'Çukur', 2017, 'Sinan Ozturk', 'Opasni kvart, "Cukur", kojim je upravljala plemićka mafijaška porodica Kočovali. Kad porodici prijeti opasnost da izgubi kontrolu nad Cukurom, njihov najmlađi sin sada se mora vratiti svojoj kući, odakle nikad nije mogao pobjeći.',7.3,'https://i.pinimg.com/originals/b9/b9/fb/b9b9fb99fcfc3f1bb3794297c509a326.jpg');
+INSERT INTO 'content' VALUES (8, 'A Walk to Remember', 2002, 'Adam Shankman', 'Priča o dvoje tinejdžera iz Sjeverne Karoline, Landonu Carteru i Jamieju Sullivanu, koji se udružuju nakon što Landon uđe u nevolju i nateraju se da rade u zajednici.', 7.4, 'https://i.pinimg.com/564x/c7/ef/bc/c7efbc8c900dce91a5d458dbb68725b0.jpg');
+INSERT INTO 'content' VALUES (9, 'Dear John', 2010, 'Lasse Hallström','Film je snimljen po istoimenom romanu Nicholasa Sparksa. Film je premijerno prikazan u kinima u SAD-u 5. veljače 2010. Film prikazuje život vojnika Johna koji se zaljubljuje u djevojku Savannu te dok je on na službi razmjenjuju pisma.',6.3,'https://i.pinimg.com/564x/73/64/b3/7364b39ba2f7b84e4cc26e54dfdd6f08.jpg');
 CREATE TABLE IF NOT EXISTS "content_actor" (
 	"id"	INTEGER,
 	"actor_id"	INTEGER,
@@ -86,6 +94,11 @@ INSERT INTO 'content_actor' VALUES (11,7,5);
 INSERT INTO 'content_actor' VALUES (12,8,6);
 INSERT INTO 'content_actor' VALUES (13,9,6);
 INSERT INTO 'content_actor' VALUES (14,9,7);
+INSERT INTO 'content_actor' VALUES (15,12,7);
+INSERT INTO 'content_actor' VALUES (16,10,8);
+INSERT INTO 'content_actor' VALUES (17,11,8);
+INSERT INTO 'content_actor' VALUES (18,13,9);
+INSERT INTO 'content_actor' VALUES (19,14,9);
 CREATE TABLE IF NOT EXISTS "movie" (
 	"id"	INTEGER,
 	"duration_minutes"	INTEGER,
@@ -94,6 +107,8 @@ CREATE TABLE IF NOT EXISTS "movie" (
 );
 INSERT INTO 'movie' VALUES (1,85);
 INSERT INTO 'movie' VALUES (4, 117);
+INSERT INTO 'movie' VALUES (8, 101);
+INSERT INTO 'movie' VALUES (9, 108);
 CREATE TABLE IF NOT EXISTS "content_genre" (
 	"id"	INTEGER,
 	"content_id"	INTEGER,
@@ -117,6 +132,11 @@ INSERT INTO 'content_genre' VALUES (12,6,5);
 INSERT INTO 'content_genre' VALUES (13,7,3);
 INSERT INTO 'content_genre' VALUES (14,7,5);
 INSERT INTO 'content_genre' VALUES (15,7,6);
+INSERT INTO 'content_genre' VALUES (16,8,1);
+INSERT INTO 'content_genre' VALUES (17,8,4);
+INSERT INTO 'content_genre' VALUES (18,9,1);
+INSERT INTO 'content_genre' VALUES (19,9,4);
+INSERT INTO 'content_genre' VALUES (20,9,7);
 CREATE TABLE IF NOT EXISTS "serial" (
 	"id"	INTEGER,
 	"seasons_number"	INTEGER,
