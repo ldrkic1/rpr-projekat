@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr;
 
+import com.sun.imageio.plugins.common.I18N;
+
 public class User {
     private int id;
     private String firstName;
@@ -7,17 +9,19 @@ public class User {
     private String username;
     private String password;
     private int roomNumber;
-
+    private boolean privilege;
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String username, String password, int roomNumber) {
+    public User(int id, String firstName, String lastName, String username, String password, int roomNumber, int privilege) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.roomNumber = roomNumber;
+        if(privilege == 0) this.privilege = false;
+        else this.privilege = true;
     }
 
     public int getId() {
@@ -66,5 +70,13 @@ public class User {
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public boolean isPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(boolean privilege) {
+        this.privilege = privilege;
     }
 }
