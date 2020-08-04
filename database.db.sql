@@ -7,17 +7,6 @@ CREATE TABLE IF NOT EXISTS "employee" (
 );
 INSERT INTO 'employee' VALUES (1, 'user', 'password');
 INSERT INTO 'employee' VALUES (2,'ldrkic1','lamka123');
-CREATE TABLE IF NOT EXISTS "user" (
-	"id"	INTEGER,
-	"first_name"	TEXT,
-	"last_name"	TEXT,
-	"username"	TEXT,
-	"password"	TEXT,
-	"room_number"	INTEGER,
-	PRIMARY KEY("id")
-);
-INSERT INTO 'user' VALUES (1, 'Lamija', 'Drkić', 'lamka', 'lamka123', 26);
-INSERT INTO 'user' VALUES (2, 'Dino', 'Merlin', 'merlin', 'svejelaz', 50);
 CREATE TABLE IF NOT EXISTS "actor" (
 	"id"	INTEGER,
 	"first_name"	TEXT,
@@ -76,9 +65,9 @@ CREATE TABLE IF NOT EXISTS "content_actor" (
 	"id"	INTEGER,
 	"actor_id"	INTEGER,
 	"content_id"	INTEGER,
-	FOREIGN KEY("content_id") REFERENCES "content"("id"),
+	PRIMARY KEY("id"),
 	FOREIGN KEY("actor_id") REFERENCES "actor"("id"),
-	PRIMARY KEY("id")
+	FOREIGN KEY("content_id") REFERENCES "content"("id")
 );
 INSERT INTO 'content_actor' VALUES (1,1,1);
 INSERT INTO 'content_actor' VALUES (2,2,1);
@@ -99,12 +88,11 @@ INSERT INTO 'content_actor' VALUES (16,10,8);
 INSERT INTO 'content_actor' VALUES (17,11,8);
 INSERT INTO 'content_actor' VALUES (18,13,9);
 INSERT INTO 'content_actor' VALUES (19,14,9);
-
 CREATE TABLE IF NOT EXISTS "movie" (
 	"id"	INTEGER,
 	"duration_minutes"	INTEGER,
-	FOREIGN KEY("id") REFERENCES "content"("id"),
-	PRIMARY KEY("id")
+	PRIMARY KEY("id"),
+	FOREIGN KEY("id") REFERENCES "content"("id")
 );
 INSERT INTO 'movie' VALUES (1,85);
 INSERT INTO 'movie' VALUES (4, 117);
@@ -114,9 +102,9 @@ CREATE TABLE IF NOT EXISTS "content_genre" (
 	"id"	INTEGER,
 	"content_id"	INTEGER,
 	"genre_id"	INTEGER,
-	FOREIGN KEY("genre_id") REFERENCES "genre"("id"),
+	PRIMARY KEY("id"),
 	FOREIGN KEY("content_id") REFERENCES "content"("id"),
-	PRIMARY KEY("id")
+	FOREIGN KEY("genre_id") REFERENCES "genre"("id")
 );
 INSERT INTO 'content_genre' VALUES (1,1,1);
 INSERT INTO 'content_genre' VALUES (2,2,2);
@@ -142,12 +130,24 @@ CREATE TABLE IF NOT EXISTS "serial" (
 	"id"	INTEGER,
 	"seasons_number"	INTEGER,
 	"episodes_per_season"	INTEGER,
-	FOREIGN KEY("id") REFERENCES "content"("id"),
-	PRIMARY KEY("id")
+	PRIMARY KEY("id"),
+	FOREIGN KEY("id") REFERENCES "content"("id")
 );
 INSERT INTO 'serial' VALUES (2,6,34);
 INSERT INTO 'serial' VALUES (3,1,20);
 INSERT INTO 'serial' VALUES (5,1,20);
 INSERT INTO 'serial' VALUES (6,1,39);
 INSERT INTO 'serial' VALUES (7,3,31);
+CREATE TABLE IF NOT EXISTS "user" (
+	"id"	INTEGER,
+	"first_name"	TEXT,
+	"last_name"	TEXT,
+	"username"	TEXT,
+	"password"	TEXT,
+	"room_number"	INTEGER,
+	"privilege"	INTEGER,
+	PRIMARY KEY("id")
+);
+INSERT INTO 'user' VALUES (1, 'Lamija', 'Drkić', 'lamka', 'lamka123', 1, 0);
+INSERT INTO 'user' VALUES (2, 'Dino', 'Merlin', 'merlin', 'svejelaz', 2, 1);
 COMMIT;
