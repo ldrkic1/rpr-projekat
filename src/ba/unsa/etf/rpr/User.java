@@ -1,6 +1,6 @@
 package ba.unsa.etf.rpr;
 
-import com.sun.imageio.plugins.common.I18N;
+
 
 public class User {
     private int id;
