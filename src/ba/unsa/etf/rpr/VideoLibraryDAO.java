@@ -20,7 +20,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
-    private PreparedStatement getMovieGenresStatement;
+    private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     public static VideoLibraryDAO getInstance() {
         if(instance == null) instance = new VideoLibraryDAO();
         return instance;
@@ -82,8 +82,10 @@ public class VideoLibraryDAO {
             getMoviesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, m.duration_minutes FROM content c, movie m WHERE c.id=m.id");
             getSeriesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s WHERE c.id=s.id");
             getActorsInMovieStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM actor a, content c, movie m, content_actor ca WHERE m.id=? AND a.id =ca.actor_id AND ca.content_id=c.id AND c.id=m.id");
-            getActorsInSerialStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM content_actor ca, serial s, content c, actor a WHERE s.id =? AND s.id=c.id AND ca.id=a.id AND c.id=s.id");
+            getActorsInSerialStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM content_actor ca, serial s, content c, actor a WHERE s.id =? AND s.id=c.id  AND c.id=ca.content_id AND a.id =ca.actor_id");
             getMovieGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, movie m WHERE m.id=? AND  m.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
+            getSerialGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, serial s WHERE s.id=? AND  s.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -145,11 +147,40 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+    public ArrayList<Genre> getSerialGenres(int serialId) {
+        ArrayList<Genre> genres = new ArrayList<>();
+        try {
+            getSerialGenresStatement.setInt(1,serialId);
+            ResultSet resultSet = getSerialGenresStatement.executeQuery();
+            while (resultSet.next()) {
+                Genre genre = new Genre(resultSet.getInt(1),resultSet.getString(2));
+                genres.add(genre);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return genres;
+    }
     public ArrayList<Actor> getActorsInMovie(int movieId) {
         ArrayList<Actor> actors = new ArrayList<>();
         try {
             getActorsInMovieStatement.setInt(1,movieId);
             ResultSet resultSet = getActorsInMovieStatement.executeQuery();
+            while (resultSet.next()) {
+                Actor actor = new Actor(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),stringToDate(resultSet.getString(5)),resultSet.getString(6));
+                actors.add(actor);
+                //System.out.println(actor);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actors;
+    }
+    public ArrayList<Actor> getActorsInSerial(int serialId) {
+        ArrayList<Actor> actors = new ArrayList<>();
+        try {
+            getActorsInSerialStatement.setInt(1,serialId);
+            ResultSet resultSet = getActorsInSerialStatement.executeQuery();
             while (resultSet.next()) {
                 Actor actor = new Actor(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),stringToDate(resultSet.getString(5)),resultSet.getString(6));
                 actors.add(actor);
@@ -184,5 +215,30 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
         return movies;
+    }
+    public ArrayList<Serial> getSerials() {
+        ArrayList<Serial> serials = new ArrayList<>();
+        try {
+            ResultSet resultSet = getSeriesStatement.executeQuery();
+            while(resultSet.next()) {
+                Serial serial = new Serial();
+                serial.setId(resultSet.getInt(1));
+                serial.setTitle(resultSet.getString(2));
+                serial.setYear(resultSet.getInt(3));
+                serial.setDirector(resultSet.getString(4));
+                serial.setDescription(resultSet.getString(5));
+                serial.setRating(resultSet.getDouble(6));
+                serial.setImage(resultSet.getString(7));
+                serial.setPrice(resultSet.getDouble(8));
+                serial.setSeasonsNumber(resultSet.getInt(9));
+                serial.setEpisodesPerSeasonNumber(resultSet.getInt(10));
+                serial.setMainActors(getActorsInSerial(serial.getId()));
+                serial.setGenre(getSerialGenres(serial.getId()));
+                serials.add(serial);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return serials;
     }
 }

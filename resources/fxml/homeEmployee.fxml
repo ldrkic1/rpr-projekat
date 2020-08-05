@@ -25,10 +25,12 @@
           <content>
               <BorderPane>
                   <center>
-                      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                      <TableView fx:id="tableViewSeries" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                              <TableColumn prefWidth="75.0" text="C1" />
-                              <TableColumn prefWidth="75.0" text="C2" />
+                              <TableColumn fx:id="colSerialId" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="colSerialTitle" prefWidth="139.0" text="NAZIV" />
+                              <TableColumn fx:id="colSerialDirector" prefWidth="100.0" text="REŽISER" />
+                              <TableColumn fx:id="colSerialActors" prefWidth="285.0" text="GLUMCI" />
                           </columns>
                       </TableView>
                   </center>

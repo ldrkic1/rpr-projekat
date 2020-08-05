@@ -16,16 +16,23 @@ import java.util.ArrayList;
 
 public class HomeEmployeeController {
     public TableView<Movie> tableViewMovies;
+    public TableView<Serial> tableViewSeries;
     public TableColumn colMovieId;
     public TableColumn colMovieTitle;
     public TableColumn colMovieDirector;
     public TableColumn<Movie,String> colMovieActors;
+
+    public TableColumn colSerialId;
+    public TableColumn colSerialTitle;
+    public TableColumn colSerialDirector;
+    public TableColumn<Serial,String> colSerialActors;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
-
+    private ObservableList<Serial> serialList = null;
     public HomeEmployeeController() {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
+        serialList = FXCollections.observableArrayList(dao.getSerials());
     }
 
     @FXML
@@ -35,6 +42,12 @@ public class HomeEmployeeController {
         colMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colMovieDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
         colMovieActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
+
+        tableViewSeries.setItems(serialList);
+        colSerialId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colSerialTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colSerialDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
+        colSerialActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
     }
 
 }
