@@ -12,12 +12,12 @@ public class Content {
     private String description;
     private double rating;
     private String image;
-
+    private double price;
     public Content() {
 
     }
 
-    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image) {
+    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -27,6 +27,7 @@ public class Content {
         this.description = description;
         this.rating = rating;
         this.image = image;
+        this.price = price;
     }
 
     public int getId() {
@@ -99,5 +100,22 @@ public class Content {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getActorsString() {
+        String s = "";
+        for (int i = 0; i < mainActors.size(); i++) {
+            if(i == mainActors.size() - 1) s += mainActors.get(i);
+            else s += mainActors.get(i) + "\n";
+        }
+        return s;
     }
 }

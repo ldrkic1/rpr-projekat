@@ -1,26 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+  <tabs>
+    <Tab text="Filmovi">
+      <content>
+            <BorderPane>
+               <center>
+                  <TableView fx:id="tableViewMovies" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="colMovieId" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="colMovieTitle" prefWidth="139.0" text="NAZIV" />
+                        <TableColumn fx:id="colMovieDirector" prefWidth="100.0" text="REŽISER" />
+                        <TableColumn fx:id="colMovieActors" prefWidth="285.0" text="GLUMCI" />
+                    </columns>
+                  </TableView>
+               </center>
+            </BorderPane>
+      </content>
+    </Tab>
+      <Tab text="Serije">
+          <content>
+              <BorderPane>
+                  <center>
+                      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                      </TableView>
+                  </center>
+              </BorderPane>
+          </content>
+      </Tab>
+      <Tab text="Klijenti">
+        <content>
+            <GridPane>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints></GridPane>
+        </content>
+      </Tab>
+    <Tab text="Generisanje novih podataka">
+      <content>
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+      </content>
+    </Tab>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <AnchorPane layoutX="178.0" prefHeight="500.0" prefWidth="523.0" style="-fx-background-color: pink;" />
-      <AnchorPane layoutX="32.0" prefHeight="500.0" prefWidth="146.0" style="-fx-background-color: lightblue;">
-         <children>
-            <VBox layoutX="-1.0" layoutY="34.0" prefHeight="286.0" prefWidth="146.0" spacing="10.0">
-               <children>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Content" />
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" />
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </children>
-</AnchorPane>
+  </tabs>
+</TabPane>

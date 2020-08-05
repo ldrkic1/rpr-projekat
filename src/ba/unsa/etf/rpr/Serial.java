@@ -14,8 +14,8 @@ public class Serial extends Content {
         this.episodesPerSeasonNumber = episodesPerSeasonNumber;
     }
 
-    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, int seasonsNumber, int episodesPerSeasonNumber) {
-        super(id, title, genre, year, director, mainActors, description, rating, image);
+    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price, int seasonsNumber, int episodesPerSeasonNumber) {
+        super(id, title, genre, year, director, mainActors, description, rating, image, price);
         this.seasonsNumber = seasonsNumber;
         this.episodesPerSeasonNumber = episodesPerSeasonNumber;
     }

@@ -1,26 +1,27 @@
 package ba.unsa.etf.rpr;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Actor {
+    private int id;
     private String firstName;
     private String lastName;
     private String biography;
-    private Date bornDate;
-    private ArrayList<Movie> filmography;
+    private LocalDate bornDate;
     private String image;
 
     public Actor() {
-        filmography = new ArrayList<>();
+
     }
 
-    public Actor(String firstName, String lastName, String biography, Date bornDate, ArrayList<Movie> filmography, String image) {
+    public Actor(int id,String firstName, String lastName, String biography, LocalDate bornDate, String image) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
         this.bornDate = bornDate;
-        this.filmography = filmography;
         this.image = image;
     }
 
@@ -48,21 +49,14 @@ public class Actor {
         this.biography = biography;
     }
 
-    public Date getBornDate() {
+    public LocalDate getBornDate() {
         return bornDate;
     }
 
-    public void setBornDate(Date bornDate) {
+    public void setBornDate(LocalDate bornDate) {
         this.bornDate = bornDate;
     }
 
-    public ArrayList<Movie> getFilmography() {
-        return filmography;
-    }
-
-    public void setFilmography(ArrayList<Movie> filmography) {
-        this.filmography = filmography;
-    }
 
     public String getImage() {
         return image;
@@ -72,7 +66,8 @@ public class Actor {
         this.image = image;
     }
 
-    public void addMovie(Movie movie) {
-        filmography.add(movie);
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

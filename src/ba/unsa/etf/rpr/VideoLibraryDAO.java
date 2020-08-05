@@ -3,7 +3,10 @@ package ba.unsa.etf.rpr;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class VideoLibraryDAO {
@@ -17,6 +20,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
+    private PreparedStatement getMovieGenresStatement;
     public static VideoLibraryDAO getInstance() {
         if(instance == null) instance = new VideoLibraryDAO();
         return instance;
@@ -79,6 +83,7 @@ public class VideoLibraryDAO {
             getSeriesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s WHERE c.id=s.id");
             getActorsInMovieStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM actor a, content c, movie m, content_actor ca WHERE m.id=? AND a.id =ca.actor_id AND ca.content_id=c.id AND c.id=m.id");
             getActorsInSerialStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM content_actor ca, serial s, content c, actor a WHERE s.id =? AND s.id=c.id AND ca.id=a.id AND c.id=s.id");
+            getMovieGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, movie m WHERE m.id=? AND  m.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -89,6 +94,18 @@ public class VideoLibraryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public LocalDate stringToDate(String date) {
+        String[] temp = date.split("\\.");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        String d="";
+        if(Integer.parseInt(temp[0]) >=1 && Integer.parseInt(temp[0])<=9) d += "0";
+        d += temp[0] + "/";
+        if(Integer.parseInt(temp[1]) >=1 && Integer.parseInt(temp[1])<=9) d += "0";
+        d += temp[1] + "/" + temp[2];
+        //convert String to LocalDate
+        LocalDate localDate = LocalDate.parse(d, formatter);
+        return localDate;
     }
     public ArrayList<Employee> getEmployees() {
         ArrayList<Employee> list = new ArrayList<>();
@@ -113,5 +130,59 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
         return null;
+    }
+    public ArrayList<Genre> getMovieGenres(int movieId) {
+        ArrayList<Genre> genres = new ArrayList<>();
+        try {
+            getMovieGenresStatement.setInt(1,movieId);
+            ResultSet resultSet = getMovieGenresStatement.executeQuery();
+            while (resultSet.next()) {
+                Genre genre = new Genre(resultSet.getInt(1),resultSet.getString(2));
+                genres.add(genre);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return genres;
+    }
+    public ArrayList<Actor> getActorsInMovie(int movieId) {
+        ArrayList<Actor> actors = new ArrayList<>();
+        try {
+            getActorsInMovieStatement.setInt(1,movieId);
+            ResultSet resultSet = getActorsInMovieStatement.executeQuery();
+            while (resultSet.next()) {
+                Actor actor = new Actor(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),stringToDate(resultSet.getString(5)),resultSet.getString(6));
+                actors.add(actor);
+                //System.out.println(actor);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actors;
+    }
+
+    public ArrayList<Movie> getMovies() {
+        ArrayList<Movie> movies = new ArrayList<>();
+        try {
+            ResultSet resultSet = getMoviesStatement.executeQuery();
+            while(resultSet.next()) {
+                Movie movie = new Movie();
+                movie.setId(resultSet.getInt(1));
+                movie.setTitle(resultSet.getString(2));
+                movie.setYear(resultSet.getInt(3));
+                movie.setDirector(resultSet.getString(4));
+                movie.setDescription(resultSet.getString(5));
+                movie.setRating(resultSet.getDouble(6));
+                movie.setImage(resultSet.getString(7));
+                movie.setPrice(resultSet.getDouble(8));
+                movie.setDurationMinutes(resultSet.getInt(9));
+                movie.setMainActors(getActorsInMovie(movie.getId()));
+                movie.setGenre(getMovieGenres(movie.getId()));
+                movies.add(movie);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return movies;
     }
 }
