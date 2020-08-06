@@ -1,0 +1,7 @@
+#detailsButton {
+    -fx-background-color: #6191b1;
+    -fx-max-width: 100px
+}
+.align {
+    -fx-alignment: center;
+}
