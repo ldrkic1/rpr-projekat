@@ -52,7 +52,7 @@
         </VBox>
     </top>
     <bottom>
-        <Button fx:id="editAction" mnemonicParsing="false" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
+        <Button onAction="#editAction" mnemonicParsing="false" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
     </bottom>
     <center>
         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">

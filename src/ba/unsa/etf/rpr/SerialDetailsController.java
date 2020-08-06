@@ -2,7 +2,9 @@ package ba.unsa.etf.rpr;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class SerialDetailsController {
     public ImageView serialImage;
@@ -53,9 +57,16 @@ public class SerialDetailsController {
         episodesLabel.textProperty().set(episodesLabel.getText() + serial.getEpisodesPerSeasonNumber() * serial.getSeasonsNumber());
     }
 
-    public void editAction(ActionEvent actionEvent) {
+    public void editAction(ActionEvent actionEvent) throws IOException {
         Scene currentScene = titleLabel.getScene();
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
+        EditSerialDetailsController ctrl = new EditSerialDetailsController(serial, currentScene);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene editScene = new Scene(root, 1000, 700);
+        currentStage.setScene(editScene);
+        currentStage.show();
 
     }
 }
