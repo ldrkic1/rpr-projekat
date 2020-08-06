@@ -32,6 +32,7 @@ public class HomeEmployeeController {
     public TableColumn colSerialTitle;
     public TableColumn colSerialDirector;
     public TableColumn<Serial,String> colSerialActors;
+    public  TableColumn colSerialDetailsButton;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -66,7 +67,6 @@ public class HomeEmployeeController {
 
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -80,8 +80,48 @@ public class HomeEmployeeController {
                 return cell;
             }
         };
-
         colMovieDetailsButton.setCellFactory(cellFactory);
+    }
+    private void addButtonToserialTable() {
+        Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>> cellFactory = new Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>>() {
+            @Override
+            public TableCell<Serial, Void> call(final TableColumn<Serial, Void> param) {
+                final TableCell<Serial, Void> cell = new TableCell<Serial, Void>() {
+                    private final Button btn = new Button("Detalji");
+                    {
+                        //btn.setMaxWidth(colMovieDetailsButton.getMaxWidth());
+                        btn.setId("detailsButton");
+                        btn.setOnAction((ActionEvent event) -> {
+                            Serial data = getTableView().getItems().get(getIndex());
+                            try {
+                                Stage stage = new Stage();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
+                                SerialDetailsController ctrl = new SerialDetailsController(data);
+                                loader.setController(ctrl);
+                                Parent root = loader.load();
+                                stage.setTitle("Detalji o seriji");
+                                stage.setScene(new Scene(root,1000,700));
+                                stage.show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colSerialDetailsButton.setCellFactory(cellFactory);
     }
     @FXML
     public void initialize() {
@@ -90,13 +130,12 @@ public class HomeEmployeeController {
         colMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colMovieDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
         colMovieActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
-
+        addButtonToMovieTable();
         tableViewSeries.setItems(serialList);
         colSerialId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colSerialTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colSerialDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
         colSerialActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
-        addButtonToMovieTable();
+        addButtonToserialTable();
     }
-
 }

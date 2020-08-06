@@ -35,7 +35,8 @@
                               <TableColumn fx:id="colSerialId" prefWidth="75.0" text="ID" />
                               <TableColumn fx:id="colSerialTitle" prefWidth="139.0" text="NAZIV" />
                               <TableColumn fx:id="colSerialDirector" prefWidth="100.0" text="REŽISER" />
-                              <TableColumn fx:id="colSerialActors" prefWidth="285.0" text="GLUMCI" />
+                              <TableColumn fx:id="colSerialActors" prefWidth="264.0" text="GLUMCI" />
+                              <TableColumn fx:id="colSerialDetailsButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" styleClass="align" />
                           </columns>
                       </TableView>
                   </center>
