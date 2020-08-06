@@ -1,17 +1,18 @@
 package ba.unsa.etf.rpr;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 public class MovieDetailsController {
     public ImageView movieImage;
     public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, durationLabel;
@@ -51,10 +52,15 @@ public class MovieDetailsController {
         }
         durationLabel.textProperty().set(durationLabel.getText() + movie.getDurationMinutes() + "min");
     }
-
-    public void editAction(ActionEvent actionEvent) {
+    public void editAction(ActionEvent actionEvent) throws IOException {
         Scene currentScene = titleLabel.getScene();
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie, currentScene);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene editScene = new Scene(root, 1000, 700);
+        currentStage.setScene(editScene);
+        currentStage.show();
     }
 }

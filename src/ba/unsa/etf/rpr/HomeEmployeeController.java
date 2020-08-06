@@ -58,7 +58,7 @@ public class HomeEmployeeController {
                                 MovieDetailsController ctrl = new MovieDetailsController(data);
                                 loader.setController(ctrl);
                                 Parent root = loader.load();
-                                stage.setTitle("Detalji o filmu");
+                                stage.setTitle(data.getTitle());
                                 stage.setScene(new Scene(root,1000,700));
                                 stage.show();
                             } catch (IOException e) {
@@ -99,7 +99,7 @@ public class HomeEmployeeController {
                                 SerialDetailsController ctrl = new SerialDetailsController(data);
                                 loader.setController(ctrl);
                                 Parent root = loader.load();
-                                stage.setTitle("Detalji o seriji");
+                                stage.setTitle(data.getTitle());
                                 stage.setScene(new Scene(root,1000,700));
                                 stage.show();
                             } catch (IOException e) {

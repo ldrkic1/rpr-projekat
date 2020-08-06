@@ -39,13 +39,18 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <Label fx:id="genreLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="556.0" text="Žanr:  ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
          </children>
       </VBox>
    </top>
    <bottom>
-    <Button fx:id="editAction" mnemonicParsing="false" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
+    <Button fx:id="editButton" mnemonicParsing="false" onAction="#editAction" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
@@ -54,28 +59,25 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="107.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="223.0" minHeight="10.0" prefHeight="223.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="233.0" minHeight="10.0" prefHeight="218.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="descriptionTitleLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Opis:" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <Label fx:id="descriptionTitleLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="372.0" text="Opis:" GridPane.columnSpan="2">
                <font>
                   <Font size="21.0" />
                </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </Label>
-            <Label fx:id="descriptionMovieLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
+            <Label fx:id="descriptionMovieLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <font>
                   <Font size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="genreLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Žanr:  " GridPane.columnSpan="2">
-               <font>
-                  <Font size="18.0" />
                </font>
             </Label>
          </children>
