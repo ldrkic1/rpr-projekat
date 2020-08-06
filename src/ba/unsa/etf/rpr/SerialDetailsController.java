@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class SerialDetailsController {
     public ImageView serialImage;
-    public Label titleLabel, descriptionSerialLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel;
+    public Label titleLabel, descriptionSerialLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, seasonsLabel, episodesLabel;
     private Serial serial;
     public VBox actorsVBox;
     public SerialDetailsController(Serial s) {
@@ -48,6 +48,9 @@ public class SerialDetailsController {
             actorHbox.getChildren().addAll(imageViewAcotr,actorName);
             actorsVBox.getChildren().add(actorHbox);
         }
+        seasonsLabel.textProperty().set(seasonsLabel.getText() + serial.getSeasonsNumber());
+
+        episodesLabel.textProperty().set(episodesLabel.getText() + serial.getEpisodesPerSeasonNumber() * serial.getSeasonsNumber());
     }
 
     public void editAction(ActionEvent actionEvent) {

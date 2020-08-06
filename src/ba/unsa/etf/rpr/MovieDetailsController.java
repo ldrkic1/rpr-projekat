@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class MovieDetailsController {
     public ImageView movieImage;
-    public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel;
+    public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, durationLabel;
     private Movie movie;
     public VBox actorsVBox;
     public MovieDetailsController(Movie m) {
@@ -23,7 +23,7 @@ public class MovieDetailsController {
     @FXML
     public void initialize() {
         titleLabel.textProperty().set(movie.getTitle());
-        yearLabel.textProperty().set(yearLabel.getText()+ " " + movie.getYear());
+        yearLabel.textProperty().set(yearLabel.getText() + movie.getYear());
         String imageSource = movie.getImage();
         Image image = new Image(imageSource);
         movieImage.setImage(image);
@@ -49,6 +49,7 @@ public class MovieDetailsController {
             actorHbox.getChildren().addAll(imageViewAcotr,actorName);
             actorsVBox.getChildren().add(actorHbox);
         }
+        durationLabel.textProperty().set(durationLabel.getText() + movie.getDurationMinutes() + "min");
     }
 
     public void editAction(ActionEvent actionEvent) {
