@@ -20,6 +20,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
+    private PreparedStatement getActorsNotInMovieStatement, getActorsNotInSerialStatement;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
     public static VideoLibraryDAO getInstance() {
@@ -86,7 +87,6 @@ public class VideoLibraryDAO {
             getActorsInSerialStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM content_actor ca, serial s, content c, actor a WHERE s.id =? AND s.id=c.id  AND c.id=ca.content_id AND a.id =ca.actor_id");
             getMovieGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, movie m WHERE m.id=? AND  m.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
             getSerialGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, serial s WHERE s.id=? AND  s.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
-
             updateContetntStatement = connection.prepareStatement("UPDATE content SET title=?,year=?,director=?,description=?,rating=?,image=?,price=? WHERE id=?");
             updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
         } catch (SQLException throwables) {
@@ -263,4 +263,18 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+    public ArrayList<Actor> getActors() {
+        ArrayList<Actor> actors = new ArrayList<>();
+        try {
+            ResultSet resultSet = getActorsStatement.executeQuery();
+            while (resultSet.next()) {
+                Actor a = new Actor(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), stringToDate(resultSet.getString(5)), resultSet.getString(6));
+                actors.add(a);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actors;
+    }
+
 }

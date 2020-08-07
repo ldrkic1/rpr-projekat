@@ -184,7 +184,15 @@ public class EditMovieDetailsController {
         });
     }
 
-    public void addActorAction(ActionEvent actionEvent) {
+    public void addActorAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
+        AddActorController ctrl = new AddActorController(movie);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj glumca");
+        stage.setScene(new Scene(root, 700,700));
+        stage.show();
 
     }
     public void deleteActorAction(ActionEvent actionEvent) {
