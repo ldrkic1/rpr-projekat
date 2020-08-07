@@ -30,7 +30,7 @@ public class EditMovieDetailsController {
     public TextArea imageUrlArea;
     public ListView<Actor> actorsListView;
     public ListView<Genre> genresListView;
-    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton;
+    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelButton;
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
@@ -199,10 +199,7 @@ public class EditMovieDetailsController {
     public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
             Movie m = new Movie();
-            //m.setId(movie.getId());
             movie.setTitle(titleField.getText());
-            //m.setGenre(movie.getGenre());
-            //m.setMainActors(movie.getMainActors());
             movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
             movie.setPrice(Double.parseDouble(priceField.getText()));
             movie.setImage(imageUrlArea.getText());
@@ -215,10 +212,20 @@ public class EditMovieDetailsController {
             MovieDetailsController ctrl = new MovieDetailsController(movie);
             loader.setController(ctrl);
             Parent root = loader.load();
-            Scene editScene = new Scene(root, 1000, 700);
+            Scene scene = new Scene(root, 1200, 700);
             Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-            stage.setScene(editScene);
+            stage.setScene(scene);
             stage.show();
         }
+    }
+    public void cancelAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
+        MovieDetailsController ctrl = new MovieDetailsController(movie);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200, 700);
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }
