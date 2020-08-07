@@ -6,9 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class EditMovieDetailsController {
     private Movie movie;
@@ -192,11 +196,28 @@ public class EditMovieDetailsController {
     public void deleteGenreAction(ActionEvent actionEvent) {
 
     }
-    public void saveChangesAction(ActionEvent actionEvent) {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
-
+            Movie m = new Movie();
+            //m.setId(movie.getId());
+            movie.setTitle(titleField.getText());
+            //m.setGenre(movie.getGenre());
+            //m.setMainActors(movie.getMainActors());
+            movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
+            movie.setPrice(Double.parseDouble(priceField.getText()));
+            movie.setImage(imageUrlArea.getText());
+            movie.setDescription(descriptionArea.getText());
+            movie.setRating(Double.parseDouble(ratingValueField.getText()));
+            movie.setYear(Integer.parseInt(yearField.getText()));
+            movie.setDirector(directorField.getText());
+            dao.updateMovie(movie);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
+            MovieDetailsController ctrl = new MovieDetailsController(movie);
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            Scene editScene = new Scene(root, 1000, 700);
             Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-            stage.setScene(previousScene);
+            stage.setScene(editScene);
             stage.show();
         }
     }

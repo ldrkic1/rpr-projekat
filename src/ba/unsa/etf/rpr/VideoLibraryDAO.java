@@ -21,6 +21,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
+    private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
     public static VideoLibraryDAO getInstance() {
         if(instance == null) instance = new VideoLibraryDAO();
         return instance;
@@ -86,6 +87,8 @@ public class VideoLibraryDAO {
             getMovieGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, movie m WHERE m.id=? AND  m.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
             getSerialGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, serial s WHERE s.id=? AND  s.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
 
+            updateContetntStatement = connection.prepareStatement("UPDATE content SET title=?,year=?,director=?,description=?,rating=?,image=?,price=? WHERE id=?");
+            updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -240,5 +243,24 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
         return serials;
+    }
+    public void updateMovie(Movie m) {
+        try {
+            updateContetntStatement.setString(1, m.getTitle());
+            updateContetntStatement.setInt(2, m.getYear());
+            updateContetntStatement.setString(3, m.getDirector());
+            updateContetntStatement.setString(4, m.getDescription());
+            updateContetntStatement.setDouble(5,m.getRating());
+            updateContetntStatement.setString(6, m.getImage());
+            updateContetntStatement.setDouble(7, m.getPrice());
+            updateContetntStatement.setInt(8, m.getId());
+            updateContetntStatement.executeUpdate();
+
+            updateMovieStatement.setInt(1, m.getDurationMinutes());
+            updateMovieStatement.setInt(2, m.getId());
+            updateMovieStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

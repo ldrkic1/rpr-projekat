@@ -138,4 +138,8 @@ public class HomeEmployeeController {
         colSerialActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
         addButtonToserialTable();
     }
+    public void updateLists() {
+        moviesList = FXCollections.observableArrayList(dao.getMovies());
+        serialList = FXCollections.observableArrayList(dao.getSerials());
+    }
 }
