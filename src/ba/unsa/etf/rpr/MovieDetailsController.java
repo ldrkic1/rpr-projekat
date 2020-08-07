@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,9 +19,17 @@ public class MovieDetailsController {
     public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, durationLabel;
     private Movie movie;
     public VBox actorsVBox;
-    public MovieDetailsController(Movie m) {
+    public Button backButton;
+    private Scene previousScene;
+    public MovieDetailsController(Movie m, Scene scene) {
         movie = m;
+        previousScene = scene;
     }
+
+    public MovieDetailsController(Movie movie) {
+        this.movie = movie;
+    }
+
     @FXML
     public void initialize() {
         titleLabel.textProperty().set(movie.getTitle());
@@ -51,6 +60,12 @@ public class MovieDetailsController {
             actorsVBox.getChildren().add(actorHbox);
         }
         durationLabel.textProperty().set(durationLabel.getText() + movie.getDurationMinutes() + "min");
+        Image icon = new Image("https://cdn1.iconfinder.com/data/icons/ios-11-ui-elements/29/26_back_left_arrow_navigation_sign-512.png");
+        ImageView backIcon = new ImageView();
+        backIcon.setImage(icon);
+        backIcon.setFitHeight(30);
+        backIcon.setFitWidth(30);
+        backButton.setGraphic(backIcon);
     }
     public void editAction(ActionEvent actionEvent) throws IOException {
         Scene currentScene = titleLabel.getScene();
@@ -59,8 +74,17 @@ public class MovieDetailsController {
         EditMovieDetailsController ctrl = new EditMovieDetailsController(movie, currentScene);
         loader.setController(ctrl);
         Parent root = loader.load();
-        Scene editScene = new Scene(root, 1000, 700);
+        Scene editScene = new Scene(root, 1200, 700);
         currentStage.setScene(editScene);
+        currentStage.show();
+    }
+    public void backAction(ActionEvent actionEvent) throws IOException {
+        Stage currentStage = (Stage) titleLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
+        HomeEmployeeController ctrl = new HomeEmployeeController();
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        currentStage.setScene(new Scene(root, 1200, 700));
         currentStage.show();
     }
 }

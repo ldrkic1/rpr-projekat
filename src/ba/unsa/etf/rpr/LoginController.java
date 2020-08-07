@@ -34,7 +34,7 @@ public class LoginController {
                 loader.setController(ctrl);
                 Parent root = loader.load();
                 stage.setTitle("Home");
-                stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+                stage.setScene(new Scene(root, 1200, 700));
                 Stage stage1 = (Stage) usernameField.getScene().getWindow();
                 stage1.close();
                 stage.show();
