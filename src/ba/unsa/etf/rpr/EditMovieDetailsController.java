@@ -29,6 +29,7 @@ public class EditMovieDetailsController {
     public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton;
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
+    private boolean allControlsCorrect = true;
     public EditMovieDetailsController(Movie movie, Scene scene) {
         this.movie = movie;
         previousScene = scene;
@@ -39,6 +40,14 @@ public class EditMovieDetailsController {
     private static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+    private static boolean isInt(String str) {
+        try {
+            Integer.parseInt(str);
             return true;
         } catch(NumberFormatException e){
             return false;
@@ -66,13 +75,111 @@ public class EditMovieDetailsController {
         ratingValueField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(!newValue.isEmpty() && isNumeric(newValue)) ratingSlider.setValue(Double.parseDouble(newValue));
+                if(!newValue.isEmpty() && isNumeric(newValue)) {
+                    allControlsCorrect = true;
+                    ratingValueField.getStyleClass().removeAll("fieldIncorrect");
+                    ratingSlider.setValue(Double.parseDouble(newValue));
+                }
                 else {
-                    System.out.println("ne moze neispravna vrijednost");
+                    allControlsCorrect = false;
+                    ratingValueField.getStyleClass().removeAll("fieldCorrect");
+                    ratingValueField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        yearField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && isInt(newValue)) {
+                    allControlsCorrect = true;
+                    yearField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    yearField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        durationField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && isInt(newValue)) {
+                    allControlsCorrect = true;
+                    durationField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    durationField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        priceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && isNumeric(newValue)) {
+                    allControlsCorrect = true;
+                    priceField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    priceField.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
+                }
+            }
+        });
+        titleField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    titleField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    titleField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        descriptionArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    descriptionArea.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    descriptionArea.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        directorField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    directorField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    directorField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        imageUrlArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    imageUrlArea.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    imageUrlArea.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
         });
     }
+
     public void addActorAction(ActionEvent actionEvent) {
 
     }
@@ -86,10 +193,11 @@ public class EditMovieDetailsController {
 
     }
     public void saveChangesAction(ActionEvent actionEvent) {
+        if(allControlsCorrect) {
 
-        Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-        stage.setScene(previousScene);
-        stage.show();
-
+            Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+            stage.setScene(previousScene);
+            stage.show();
+        }
     }
 }

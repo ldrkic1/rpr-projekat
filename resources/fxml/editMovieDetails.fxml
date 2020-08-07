@@ -15,7 +15,11 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import java.net.URL?>
 <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@/css/editMovieDetails.css"/>
+   </stylesheets>
    <center>
       <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="680.0" vgap="5.0">
          <rowConstraints>
