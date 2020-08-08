@@ -5,20 +5,39 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AddActorController {
     public ChoiceBox actorsChoice;
     public RadioButton addActorRadio;
-    public Label choiceLabel;
+    public Label choiceLabel, nameLabel, surnameLabel, biographyLabel, birthDateLabel, urlLabel, imgLabel;
+    public DatePicker birthDatePicker;
+    public TextField nameField, surnameField;
+    public TextArea biographyArea, urlArea;
+    public ImageView actorImg;
+    public Pane pane;
+    public Button addActorButton, cancelButton;
     private VideoLibraryDAO dao = null;
     private ObservableList<Actor> actors = null;
     private ArrayList<Actor> actorsInMovie = null;
+    private Movie movie;
     private int getActorIndex(int id) {
         for( int i = 0; i < actors.size(); i++) {
             if(actors.get(i).getId() == id) return i;
@@ -26,6 +45,7 @@ public class AddActorController {
         return -1;
     }
     public AddActorController(Movie m) {
+        movie = m;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActors());
         actorsInMovie = m.getMainActors();
@@ -35,11 +55,38 @@ public class AddActorController {
             }
         }
     }
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static boolean isValid(String url)
+    {
+        /* Try creating a valid URL */
+        try {
+            new URL(url).toURI();
+            return true;
+        }
 
+        // If there was an Exception
+        // while creating URL object
+        catch (Exception e) {
+            return false;
+        }
+    }
     @FXML
     public void initialize() {
         actorsChoice.setItems(actors);
         actorsChoice.getSelectionModel().selectFirst();
+        birthDatePicker.setValue(LocalDate.now());
+        nameLabel.setDisable(true);
+        surnameLabel.setDisable(true);
+        biographyLabel.setDisable(true);
+        birthDateLabel.setDisable(true);
+        birthDatePicker.setDisable(true);
+        urlLabel.setDisable(true);
+        nameField.setDisable(true);
+        surnameField.setDisable(true);
+        biographyArea.setDisable(true);
+        urlArea.setDisable(true);
+        imgLabel.setDisable(true);
+        pane.setDisable(true);
 
         addActorRadio.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -47,12 +94,145 @@ public class AddActorController {
                 if(addActorRadio.isSelected()) {
                     actorsChoice.setDisable(true);
                     choiceLabel.setDisable(true);
+                    nameLabel.setDisable(false);
+                    surnameLabel.setDisable(false);
+                    biographyLabel.setDisable(false);
+                    birthDateLabel.setDisable(false);
+                    birthDatePicker.setDisable(false);
+                    nameField.setDisable(false);
+                    surnameField.setDisable(false);
+                    biographyArea.setDisable(false);
+                    urlLabel.setDisable(false);
+                    urlArea.setDisable(false);
+                    imgLabel.setDisable(false);
+                    pane.setDisable(false);
+                    nameField.getStyleClass().add("fieldIncorrect");
+                    surnameField.getStyleClass().add("fieldIncorrect");
+                    biographyArea.getStyleClass().add("fieldIncorrect");
+                    urlArea.getStyleClass().add("fieldIncorrect");
                 }
                 else {
                     actorsChoice.setDisable(false);
                     choiceLabel.setDisable(false);
+                    nameLabel.setDisable(true);
+                    surnameLabel.setDisable(true);
+                    biographyLabel.setDisable(true);
+                    birthDateLabel.setDisable(true);
+                    birthDatePicker.setDisable(true);
+                    nameField.setDisable(true);
+                    surnameField.setDisable(true);
+                    biographyArea.setDisable(true);
+                    urlLabel.setDisable(true);
+                    urlArea.setDisable(true);
+                    imgLabel.setDisable(true);
+                    pane.setDisable(true);
                 }
             }
         });
+        birthDatePicker.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
+                    return null;
+                }
+                return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
+        birthDatePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
+            @Override
+            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate oldLocalDate, LocalDate newLocalDate) {
+                LocalDate date = birthDatePicker.getValue();
+                System.out.println(date);
+                if (date.toString().equals("")) {
+
+                    birthDatePicker.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    birthDatePicker.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        urlArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(isValid(newValue)) {
+                    ImageView img = new ImageView();
+                    Image image = new Image(newValue);
+                    urlArea.getStyleClass().removeAll("fieldIncorrect");
+                    urlArea.getStyleClass().add("fieldCorrect");
+                    img.setImage(image);
+                    img.setFitWidth(170);
+                    img.setFitHeight(200);
+                    pane.getChildren().add(img);
+                    pane.setPadding(new Insets(20,20,20,20));
+
+                }
+                else {
+                    urlArea.getStyleClass().removeAll("fieldCorrect");
+                    urlArea.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        nameField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.length() < 3) {
+                    nameField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    nameField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        surnameField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.length() < 2) {
+                    surnameField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    surnameField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        biographyArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    biographyArea.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    biographyArea.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+    }
+
+    public void addActorAction(ActionEvent addActorAction) {
+
+    }
+
+    public void cancelAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) actorsChoice.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setScene(new Scene(root, 1200,700));
+        stage.setTitle(movie.getTitle());
+        stage.show();
     }
 }

@@ -6,9 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class EditSerialDetailsController {
     private Serial serial;
@@ -27,23 +31,16 @@ public class EditSerialDetailsController {
     public TextField episodesField;
     public ListView<Actor> actorsListView;
     public ListView<Genre> genresListView;
-    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton;
+    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelButton;
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
-    public EditSerialDetailsController(Serial serial, Scene scene) {
+    private boolean allControlsCorrect = true;
+    public EditSerialDetailsController(Serial serial) {
         this.serial = serial;
-        previousScene = scene;
+
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInSerial(serial.getId()));
         genres = FXCollections.observableArrayList(dao.getSerialGenres(serial.getId()));
-    }
-    private static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
-        }
     }
     @FXML
     public void initialize() {
@@ -68,9 +65,119 @@ public class EditSerialDetailsController {
         ratingValueField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(!newValue.isEmpty() && isNumeric(newValue)) ratingSlider.setValue(Double.parseDouble(newValue));
+                if(!newValue.isEmpty() && EditMovieDetailsController.isNumeric(newValue)) {
+                    allControlsCorrect = true;
+                    ratingValueField.getStyleClass().removeAll("fieldIncorrect");
+                    ratingSlider.setValue(Double.parseDouble(newValue));
+                }
                 else {
-                    System.out.println("ne moze neispravna vrijednost");
+                    allControlsCorrect = false;
+                    ratingValueField.getStyleClass().removeAll("fieldCorrect");
+                    ratingValueField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        yearField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
+                    allControlsCorrect = true;
+                    yearField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    yearField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        priceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isNumeric(newValue)) {
+                    allControlsCorrect = true;
+                    priceField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    priceField.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
+                }
+            }
+        });
+        titleField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    titleField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    titleField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        descriptionArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    descriptionArea.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    descriptionArea.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        directorField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    directorField.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    directorField.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        imageUrlArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue.isEmpty()) {
+                    allControlsCorrect = false;
+                    imageUrlArea.getStyleClass().add("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = true;
+                    imageUrlArea.getStyleClass().removeAll("fieldIncorrect");
+                }
+            }
+        });
+        seasonsField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
+                    allControlsCorrect = true;
+                    seasonsField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    seasonsField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        episodesField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
+                    allControlsCorrect = true;
+                    episodesField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    episodesField.getStyleClass().add("fieldIncorrect");
                 }
             }
         });
@@ -87,11 +194,39 @@ public class EditSerialDetailsController {
     public void deleteGenreAction(ActionEvent actionEvent) {
 
     }
-    public void saveChangesAction(ActionEvent actionEvent) {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException {
+        if(allControlsCorrect) {
+            serial.setTitle(titleField.getText());
+            serial.setPrice(Double.parseDouble(priceField.getText()));
+            serial.setImage(imageUrlArea.getText());
+            serial.setDescription(descriptionArea.getText());
+            serial.setRating(Double.parseDouble(ratingValueField.getText()));
+            serial.setYear(Integer.parseInt(yearField.getText()));
+            serial.setDirector(directorField.getText());
+            serial.setSeasonsNumber(Integer.parseInt(seasonsField.getText()));
+            serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText())/Integer.parseInt(seasonsField.getText()));
+            dao.updateSerial(serial);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
+            SerialDetailsController ctrl = new SerialDetailsController(serial);
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 1200, 700);
+            Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+            stage.setTitle(serial.getTitle());
+            stage.setScene(scene);
+            stage.show();
+        }
 
-        Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-        stage.setScene(previousScene);
+    }
+    public void cancelAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
+        SerialDetailsController ctrl = new SerialDetailsController(serial);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200, 700);
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle(serial.getTitle());
         stage.show();
-
     }
 }

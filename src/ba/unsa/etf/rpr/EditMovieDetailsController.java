@@ -34,14 +34,18 @@ public class EditMovieDetailsController {
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
-    public EditMovieDetailsController(Movie movie, Scene scene) {
+    public EditMovieDetailsController(Movie movie) {
         this.movie = movie;
-        previousScene = scene;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInMovie(movie.getId()));
         genres = FXCollections.observableArrayList(dao.getMovieGenres(movie.getId()));
     }
-    private static boolean isNumeric(String str) {
+
+    public EditMovieDetailsController() {
+
+    }
+
+    public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
             return true;
@@ -49,7 +53,7 @@ public class EditMovieDetailsController {
             return false;
         }
     }
-    private static boolean isInt(String str) {
+    public static boolean isInt(String str) {
         try {
             Integer.parseInt(str);
             return true;
@@ -185,13 +189,13 @@ public class EditMovieDetailsController {
     }
 
     public void addActorAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
+        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
         AddActorController ctrl = new AddActorController(movie);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
-        stage.setScene(new Scene(root, 700,700));
+        stage.setScene(new Scene(root, 1200,700));
         stage.show();
 
     }
@@ -222,6 +226,7 @@ public class EditMovieDetailsController {
             Parent root = loader.load();
             Scene scene = new Scene(root, 1200, 700);
             Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+            stage.setTitle(movie.getTitle());
             stage.setScene(scene);
             stage.show();
         }
@@ -234,6 +239,7 @@ public class EditMovieDetailsController {
         Scene scene = new Scene(root, 1200, 700);
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.setScene(scene);
+        stage.setTitle(movie.getTitle());
         stage.show();
     }
 }

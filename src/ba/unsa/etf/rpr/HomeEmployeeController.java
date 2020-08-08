@@ -93,13 +93,13 @@ public class HomeEmployeeController {
                         btn.setOnAction((ActionEvent event) -> {
                             Serial data = getTableView().getItems().get(getIndex());
                             try {
-                                Stage stage = new Stage();
+                                Stage stage = (Stage) tableViewSeries.getScene().getWindow();
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
                                 SerialDetailsController ctrl = new SerialDetailsController(data);
                                 loader.setController(ctrl);
                                 Parent root = loader.load();
                                 stage.setTitle(data.getTitle());
-                                stage.setScene(new Scene(root,1000,700));
+                                stage.setScene(new Scene(root,1200,700));
                                 stage.show();
                             } catch (IOException e) {
                                 e.printStackTrace();

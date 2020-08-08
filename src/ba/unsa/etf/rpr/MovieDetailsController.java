@@ -71,7 +71,7 @@ public class MovieDetailsController {
         Scene currentScene = titleLabel.getScene();
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie, currentScene);
+        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene editScene = new Scene(root, 1200, 700);
@@ -85,6 +85,7 @@ public class MovieDetailsController {
         loader.setController(ctrl);
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
+        currentStage.setTitle("Home");
         currentStage.show();
     }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
@@ -89,7 +90,15 @@
         </GridPane>
     </center>
     <bottom>
-        <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj promjene" BorderPane.alignment="CENTER" />
+      <ButtonBar BorderPane.alignment="CENTER">
+         <buttons>
+              <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj promjene" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="47.0" text="Poništi" />
+         </buttons>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin>
+      </ButtonBar>
     </bottom>
     <padding>
         <Insets bottom="20.0" top="10.0" />

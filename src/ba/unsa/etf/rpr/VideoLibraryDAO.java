@@ -89,6 +89,7 @@ public class VideoLibraryDAO {
             getSerialGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, serial s WHERE s.id=? AND  s.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
             updateContetntStatement = connection.prepareStatement("UPDATE content SET title=?,year=?,director=?,description=?,rating=?,image=?,price=? WHERE id=?");
             updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
+            updateSerialStatement = connection.prepareStatement("UPDATE  serial SET seasons_number=?, episodes_per_season=? WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -102,7 +103,7 @@ public class VideoLibraryDAO {
     }
     public LocalDate stringToDate(String date) {
         String[] temp = date.split("\\.");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String d="";
         if(Integer.parseInt(temp[0]) >=1 && Integer.parseInt(temp[0])<=9) d += "0";
         d += temp[0] + "/";
@@ -250,7 +251,7 @@ public class VideoLibraryDAO {
             updateContetntStatement.setInt(2, m.getYear());
             updateContetntStatement.setString(3, m.getDirector());
             updateContetntStatement.setString(4, m.getDescription());
-            updateContetntStatement.setDouble(5,m.getRating());
+            updateContetntStatement.setDouble(5, m.getRating());
             updateContetntStatement.setString(6, m.getImage());
             updateContetntStatement.setDouble(7, m.getPrice());
             updateContetntStatement.setInt(8, m.getId());
@@ -259,6 +260,25 @@ public class VideoLibraryDAO {
             updateMovieStatement.setInt(1, m.getDurationMinutes());
             updateMovieStatement.setInt(2, m.getId());
             updateMovieStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void updateSerial(Serial s) {
+        try {
+            updateContetntStatement.setString(1, s.getTitle());
+            updateContetntStatement.setInt(2, s.getYear());
+            updateContetntStatement.setString(3, s.getDirector());
+            updateContetntStatement.setString(4, s.getDescription());
+            updateContetntStatement.setDouble(5, s.getRating());
+            updateContetntStatement.setString(6, s.getImage());
+            updateContetntStatement.setDouble(7, s.getPrice());
+            updateContetntStatement.setInt(8, s.getId());
+            updateContetntStatement.executeUpdate();
+
+            updateSerialStatement.setInt(1, s.getSeasonsNumber());
+            updateSerialStatement.setInt(3, s.getEpisodesPerSeasonNumber());
+            updateSerialStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
