@@ -245,6 +245,7 @@ public class AddActorController {
                 a.setBornDate(LocalDate.parse(birthDatePicker.getValue().format(formatter), formatter));
                 a.setImage(urlArea.getText());
                 dao.addActor(a);
+                dao.addMovieActor(a,movie);
                 cancelAction(actionEvent);
             }
         }

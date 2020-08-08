@@ -24,7 +24,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorsNotInMovieStatement, getActorsNotInSerialStatement;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
-    private PreparedStatement addActorStatement,nextIdStatement;
+    private PreparedStatement addActorStatement, nextIdStatement, nextIdContentAcotrStatement, addContentActorStatement;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public static VideoLibraryDAO getInstance() {
         if(instance == null) instance = new VideoLibraryDAO();
@@ -94,7 +94,9 @@ public class VideoLibraryDAO {
             updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
             updateSerialStatement = connection.prepareStatement("UPDATE  serial SET seasons_number=?, episodes_per_season=? WHERE id=?");
             nextIdStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM actor");
+            nextIdContentAcotrStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM content_actor");
             addActorStatement = connection.prepareStatement("INSERT INTO actor VALUES (?,?,?,?,?,?)");
+            addContentActorStatement = connection.prepareStatement("INSERT INTO content_actor VALUES (?,?,?)");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -321,6 +323,27 @@ public class VideoLibraryDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    public void addMovieActor(Actor a, Movie m) {
+        try {
+            getActorStatement.setString(1, a.getFirstName());
+            getActorStatement.setString(2, a.getLastName());
+            ResultSet resultSet = getActorStatement.executeQuery();
+            if(resultSet.next()) {
+                ResultSet rs = nextIdContentAcotrStatement.executeQuery();
+                int id = 1;
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                addContentActorStatement.setInt(1, id);
+                addContentActorStatement.setInt(2, resultSet.getInt(1));
+                addContentActorStatement.setInt(3, m.getId());
+                addContentActorStatement.executeUpdate();
+                m.getMainActors().add(new Actor(resultSet.getInt(1),a.getFirstName(),a.getLastName(),a.getBiography(),a.getBornDate(),a.getImage()));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

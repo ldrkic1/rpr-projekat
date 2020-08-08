@@ -15,10 +15,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class EditMovieDetailsController {
-    private Movie movie;
+    private static Movie movie;
     private Scene previousScene;
     public Button saveChangesButton;
-    private VideoLibraryDAO dao = null;
+    private static VideoLibraryDAO dao = null;
     public TextField titleField;
     public TextField yearField;
     public TextField directorField;
@@ -31,7 +31,7 @@ public class EditMovieDetailsController {
     public ListView<Actor> actorsListView;
     public ListView<Genre> genresListView;
     public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelButton;
-    private ObservableList<Actor> actors = null;
+    private static ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
     public EditMovieDetailsController(Movie movie) {
@@ -44,7 +44,9 @@ public class EditMovieDetailsController {
     public EditMovieDetailsController() {
 
     }
-
+    public static void updateMainActors() {
+        actors.setAll(dao.getActorsInMovie(movie.getId()));
+    }
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
@@ -210,7 +212,6 @@ public class EditMovieDetailsController {
     }
     public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
-            Movie m = new Movie();
             movie.setTitle(titleField.getText());
             movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
             movie.setPrice(Double.parseDouble(priceField.getText()));
