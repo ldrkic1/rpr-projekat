@@ -38,6 +38,7 @@ public class AddActorController {
     private ObservableList<Actor> actors = null;
     private ArrayList<Actor> actorsInMovie = null;
     private Movie movie;
+    private boolean allControlsCorrect = true;
     private int getActorIndex(int id) {
         for( int i = 0; i < actors.size(); i++) {
             if(actors.get(i).getId() == id) return i;
@@ -110,6 +111,7 @@ public class AddActorController {
                     surnameField.getStyleClass().add("fieldIncorrect");
                     biographyArea.getStyleClass().add("fieldIncorrect");
                     urlArea.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
                 }
                 else {
                     actorsChoice.setDisable(false);
@@ -126,6 +128,7 @@ public class AddActorController {
                     urlArea.setDisable(true);
                     imgLabel.setDisable(true);
                     pane.setDisable(true);
+                    allControlsCorrect = true;
                 }
             }
         });
@@ -155,13 +158,14 @@ public class AddActorController {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate oldLocalDate, LocalDate newLocalDate) {
                 LocalDate date = birthDatePicker.getValue();
-                System.out.println(date);
+                //System.out.println(date);
                 if (date.toString().equals("")) {
-
+                    allControlsCorrect = false;
                     birthDatePicker.getStyleClass().add("fieldIncorrect");
                 }
                 else {
                     birthDatePicker.getStyleClass().removeAll("fieldIncorrect");
+                    allControlsCorrect = true;
                 }
             }
         });
@@ -178,22 +182,26 @@ public class AddActorController {
                     img.setFitHeight(200);
                     pane.getChildren().add(img);
                     pane.setPadding(new Insets(20,20,20,20));
+                    allControlsCorrect = true;
 
                 }
                 else {
                     urlArea.getStyleClass().removeAll("fieldCorrect");
                     urlArea.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
                 }
             }
         });
         nameField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(newValue.length() < 3) {
+                if(newValue.length() < 2) {
                     nameField.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
                 }
                 else {
                     nameField.getStyleClass().removeAll("fieldIncorrect");
+                    allControlsCorrect = true;
                 }
             }
         });
@@ -202,9 +210,11 @@ public class AddActorController {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
                     surnameField.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
                 }
                 else {
                     surnameField.getStyleClass().removeAll("fieldIncorrect");
+                    allControlsCorrect = true;
                 }
             }
         });
@@ -213,15 +223,31 @@ public class AddActorController {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
                     biographyArea.getStyleClass().add("fieldIncorrect");
+                    allControlsCorrect = false;
                 }
                 else {
                     biographyArea.getStyleClass().removeAll("fieldIncorrect");
+                    allControlsCorrect = true;
                 }
             }
         });
     }
 
-    public void addActorAction(ActionEvent addActorAction) {
+    public void addActorAction(ActionEvent actionEvent) throws IOException {
+        if(allControlsCorrect) {
+            if(addActorRadio.isSelected()) {
+                String date = birthDatePicker.getValue().format(formatter).toString();
+                date = date.replace("/", ".");
+                Actor a = new Actor();
+                a.setFirstName(nameField.getText());
+                a.setLastName(surnameField.getText());
+                a.setBiography(biographyArea.getText());
+                a.setBornDate(LocalDate.parse(birthDatePicker.getValue().format(formatter), formatter));
+                a.setImage(urlArea.getText());
+                dao.addActor(a);
+                cancelAction(actionEvent);
+            }
+        }
 
     }
 

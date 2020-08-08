@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -23,6 +24,8 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorsNotInMovieStatement, getActorsNotInSerialStatement;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
+    private PreparedStatement addActorStatement,nextIdStatement;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public static VideoLibraryDAO getInstance() {
         if(instance == null) instance = new VideoLibraryDAO();
         return instance;
@@ -90,6 +93,8 @@ public class VideoLibraryDAO {
             updateContetntStatement = connection.prepareStatement("UPDATE content SET title=?,year=?,director=?,description=?,rating=?,image=?,price=? WHERE id=?");
             updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
             updateSerialStatement = connection.prepareStatement("UPDATE  serial SET seasons_number=?, episodes_per_season=? WHERE id=?");
+            nextIdStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM actor");
+            addActorStatement = connection.prepareStatement("INSERT INTO actor VALUES (?,?,?,?,?,?)");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -102,12 +107,12 @@ public class VideoLibraryDAO {
         }
     }
     public LocalDate stringToDate(String date) {
+        ArrayList<String> days = new ArrayList<>(Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
         String[] temp = date.split("\\.");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String d="";
-        if(Integer.parseInt(temp[0]) >=1 && Integer.parseInt(temp[0])<=9) d += "0";
+        if(Integer.parseInt(temp[0]) >=1 && Integer.parseInt(temp[0])<=9 && !days.contains(temp[0])) d += "0";
         d += temp[0] + "/";
-        if(Integer.parseInt(temp[1]) >=1 && Integer.parseInt(temp[1])<=9) d += "0";
+        if(Integer.parseInt(temp[1]) >=1 && Integer.parseInt(temp[1])<=9 && !days.contains(temp[0])) d += "0";
         d += temp[1] + "/" + temp[2];
         //convert String to LocalDate
         LocalDate localDate = LocalDate.parse(d, formatter);
@@ -296,5 +301,26 @@ public class VideoLibraryDAO {
         }
         return actors;
     }
+    public void addActor(Actor a) {
+        try {
+            ResultSet rs = nextIdStatement.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
 
+            addActorStatement.setInt(1, id);
+            addActorStatement.setString(2, a.getFirstName());
+            addActorStatement.setString(3, a.getLastName());
+            addActorStatement.setString(4, a.getBiography());
+            String date = a.getBornDate().format(formatter);
+            date = date.replace("/", ".");
+            addActorStatement.setString(5, date);
+            addActorStatement.setString(6, a.getImage());
+            addActorStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
