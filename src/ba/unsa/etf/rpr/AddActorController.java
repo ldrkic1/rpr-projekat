@@ -37,7 +37,7 @@ public class AddActorController {
     private VideoLibraryDAO dao = null;
     private ObservableList<Actor> actors = null;
     private ArrayList<Actor> actorsInMovie = null;
-    private Movie movie;
+    private Content content;
     private boolean allControlsCorrect = true;
     private int getActorIndex(int id) {
         for( int i = 0; i < actors.size(); i++) {
@@ -45,11 +45,11 @@ public class AddActorController {
         }
         return -1;
     }
-    public AddActorController(Movie m) {
-        movie = m;
+    public AddActorController(Content c) {
+        content = c;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActors());
-        actorsInMovie = m.getMainActors();
+        actorsInMovie = c.getMainActors();
         for (Actor a: actorsInMovie) {
             if(getActorIndex(a.getId()) != -1) {
                 actors.remove(getActorIndex(a.getId()));
@@ -245,21 +245,35 @@ public class AddActorController {
                 a.setBornDate(LocalDate.parse(birthDatePicker.getValue().format(formatter), formatter));
                 a.setImage(urlArea.getText());
                 dao.addActor(a);
-                dao.addMovieActor(a,movie);
-                cancelAction(actionEvent);
+                if(content instanceof Movie) dao.addMovieActor(a, (Movie) content);
             }
+            else {
+                Actor a = (Actor) actorsChoice.getSelectionModel().getSelectedItem();
+                if(content instanceof Movie) dao.addMovieActor(a, (Movie) content);
+            }
+            cancelAction(actionEvent);
         }
 
     }
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsChoice.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie);
-        loader.setController(ctrl);
-        Parent root = loader.load();
-        stage.setScene(new Scene(root, 1200,700));
-        stage.setTitle(movie.getTitle());
+        if(content instanceof Movie) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+            EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, 1200,700));
+        }
+        else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
+            EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, 1200,700));
+        }
+
+        stage.setTitle(content.getTitle());
         stage.show();
     }
 }

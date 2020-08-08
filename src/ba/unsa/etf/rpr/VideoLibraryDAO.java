@@ -20,8 +20,9 @@ public class VideoLibraryDAO {
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement;
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
+    private PreparedStatement getContentActor;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
-    private PreparedStatement getActorsNotInMovieStatement, getActorsNotInSerialStatement;
+    private PreparedStatement deleteActorFromMovie, deleteActorFromSerial;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
     private PreparedStatement addActorStatement, nextIdStatement, nextIdContentAcotrStatement, addContentActorStatement;
@@ -97,6 +98,8 @@ public class VideoLibraryDAO {
             nextIdContentAcotrStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM content_actor");
             addActorStatement = connection.prepareStatement("INSERT INTO actor VALUES (?,?,?,?,?,?)");
             addContentActorStatement = connection.prepareStatement("INSERT INTO content_actor VALUES (?,?,?)");
+            getContentActor = connection.prepareStatement("SELECT * FROM content_actor WHERE content_id=? AND actor_id=?");
+            deleteActorFromMovie = connection.prepareStatement("DELETE FROM content_actor WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -345,5 +348,32 @@ public class VideoLibraryDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public void deleteActorFromMovie(Actor a, Movie m) throws SQLException {
+        int idActor = a.getId();
+        if(idActor == 0) {
+            getActorStatement.setString(1, a.getFirstName());
+            getActorStatement.setString(2, a.getLastName());
+            ResultSet resultSet = getActorStatement.executeQuery();
+            if(resultSet.next()) idActor = resultSet.getInt(1);
+
+        }
+        getContentActor.setInt(1, m.getId());
+        getContentActor.setInt(2, idActor);
+        ResultSet resultSet = getContentActor.executeQuery();
+        if(resultSet.next()) {
+            deleteActorFromMovie.setInt(1, resultSet.getInt(1));
+            deleteActorFromMovie.executeUpdate();
+            int actorIndex = -1;
+            for(int i = 0; i < m.getMainActors().size(); i++) {
+                if(m.getMainActors().get(i).equals(a)) {
+                    actorIndex = i;
+                }
+            }
+            if(actorIndex != -1) {
+                m.getMainActors().remove(actorIndex);
+            }
+        }
+
     }
 }

@@ -78,4 +78,11 @@ public class Actor {
     public String toString() {
         return firstName + " " + lastName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Actor a = (Actor) obj;
+        if(a == null) return false;
+        return a.getFirstName().equals(firstName) && a.getLastName().equals(lastName) && a.getBiography().equals(biography) && a.getImage().equals(image);
+    }
 }

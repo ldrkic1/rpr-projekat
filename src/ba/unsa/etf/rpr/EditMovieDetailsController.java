@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class EditMovieDetailsController {
     private static Movie movie;
@@ -76,6 +77,12 @@ public class EditMovieDetailsController {
         ratingValueField.textProperty().set(String.valueOf(movie.getRating()));
         priceField.textProperty().set(String.valueOf(movie.getPrice()));
         imageUrlArea.textProperty().set(movie.getImage());
+        actorsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actor>() {
+            @Override
+            public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
+                actorsListView.getSelectionModel().select(t1);
+            }
+        });
         ratingSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
@@ -201,7 +208,13 @@ public class EditMovieDetailsController {
         stage.show();
 
     }
-    public void deleteActorAction(ActionEvent actionEvent) {
+    public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
+        Actor a = actorsListView.getSelectionModel().getSelectedItem();
+        if(a != null) {
+            dao.deleteActorFromMovie(a, movie);
+            actorsListView.getItems().remove(actorsListView.getSelectionModel().getSelectedItem());
+            actorsListView.refresh();
+        }
 
     }
     public void addGenreAction(ActionEvent actionEvent) {
