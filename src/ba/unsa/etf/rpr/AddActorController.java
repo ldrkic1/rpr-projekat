@@ -245,11 +245,11 @@ public class AddActorController {
                 a.setBornDate(LocalDate.parse(birthDatePicker.getValue().format(formatter), formatter));
                 a.setImage(urlArea.getText());
                 dao.addActor(a);
-                if(content instanceof Movie) dao.addMovieActor(a, (Movie) content);
+                dao.addContentActor(a, content);
             }
             else {
                 Actor a = (Actor) actorsChoice.getSelectionModel().getSelectedItem();
-                if(content instanceof Movie) dao.addMovieActor(a, (Movie) content);
+                dao.addContentActor(a,content);
             }
             cancelAction(actionEvent);
         }

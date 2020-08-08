@@ -211,11 +211,10 @@ public class EditMovieDetailsController {
     public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
         Actor a = actorsListView.getSelectionModel().getSelectedItem();
         if(a != null) {
-            dao.deleteActorFromMovie(a, movie);
+            dao.deleteActorFromContent(a, movie);
             actorsListView.getItems().remove(actorsListView.getSelectionModel().getSelectedItem());
             actorsListView.refresh();
         }
-
     }
     public void addGenreAction(ActionEvent actionEvent) {
 

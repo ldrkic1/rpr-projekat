@@ -22,7 +22,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getContentActor;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
-    private PreparedStatement deleteActorFromMovie, deleteActorFromSerial;
+    private PreparedStatement deleteActorFromContent;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
     private PreparedStatement addActorStatement, nextIdStatement, nextIdContentAcotrStatement, addContentActorStatement;
@@ -99,7 +99,7 @@ public class VideoLibraryDAO {
             addActorStatement = connection.prepareStatement("INSERT INTO actor VALUES (?,?,?,?,?,?)");
             addContentActorStatement = connection.prepareStatement("INSERT INTO content_actor VALUES (?,?,?)");
             getContentActor = connection.prepareStatement("SELECT * FROM content_actor WHERE content_id=? AND actor_id=?");
-            deleteActorFromMovie = connection.prepareStatement("DELETE FROM content_actor WHERE id=?");
+            deleteActorFromContent = connection.prepareStatement("DELETE FROM content_actor WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -328,7 +328,7 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
-    public void addMovieActor(Actor a, Movie m) {
+    public void addContentActor(Actor a, Content content) {
         try {
             getActorStatement.setString(1, a.getFirstName());
             getActorStatement.setString(2, a.getLastName());
@@ -341,15 +341,15 @@ public class VideoLibraryDAO {
                 }
                 addContentActorStatement.setInt(1, id);
                 addContentActorStatement.setInt(2, resultSet.getInt(1));
-                addContentActorStatement.setInt(3, m.getId());
+                addContentActorStatement.setInt(3, content.getId());
                 addContentActorStatement.executeUpdate();
-                m.getMainActors().add(new Actor(resultSet.getInt(1),a.getFirstName(),a.getLastName(),a.getBiography(),a.getBornDate(),a.getImage()));
+                content.getMainActors().add(new Actor(resultSet.getInt(1),a.getFirstName(),a.getLastName(),a.getBiography(),a.getBornDate(),a.getImage()));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public void deleteActorFromMovie(Actor a, Movie m) throws SQLException {
+    public void deleteActorFromContent(Actor a, Content content) throws SQLException {
         int idActor = a.getId();
         if(idActor == 0) {
             getActorStatement.setString(1, a.getFirstName());
@@ -358,22 +358,24 @@ public class VideoLibraryDAO {
             if(resultSet.next()) idActor = resultSet.getInt(1);
 
         }
-        getContentActor.setInt(1, m.getId());
+        getContentActor.setInt(1, content.getId());
         getContentActor.setInt(2, idActor);
         ResultSet resultSet = getContentActor.executeQuery();
         if(resultSet.next()) {
-            deleteActorFromMovie.setInt(1, resultSet.getInt(1));
-            deleteActorFromMovie.executeUpdate();
+            deleteActorFromContent.setInt(1, resultSet.getInt(1));
+            deleteActorFromContent.executeUpdate();
             int actorIndex = -1;
-            for(int i = 0; i < m.getMainActors().size(); i++) {
-                if(m.getMainActors().get(i).equals(a)) {
+            for(int i = 0; i < content.getMainActors().size(); i++) {
+                if(content.getMainActors().get(i).equals(a)) {
                     actorIndex = i;
                 }
             }
             if(actorIndex != -1) {
-                m.getMainActors().remove(actorIndex);
+                content.getMainActors().remove(actorIndex);
             }
         }
 
     }
+
+
 }

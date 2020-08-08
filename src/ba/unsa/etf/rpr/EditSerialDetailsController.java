@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class EditSerialDetailsController {
     private Serial serial;
@@ -56,6 +57,12 @@ public class EditSerialDetailsController {
         imageUrlArea.textProperty().set(serial.getImage());
         seasonsField.textProperty().set(String.valueOf(serial.getSeasonsNumber()));
         episodesField.textProperty().set(String.valueOf(serial.getEpisodesPerSeasonNumber()*serial.getSeasonsNumber()));
+        actorsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actor>() {
+            @Override
+            public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
+                actorsListView.getSelectionModel().select(t1);
+            }
+        });
         ratingSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
@@ -182,11 +189,23 @@ public class EditSerialDetailsController {
             }
         });
     }
-    public void addActorAction(ActionEvent actionEvent) {
-
+    public void addActorAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
+        AddActorController ctrl = new AddActorController(serial);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj glumca");
+        stage.setScene(new Scene(root, 1200,700));
+        stage.show();
     }
-    public void deleteActorAction(ActionEvent actionEvent) {
-
+    public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
+        Actor a = actorsListView.getSelectionModel().getSelectedItem();
+        if(a != null) {
+            dao.deleteActorFromContent(a, serial);
+            actorsListView.getItems().remove(actorsListView.getSelectionModel().getSelectedItem());
+            actorsListView.refresh();
+        }
     }
     public void addGenreAction(ActionEvent actionEvent) {
 
