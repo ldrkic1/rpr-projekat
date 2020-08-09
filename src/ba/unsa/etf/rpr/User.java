@@ -79,4 +79,8 @@ public class User {
     public void setPrivilege(boolean privilege) {
         this.privilege = privilege;
     }
+    public String getPrivilege() {
+        if(privilege) return "DA";
+        return "NE";
+    }
 }

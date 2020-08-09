@@ -251,6 +251,27 @@ public class VideoLibraryDAO {
         }
         return serials;
     }
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            ResultSet resultSet = getUsersStatement.executeQuery();
+            while(resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt(1));
+                user.setFirstName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setUsername(resultSet.getString(4));
+                user.setPassword(resultSet.getString(5));
+                user.setRoomNumber(resultSet.getInt(6));
+                if(resultSet.getInt(7) == 1) user.setPrivilege(true);
+                else user.setPrivilege(false);
+                users.add(user);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return users;
+    }
     public void updateMovie(Movie m) {
         try {
             updateContetntStatement.setString(1, m.getTitle());

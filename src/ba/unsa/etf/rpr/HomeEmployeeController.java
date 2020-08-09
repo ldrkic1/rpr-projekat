@@ -22,24 +22,37 @@ import java.io.IOException;
 public class HomeEmployeeController {
     public TableView<Movie> tableViewMovies;
     public TableView<Serial> tableViewSeries;
+    public TableView<User> usersTableView;
+    public TableView<Employee> employeesTableView;
     public TableColumn colMovieId;
     public TableColumn colMovieTitle;
     public TableColumn colMovieDirector;
     public TableColumn<Movie,String> colMovieActors;
     public TableColumn colMovieDetailsButton;
-
     public TableColumn colSerialId;
     public TableColumn colSerialTitle;
     public TableColumn colSerialDirector;
     public TableColumn<Serial,String> colSerialActors;
-    public  TableColumn colSerialDetailsButton;
+    public TableColumn colSerialDetailsButton;
+    public TableColumn colUserId;
+    public TableColumn firstNameCol;
+    public TableColumn lastNameCol;
+    public TableColumn usernameCol;
+    public TableColumn roomNumberCol;
+    public TableColumn<User,String> privilegeCol;
+    public TableColumn usernameEmployeeCol;
+    public TableColumn idEmployeeCol;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
+    private ObservableList<User> usersList = null;
+    private ObservableList<Employee> employeesList = null;
     public HomeEmployeeController() {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
         serialList = FXCollections.observableArrayList(dao.getSerials());
+        usersList = FXCollections.observableArrayList(dao.getUsers());
+        employeesList = FXCollections.observableArrayList(dao.getEmployees());
     }
     private void addButtonToMovieTable() {
         Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>> cellFactory = new Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>>() {
@@ -136,6 +149,17 @@ public class HomeEmployeeController {
         colSerialDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
         colSerialActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
         addButtonToserialTable();
+        usersTableView.setItems(usersList);
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        roomNumberCol.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
+        //privilegeCol.setCellValueFactory(new PropertyValueFactory<>("privilege"));
+        privilegeCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrivilege()));
+        employeesTableView.setItems(employeesList);
+        idEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        usernameEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("username"));
     }
     public void updateLists() {
         moviesList = FXCollections.observableArrayList(dao.getMovies());

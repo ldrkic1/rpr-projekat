@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 
-<TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
  <stylesheets>
      <URL value="@/css/homeEmployee.css" />
  </stylesheets>
@@ -44,34 +47,28 @@
           </content>
       </Tab>
       <Tab text="Klijenti">
-        <content>
-            <GridPane>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" />
-               </rowConstraints>
-               <columnConstraints>
-                  <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints></GridPane>
-        </content>
+         <content>
+            <TableView fx:id="usersTableView" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="colUserId" prefWidth="54.0" text="ID" />
+                <TableColumn fx:id="firstNameCol" prefWidth="105.0" text="IME" />
+                  <TableColumn fx:id="lastNameCol" prefWidth="126.0" text="PREZIME" />
+                  <TableColumn fx:id="usernameCol" prefWidth="102.0" text="USERNAME" />
+                  <TableColumn fx:id="roomNumberCol" prefWidth="121.0" text="BROJ SOBE" />
+                  <TableColumn fx:id="privilegeCol" prefWidth="105.0" text="PRIVILEGIJE" />
+              </columns>
+            </TableView>
+         </content>
       </Tab>
-    <Tab text="Generisanje novih podataka">
-      <content>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
-                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
-                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-      </content>
+    <Tab text="Uposlenici">
+         <content>
+            <TableView fx:id="employeesTableView" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="idEmployeeCol" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="usernameEmployeeCol" prefWidth="99.0" text="USERNAME" />
+              </columns>
+            </TableView>
+         </content>
     </Tab>
 
   </tabs>
