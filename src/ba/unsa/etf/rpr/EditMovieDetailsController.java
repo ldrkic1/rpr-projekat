@@ -1,5 +1,4 @@
 package ba.unsa.etf.rpr;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,13 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
-
 public class EditMovieDetailsController {
     private static Movie movie;
-    private Scene previousScene;
     public Button saveChangesButton;
     private static VideoLibraryDAO dao = null;
     public TextField titleField;
@@ -33,20 +29,13 @@ public class EditMovieDetailsController {
     public ListView<Genre> genresListView;
     public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelButton;
     private static ObservableList<Actor> actors = null;
-    private ObservableList<Genre> genres = null;
+    private static ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
     public EditMovieDetailsController(Movie movie) {
         this.movie = movie;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInMovie(movie.getId()));
         genres = FXCollections.observableArrayList(dao.getMovieGenres(movie.getId()));
-    }
-
-    public EditMovieDetailsController() {
-
-    }
-    public static void updateMainActors() {
-        actors.setAll(dao.getActorsInMovie(movie.getId()));
     }
     public static boolean isNumeric(String str) {
         try {
@@ -81,6 +70,12 @@ public class EditMovieDetailsController {
             @Override
             public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
                 actorsListView.getSelectionModel().select(t1);
+            }
+        });
+        genresListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Genre>() {
+            @Override
+            public void changed(ObservableValue<? extends Genre> observableValue, Genre actor, Genre t1) {
+                genresListView.getSelectionModel().select(t1);
             }
         });
         ratingSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -196,7 +191,6 @@ public class EditMovieDetailsController {
             }
         });
     }
-
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
@@ -206,7 +200,6 @@ public class EditMovieDetailsController {
         stage.setTitle("Dodaj glumca");
         stage.setScene(new Scene(root, 1200,700));
         stage.show();
-
     }
     public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
         Actor a = actorsListView.getSelectionModel().getSelectedItem();
@@ -216,11 +209,23 @@ public class EditMovieDetailsController {
             actorsListView.refresh();
         }
     }
-    public void addGenreAction(ActionEvent actionEvent) {
-
+    public void addGenreAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
+        AddGenreController ctrl = new AddGenreController(movie);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj žanr");
+        stage.setScene(new Scene(root, 1200,700));
+        stage.show();
     }
-    public void deleteGenreAction(ActionEvent actionEvent) {
-
+    public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
+        Genre g = genresListView.getSelectionModel().getSelectedItem();
+        if(g != null) {
+            dao.deleteGenreFromContent(g, movie);
+            genresListView.getItems().remove(genresListView.getSelectionModel().getSelectedItem());
+            genresListView.refresh();
+        }
     }
     public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {

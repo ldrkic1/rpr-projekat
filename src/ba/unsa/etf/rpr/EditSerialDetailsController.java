@@ -1,5 +1,4 @@
 package ba.unsa.etf.rpr;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,13 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
-
 public class EditSerialDetailsController {
     private Serial serial;
-    private Scene previousScene;
     public Button saveChangesButton;
     private VideoLibraryDAO dao = null;
     public TextField titleField;
@@ -38,7 +34,6 @@ public class EditSerialDetailsController {
     private boolean allControlsCorrect = true;
     public EditSerialDetailsController(Serial serial) {
         this.serial = serial;
-
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInSerial(serial.getId()));
         genres = FXCollections.observableArrayList(dao.getSerialGenres(serial.getId()));
@@ -207,11 +202,23 @@ public class EditSerialDetailsController {
             actorsListView.refresh();
         }
     }
-    public void addGenreAction(ActionEvent actionEvent) {
-
+    public void addGenreAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
+        AddGenreController ctrl = new AddGenreController(serial);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj žanr");
+        stage.setScene(new Scene(root, 1200,700));
+        stage.show();
     }
-    public void deleteGenreAction(ActionEvent actionEvent) {
-
+    public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
+        Genre g = genresListView.getSelectionModel().getSelectedItem();
+        if(g != null) {
+            dao.deleteGenreFromContent(g, serial);
+            genresListView.getItems().remove(genresListView.getSelectionModel().getSelectedItem());
+            genresListView.refresh();
+        }
     }
     public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
@@ -235,7 +242,6 @@ public class EditSerialDetailsController {
             stage.setScene(scene);
             stage.show();
         }
-
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));

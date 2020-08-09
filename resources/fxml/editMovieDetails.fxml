@@ -11,20 +11,22 @@
       <URL value="@/css/editMovieDetails.css" />
    </stylesheets>
    <center>
-      <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="680.0" vgap="5.0">
+      <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="694.0" vgap="5.0">
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="36.0" />
             <RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="60.0" />
-            <RowConstraints maxHeight="42.0" minHeight="0.0" prefHeight="30.0" />
-            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="51.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="33.0" />
+            <RowConstraints maxHeight="42.0" minHeight="0.0" prefHeight="35.0" />
+            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="38.0" />
+            <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="31.0" />
+            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="27.0" />
+            <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="33.0" />
          </rowConstraints>
          <columnConstraints>
             <ColumnConstraints maxWidth="148.0" minWidth="10.0" prefWidth="125.0" />
@@ -33,22 +35,22 @@
             <ColumnConstraints maxWidth="118.0" minWidth="10.0" prefWidth="118.0" />
          </columnConstraints>
          <children>
-            <Label prefHeight="48.0" prefWidth="510.0" text="Naziv filma:" />
+            <Label prefHeight="37.0" prefWidth="125.0" text="Naziv filma:" />
             <TextField fx:id="titleField" prefHeight="45.0" prefWidth="186.0" GridPane.columnIndex="1" GridPane.columnSpan="3" />
             <Label prefHeight="54.0" prefWidth="202.0" text="Godina:" GridPane.rowIndex="1" />
             <TextField fx:id="yearField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Režiser:" GridPane.rowIndex="5" />
-            <TextField fx:id="directorField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Opis:" GridPane.rowIndex="7" GridPane.rowSpan="2" />
-            <TextArea fx:id="descriptionArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="87.0" prefWidth="432.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" GridPane.rowSpan="2" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ocjena: " GridPane.rowIndex="9" />
-            <Slider fx:id="ratingSlider" majorTickUnit="1.0" max="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minorTickCount="1" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-            <TextField fx:id="ratingValueField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Cijena:" GridPane.rowIndex="10" />
-            <TextField fx:id="priceField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="274.0" text="Glavni glumci:" GridPane.rowIndex="6" />
-            <ListView fx:id="actorsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="440.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Režiser:" GridPane.rowIndex="6" />
+            <TextField fx:id="directorField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Opis:" GridPane.rowIndex="9" GridPane.rowSpan="2" />
+            <TextArea fx:id="descriptionArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="87.0" prefWidth="432.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" GridPane.rowSpan="2" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ocjena: " GridPane.rowIndex="11" />
+            <Slider fx:id="ratingSlider" majorTickUnit="1.0" max="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minorTickCount="1" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+            <TextField fx:id="ratingValueField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Cijena:" GridPane.rowIndex="12" />
+            <TextField fx:id="priceField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="12" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="274.0" text="Glavni glumci:" GridPane.rowIndex="7" />
+            <ListView fx:id="actorsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="62.0" prefWidth="440.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.rowSpan="2" />
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <children>
                   <Button fx:id="addActorButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addActorAction" prefHeight="35.0" prefWidth="118.0" text="Dodaj glumca" />
                   <Button fx:id="deleteActorButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteActorAction" prefHeight="35.0" prefWidth="118.0" text="Obriši glumca" />
@@ -58,7 +60,7 @@
                </padding>
             </VBox>
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="134.0" text="Žanr:" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-            <ListView fx:id="genresListView" prefHeight="200.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+            <ListView fx:id="genresListView" prefHeight="200.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="2">
                <children>
                   <Button fx:id="addGenreButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addGenreAction" prefHeight="35.0" text="Dodaj žanr" />
@@ -68,10 +70,10 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </VBox>
-            <Label prefHeight="43.0" prefWidth="127.0" text="Trajanje u minutama:" GridPane.rowIndex="4" />
-            <TextField fx:id="durationField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-            <TextArea fx:id="imageUrlArea" prefHeight="48.0" prefWidth="547.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="11" />
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="124.0" text="URL slike: " GridPane.rowIndex="11" />
+            <Label prefHeight="43.0" prefWidth="127.0" text="Trajanje u minutama:" GridPane.rowIndex="5" />
+            <TextField fx:id="durationField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+            <TextArea fx:id="imageUrlArea" prefHeight="48.0" prefWidth="547.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="13" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="124.0" text="URL slike: " GridPane.rowIndex="13" />
          </children>
          <BorderPane.margin>
             <Insets bottom="100.0" left="200.0" right="200.0" top="100.0" />

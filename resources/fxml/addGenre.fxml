@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<?import java.net.URL?>
+<GridPane prefHeight="383.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@/css/addGenre.css"/>
+   </stylesheets>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <children>
+      <Label fx:id="genreLabel" prefHeight="74.0" prefWidth="138.0" text="Odaberi žanr:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <ChoiceBox fx:id="choiceGenre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <Separator prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="4" />
+      <RadioButton fx:id="genreRadio" mnemonicParsing="false" prefHeight="50.0" prefWidth="195.0" text="Dodaj novi žanr" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <Label fx:id="titleLabel" prefHeight="60.0" prefWidth="144.0" text="Naziv:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField fx:id="titleField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="11" GridPane.rowSpan="2">
+        <buttons>
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="Poništi" />
+            <Button fx:id="saveGenreButton" layoutX="397.0" layoutY="28.0" mnemonicParsing="false" onAction="#saveGenreAction" text="Dodaj" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</GridPane>
