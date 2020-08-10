@@ -23,6 +23,7 @@ public class HomeEmployeeController {
     public TableView<Movie> tableViewMovies;
     public TableView<Serial> tableViewSeries;
     public TableView<User> usersTableView;
+    public TableView<Genre> genresTableView;
     public TableView<Employee> employeesTableView;
     public TableColumn colMovieId;
     public TableColumn colMovieTitle;
@@ -42,17 +43,24 @@ public class HomeEmployeeController {
     public TableColumn<User,String> privilegeCol;
     public TableColumn usernameEmployeeCol;
     public TableColumn idEmployeeCol;
+    public TableColumn genreIdCol;
+    public TableColumn genreTitleCol;
+
+    public Button addGenreButton, editGenreAction;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
     private ObservableList<User> usersList = null;
     private ObservableList<Employee> employeesList = null;
+    private ObservableList<Genre> genresList = null;
+    private boolean newGenre = true;
     public HomeEmployeeController() {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
         serialList = FXCollections.observableArrayList(dao.getSerials());
         usersList = FXCollections.observableArrayList(dao.getUsers());
         employeesList = FXCollections.observableArrayList(dao.getEmployees());
+        genresList = FXCollections.observableArrayList(dao.getGenres());
     }
     private void addButtonToMovieTable() {
         Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>> cellFactory = new Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>>() {
@@ -160,9 +168,41 @@ public class HomeEmployeeController {
         employeesTableView.setItems(employeesList);
         idEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         usernameEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        genresTableView.setItems(genresList);
+        genreIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        genreTitleCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
     public void updateLists() {
         moviesList = FXCollections.observableArrayList(dao.getMovies());
         serialList = FXCollections.observableArrayList(dao.getSerials());
+    }
+    public void addGenreAction(ActionEvent actionEvent) throws IOException {
+        AddGenreController ctrl = new AddGenreController(newGenre);
+        Stage stage = (Stage) genresTableView.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj žanr");
+        stage.setScene(new Scene(root, 1200,700));
+        stage.show();
+    }
+    public void editGenreAction(ActionEvent actionEvent) {
+
+    }
+    public void deleteGenreAction(ActionEvent actionEvent) {
+        if(genresTableView.getSelectionModel().getSelectedItem() != null) {
+            Genre genre = new Genre();
+            genre.setId(genresTableView.getSelectionModel().getSelectedItem().getId());
+            genre.setName(genresTableView.getSelectionModel().getSelectedItem().getName());
+            dao.deleteGenre(genre);
+            genresList.setAll(dao.getGenres());
+            genresTableView.setItems(genresList);
+            for (Movie m: moviesList) {
+                m.setGenre(dao.getMovieGenres(m.getId()));
+            }
+            for (Serial s: serialList) {
+                s.setGenre(dao.getSerialGenres(s.getId()));
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, getEmplyeesStamement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
-    private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement;
+    private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement;
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
@@ -97,8 +97,10 @@ public class VideoLibraryDAO {
             addContentGenreStatement = connection.prepareStatement("INSERT INTO content_genre VALUES (?,?,?)");
             getContentActor = connection.prepareStatement("SELECT * FROM content_actor WHERE content_id=? AND actor_id=?");
             getContentGenre = connection.prepareStatement("SELECT * FROM content_genre WHERE content_id=? AND genre_id=?");
+            getGenreContentsStatement = connection.prepareStatement("SELECT cg.id FROM content c, content_genre cg WHERE cg.genre_id=? AND c.id=cg.content_id");
             deleteActorFromContent = connection.prepareStatement("DELETE FROM content_actor WHERE id=?");
             deleteGenreFromContent = connection.prepareStatement("DELETE FROM content_genre WHERE id=?");
+            deleteGenreStatement = connection.prepareStatement("DELETE FROM genre where id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -485,5 +487,19 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
         return genres;
+    }
+    public void deleteGenre(Genre g) {
+        try {
+            getGenreContentsStatement.setInt(1, g.getId());
+            ResultSet resultSet = getGenreContentsStatement.executeQuery();
+            while (resultSet.next()) {
+                deleteGenreFromContent.setInt(1, resultSet.getInt(1));
+                deleteGenreFromContent.executeUpdate();
+            }
+            deleteGenreStatement.setInt(1, g.getId());
+            deleteGenreStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

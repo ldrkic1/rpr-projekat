@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PushbackInputStream;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class AddGenreController {
@@ -24,11 +26,18 @@ public class AddGenreController {
     public TextField titleField;
     public Button cancelButton;
     public Button saveGenreButton;
+    public Separator separator;
     private Content content;
     private boolean allControlsCorrect = true;
     private static VideoLibraryDAO dao = null;
     private static ObservableList<Genre> genres = null;
     private ArrayList<Genre> movieGenres = null, serialGenres = null;
+    private boolean newGenreToDatabase;
+    public AddGenreController(boolean newGenre) {
+        newGenreToDatabase = newGenre;
+        if(dao == null) dao = VideoLibraryDAO.getInstance();
+    }
+
     private int getGenreIndex(int id) {
         for( int i = 0; i < genres.size(); i++) {
             if(genres.get(i).getId() == id) return i;
@@ -36,6 +45,7 @@ public class AddGenreController {
         return -1;
     }
     public AddGenreController(Content content) {
+        newGenreToDatabase = false;
         this.content = content;
         dao = VideoLibraryDAO.getInstance();
         genres = FXCollections.observableArrayList(dao.getGenres());
@@ -58,29 +68,34 @@ public class AddGenreController {
     }
     @FXML
     public void initialize() {
-        choiceGenre.setItems(genres);
-        choiceGenre.getSelectionModel().selectFirst();
-        titleField.setDisable(true);
-        titleLabel.setDisable(true);
-
-        genreRadio.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if(genreRadio.isSelected()) {
-                    genreLabel.setDisable(true);
-                    choiceGenre.setDisable(true);
-                    titleField.setDisable(false);
-                    titleLabel.setDisable(false);
+        if(!newGenreToDatabase) {
+            choiceGenre.setItems(genres);
+            choiceGenre.getSelectionModel().selectFirst();
+            titleField.setDisable(true);
+            titleLabel.setDisable(true);
+            genreRadio.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                    if (genreRadio.isSelected()) {
+                        genreLabel.setDisable(true);
+                        choiceGenre.setDisable(true);
+                        titleField.setDisable(false);
+                        titleLabel.setDisable(false);
+                    } else {
+                        genreLabel.setDisable(false);
+                        choiceGenre.setDisable(false);
+                        titleField.setDisable(true);
+                        titleLabel.setDisable(true);
+                    }
                 }
-                else {
-                    genreLabel.setDisable(false);
-                    choiceGenre.setDisable(false);
-                    titleField.setDisable(true);
-                    titleLabel.setDisable(true);
-                }
-            }
-        });
-
+            });
+        }
+        else {
+            choiceGenre.setVisible(false);
+            genreLabel.setVisible(false);
+            genreRadio.setVisible(false);
+            separator.setVisible(false);
+        }
         titleField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
@@ -97,36 +112,52 @@ public class AddGenreController {
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {
        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        if(content instanceof Movie) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-            EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
-            loader.setController(ctrl);
-            Parent root = loader.load();
-            stage.setScene(new Scene(root, 1200,700));
-        }
-        else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-            EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
-            loader.setController(ctrl);
-            Parent root = loader.load();
-            stage.setScene(new Scene(root, 1200,700));
-        }
+       if(!newGenreToDatabase) {
+           if (content instanceof Movie) {
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+               EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
+               loader.setController(ctrl);
+               Parent root = loader.load();
+               stage.setScene(new Scene(root, 1200, 700));
+           } else {
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
+               EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
+               loader.setController(ctrl);
+               Parent root = loader.load();
+               stage.setScene(new Scene(root, 1200, 700));
+           }
 
-        stage.setTitle(content.getTitle());
-
+           stage.setTitle(content.getTitle());
+       }
+       else {
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
+           HomeEmployeeController ctrl = new HomeEmployeeController();
+           loader.setController(ctrl);
+           Parent root = loader.load();
+           Scene scene = new Scene(root, 1200, 700);
+           stage.setScene(scene);
+           stage.setTitle("Home");
+       }
         stage.show();
     }
 
     public void saveGenreAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
-            if (genreRadio.isSelected()) {
+            if(!newGenreToDatabase) {
+                if (genreRadio.isSelected()) {
+                    Genre g = new Genre();
+                    g.setName(titleField.getText());
+                    dao.addGenre(g);
+                    dao.addContentGenre(g, content);
+                } else {
+                    Genre g = (Genre) choiceGenre.getSelectionModel().getSelectedItem();
+                    dao.addContentGenre(g, content);
+                }
+            }
+            else {
                 Genre g = new Genre();
                 g.setName(titleField.getText());
                 dao.addGenre(g);
-                dao.addContentGenre(g, content);
-            } else {
-                Genre g = (Genre) choiceGenre.getSelectionModel().getSelectedItem();
-                dao.addContentGenre(g, content);
             }
             cancelAction(actionEvent);
         }
