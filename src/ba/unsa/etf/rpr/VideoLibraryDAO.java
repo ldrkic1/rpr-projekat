@@ -13,7 +13,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, getEmplyeesStamement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
-    private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement;
+    private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement;
     private PreparedStatement getSeriesStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
@@ -87,6 +87,7 @@ public class VideoLibraryDAO {
             updateContetntStatement = connection.prepareStatement("UPDATE content SET title=?,year=?,director=?,description=?,rating=?,image=?,price=? WHERE id=?");
             updateMovieStatement = connection.prepareStatement("UPDATE movie SET duration_minutes=? WHERE id=?");
             updateSerialStatement = connection.prepareStatement("UPDATE  serial SET seasons_number=?, episodes_per_season=? WHERE id=?");
+            updateGenreStatement = connection.prepareStatement("UPDATE genre SET name=? WHERE id=?");
             nextIdStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM actor");
             nextIdGenreStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM genre");
             nextIdContentAcotrStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM content_actor");
@@ -306,6 +307,15 @@ public class VideoLibraryDAO {
             updateSerialStatement.setInt(1, s.getSeasonsNumber());
             updateSerialStatement.setInt(3, s.getEpisodesPerSeasonNumber());
             updateSerialStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void updateGenre(Genre genre) {
+        try {
+            updateGenreStatement.setString(1, genre.getName());
+            updateGenreStatement.setInt(2, genre.getId());
+            updateGenreStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

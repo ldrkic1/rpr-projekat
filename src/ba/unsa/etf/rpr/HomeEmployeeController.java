@@ -186,7 +186,15 @@ public class HomeEmployeeController {
         stage.setScene(new Scene(root, 1200,700));
         stage.show();
     }
-    public void editGenreAction(ActionEvent actionEvent) {
+    public void editGenreAction(ActionEvent actionEvent) throws IOException {
+        EditGenreController ctrl = new EditGenreController(genresTableView.getSelectionModel().getSelectedItem());
+        Stage stage = (Stage) genresTableView.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editGenre.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Uredi žanr");
+        stage.setScene(new Scene(root, 1200,700));
+        stage.show();
 
     }
     public void deleteGenreAction(ActionEvent actionEvent) {
