@@ -89,7 +89,7 @@
                      <children>
                         <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployeeAction" prefHeight="48.0" prefWidth="123.0" text="Dodaj" />
                         <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="123.0" text="Uredi" />
-                        <Button layoutX="148.0" layoutY="20.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="123.0" text="Obriši " />
+                        <Button layoutX="148.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteEmployeeAction" prefHeight="48.0" prefWidth="123.0" text="Obriši " />
                      </children>
                   </HBox>
                </bottom>

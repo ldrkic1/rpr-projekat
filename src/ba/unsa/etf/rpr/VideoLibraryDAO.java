@@ -11,7 +11,7 @@ public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
     private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
-    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee;
+    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
@@ -108,6 +108,7 @@ public class VideoLibraryDAO {
             nextContentIdStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM content");
             nextIdEmployee = connection.prepareStatement("SELECT MAX(id)+1 FROM employee");
             addEmployeeStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?)");
+            deleteEmployeeStatement = connection.prepareStatement("DELETE FROM employee WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -561,6 +562,14 @@ public class VideoLibraryDAO {
             addEmployeeStatement.setString(2, e.getUsername());
             addEmployeeStatement.setString(3, e.getPassword());
             addEmployeeStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void deleteEmployee(Employee e) {
+        try {
+            deleteEmployeeStatement.setInt(1, e.getId());
+            deleteEmployeeStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -229,6 +229,7 @@ public class HomeEmployeeController {
     }
     public void deleteMovieAction(ActionEvent actionEvent) {
 
+
     }
     public void addEmployeeAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addEmployeeButton.getScene().getWindow();
@@ -240,5 +241,15 @@ public class HomeEmployeeController {
         stage.setScene(scene);
         stage.setTitle("Dodaj uposlenika");
         stage.show();
+    }
+    public void deleteEmployeeAction() {
+        if(employeesTableView.getSelectionModel().getSelectedItem() != null) {
+            Employee e = new Employee();
+            e.setId(employeesTableView.getSelectionModel().getSelectedItem().getId());
+            e.setUsername(employeesTableView.getSelectionModel().getSelectedItem().getUsername());
+            dao.deleteEmployee(e);
+            employeesList.setAll(dao.getEmployees());
+            employeesTableView.setItems(employeesList);
+        }
     }
 }
