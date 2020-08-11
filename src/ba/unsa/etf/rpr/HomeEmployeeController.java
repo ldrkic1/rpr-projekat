@@ -8,16 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class HomeEmployeeController {
     public TableView<Movie> tableViewMovies;
@@ -45,7 +45,7 @@ public class HomeEmployeeController {
     public TableColumn idEmployeeCol;
     public TableColumn genreIdCol;
     public TableColumn genreTitleCol;
-
+    public MenuItem logoutMenuOption;
     public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
@@ -242,7 +242,7 @@ public class HomeEmployeeController {
         stage.setTitle("Dodaj uposlenika");
         stage.show();
     }
-    public void deleteEmployeeAction() {
+    public void deleteEmployeeAction(ActionEvent actionEvent) {
         if(employeesTableView.getSelectionModel().getSelectedItem() != null) {
             Employee e = new Employee();
             e.setId(employeesTableView.getSelectionModel().getSelectedItem().getId());
@@ -251,5 +251,19 @@ public class HomeEmployeeController {
             employeesList.setAll(dao.getEmployees());
             employeesTableView.setItems(employeesList);
         }
+    }
+    public void logOutAction(ActionEvent actionEvent) throws SQLException, IOException {
+        Stage currentStage = (Stage) tableViewMovies.getScene().getWindow();
+        Stage stage = new Stage();
+        LoginController ctrl = new LoginController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        root.setId("body");
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setScene(scene);
+        stage.setTitle("Prijava");
+        currentStage.close();
+        stage.show();
     }
 }
