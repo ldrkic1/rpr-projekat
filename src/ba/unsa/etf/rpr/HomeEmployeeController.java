@@ -46,7 +46,7 @@ public class HomeEmployeeController {
     public TableColumn genreIdCol;
     public TableColumn genreTitleCol;
 
-    public Button addGenreButton, editGenreAction;
+    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton;
     private VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -212,5 +212,33 @@ public class HomeEmployeeController {
                 s.setGenre(dao.getSerialGenres(s.getId()));
             }
         }
+    }
+    public void addNewMovieAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) addNewMovieButton.getScene().getWindow();
+        EditMovieDetailsController ctrl = new EditMovieDetailsController(true);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200, 700);
+        stage.setScene(scene);
+        stage.setTitle("Dodaj film");
+        stage.show();
+    }
+    public void editMovieAction(ActionEvent actionEvent) {
+
+    }
+    public void deleteMovieAction(ActionEvent actionEvent) {
+
+    }
+    public void addEmployeeAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) addEmployeeButton.getScene().getWindow();
+        AddEmployeeController ctrl = new AddEmployeeController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addEmployee.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200, 700);
+        stage.setScene(scene);
+        stage.setTitle("Dodaj uposlenika");
+        stage.show();
     }
 }

@@ -11,16 +11,16 @@ public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
     private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
-    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, getEmplyeesStamement;
+    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
-    private PreparedStatement getMoviesStatement;
-    private PreparedStatement getSeriesStatement;
+    private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
+    private PreparedStatement getSeriesStatement, addSerialStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
-    private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement;
+    private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement, nextContentIdStatement;
     private PreparedStatement addActorStatement, addGenreStatement, nextIdGenreStatement, nextIdStatement, nextIdContentAcotrStatement, nextIdContentGenreStatement, addContentActorStatement;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public static VideoLibraryDAO getInstance() {
@@ -101,7 +101,13 @@ public class VideoLibraryDAO {
             getGenreContentsStatement = connection.prepareStatement("SELECT cg.id FROM content c, content_genre cg WHERE cg.genre_id=? AND c.id=cg.content_id");
             deleteActorFromContent = connection.prepareStatement("DELETE FROM content_actor WHERE id=?");
             deleteGenreFromContent = connection.prepareStatement("DELETE FROM content_genre WHERE id=?");
-            deleteGenreStatement = connection.prepareStatement("DELETE FROM genre where id=?");
+            deleteGenreStatement = connection.prepareStatement("DELETE FROM genre WHERE id=?");
+            addContentStatement = connection.prepareStatement("INSERT INTO content VALUES (?,?,?,?,?,?,?,?)");
+            addMovieStatement = connection.prepareStatement("INSERT INTO movie values (?,?)");
+            addSerialStatement = connection.prepareStatement("INSERT INTO serial VALUES (?,?,?)");
+            nextContentIdStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM content");
+            nextIdEmployee = connection.prepareStatement("SELECT MAX(id)+1 FROM employee");
+            addEmployeeStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?)");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -508,6 +514,53 @@ public class VideoLibraryDAO {
             }
             deleteGenreStatement.setInt(1, g.getId());
             deleteGenreStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void addContent(Content c) {
+        try {
+            ResultSet rs = nextContentIdStatement.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            addContentStatement.setInt(1, id);
+            addContentStatement.setString(2, c.getTitle());
+            addContentStatement.setInt(3, c.getYear());
+            addContentStatement.setString(4, c.getDirector());
+            addContentStatement.setString(5, c.getDescription());
+            addContentStatement.setDouble(6, c.getRating());
+            addContentStatement.setString(7, c.getImage());
+            addContentStatement.setDouble(8, c.getPrice());
+            addContentStatement.executeUpdate();
+
+            if(c instanceof Movie) {
+                addMovieStatement.setInt(1, id);
+                addMovieStatement.setInt(2, ((Movie) c).getDurationMinutes());
+                addMovieStatement.executeUpdate();
+            }
+            else {
+                addSerialStatement.setInt(1, id);
+                addSerialStatement.setInt(2, ((Serial) c).getSeasonsNumber());
+                addSerialStatement.setInt(3, ((Serial) c).getEpisodesPerSeasonNumber());
+                addSerialStatement.executeUpdate();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void addEmployee(Employee e) {
+        try {
+            ResultSet rs = nextIdEmployee.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            addEmployeeStatement.setInt(1, id);
+            addEmployeeStatement.setString(2, e.getUsername());
+            addEmployeeStatement.setString(3, e.getPassword());
+            addEmployeeStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

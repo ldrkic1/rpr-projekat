@@ -16,6 +16,7 @@ public class EditMovieDetailsController {
     private static Movie movie;
     public Button saveChangesButton;
     private static VideoLibraryDAO dao = null;
+    public Label titleLabel;
     public TextField titleField;
     public TextField yearField;
     public TextField directorField;
@@ -31,11 +32,17 @@ public class EditMovieDetailsController {
     private static ObservableList<Actor> actors = null;
     private static ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
+    private boolean addNewMovie = false;
     public EditMovieDetailsController(Movie movie) {
         this.movie = movie;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInMovie(movie.getId()));
         genres = FXCollections.observableArrayList(dao.getMovieGenres(movie.getId()));
+    }
+    public EditMovieDetailsController(boolean newMovie) {
+        if(dao == null) dao = VideoLibraryDAO.getInstance();
+        addNewMovie = newMovie;
+        movie = new Movie();
     }
     public static boolean isNumeric(String str) {
         try {
@@ -55,17 +62,22 @@ public class EditMovieDetailsController {
     }
     @FXML
     public void initialize() {
-        titleField.textProperty().set(movie.getTitle());
-        yearField.textProperty().set(String.valueOf(movie.getYear()));
-        durationField.textProperty().set(String.valueOf(movie.getDurationMinutes()));
-        genresListView.setItems(genres);
-        directorField.textProperty().set(movie.getDirector());
-        actorsListView.setItems(actors);
-        descriptionArea.textProperty().set(movie.getDescription());
-        ratingSlider.setValue(movie.getRating());
-        ratingValueField.textProperty().set(String.valueOf(movie.getRating()));
-        priceField.textProperty().set(String.valueOf(movie.getPrice()));
-        imageUrlArea.textProperty().set(movie.getImage());
+        if(!addNewMovie) {
+            titleField.textProperty().set(movie.getTitle());
+            yearField.textProperty().set(String.valueOf(movie.getYear()));
+            durationField.textProperty().set(String.valueOf(movie.getDurationMinutes()));
+            genresListView.setItems(genres);
+            directorField.textProperty().set(movie.getDirector());
+            actorsListView.setItems(actors);
+            descriptionArea.textProperty().set(movie.getDescription());
+            ratingSlider.setValue(movie.getRating());
+            ratingValueField.textProperty().set(String.valueOf(movie.getRating()));
+            priceField.textProperty().set(String.valueOf(movie.getPrice()));
+            imageUrlArea.textProperty().set(movie.getImage());
+        }
+        else {
+            titleLabel.setText("");
+        }
         actorsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actor>() {
             @Override
             public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
@@ -237,16 +249,30 @@ public class EditMovieDetailsController {
             movie.setRating(Double.parseDouble(ratingValueField.getText()));
             movie.setYear(Integer.parseInt(yearField.getText()));
             movie.setDirector(directorField.getText());
-            dao.updateMovie(movie);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
-            MovieDetailsController ctrl = new MovieDetailsController(movie);
-            loader.setController(ctrl);
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 1200, 700);
-            Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-            stage.setTitle(movie.getTitle());
-            stage.setScene(scene);
-            stage.show();
+            if(!addNewMovie) {
+                dao.updateMovie(movie);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
+                MovieDetailsController ctrl = new MovieDetailsController(movie);
+                loader.setController(ctrl);
+                Parent root = loader.load();
+                Scene scene = new Scene(root, 1200, 700);
+                Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+                stage.setTitle(movie.getTitle());
+                stage.setScene(scene);
+                stage.show();
+            }
+            else {
+                dao.addContent(movie);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
+                HomeEmployeeController ctrl = new HomeEmployeeController();
+                loader.setController(ctrl);
+                Parent root = loader.load();
+                Scene scene = new Scene(root, 1200, 700);
+                Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+                stage.setTitle("Home");
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {

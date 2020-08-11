@@ -86,7 +86,7 @@
    <bottom>
       <ButtonBar BorderPane.alignment="CENTER">
          <buttons>
-            <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj promjene" />
+            <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="48.0" text="Poništi" />
          </buttons>
          <BorderPane.margin>
@@ -98,7 +98,7 @@
       <Insets bottom="20.0" top="10.0" />
    </padding>
    <top>
-      <Label prefHeight="50.0" prefWidth="938.0" text="Ažuriranje podataka o filmu" BorderPane.alignment="CENTER">
+      <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="938.0" text="Ažuriranje podataka o filmu" BorderPane.alignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
