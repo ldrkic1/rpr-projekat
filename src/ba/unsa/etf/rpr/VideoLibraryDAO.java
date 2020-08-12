@@ -15,7 +15,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
-    private PreparedStatement getSeriesStatement, addSerialStatement;
+    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent;
@@ -114,6 +114,8 @@ public class VideoLibraryDAO {
             getHotelsStatement = connection.prepareStatement("SELECT * FROM hotel");
             addHotelStatement = connection.prepareStatement("INSERT INTO hotel VALUES (?,?)");
             updateHotelStatement = connection.prepareStatement("UPDATE hotel SET rooms_number=? WHERE id=?");
+            addUserStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?,?,?,?)");
+            userNextID = connection.prepareStatement("SELECT MAX(id)+1 FROM user");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -625,6 +627,25 @@ public class VideoLibraryDAO {
             updateHotelStatement.setInt(1, roomsNumber);
             updateHotelStatement.setInt(2,1);
             updateHotelStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void addUser(User user) {
+        try {
+            ResultSet rs = userNextID.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            addUserStatement.setInt(1, id);
+            addUserStatement.setString(2, user.getFirstName());
+            addUserStatement.setString(3, user.getLastName());
+            addUserStatement.setString(4, user.getUsername());
+            addUserStatement.setString(5, user.getPassword());
+            addUserStatement.setInt(6, user.getRoomNumber());
+            addUserStatement.setInt(7, user.getIntegerPrivilege());
+            addUserStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

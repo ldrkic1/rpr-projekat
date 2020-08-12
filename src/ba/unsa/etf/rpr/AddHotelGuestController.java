@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -62,8 +63,31 @@ public class AddHotelGuestController {
     }
 
     public void cancelAction(ActionEvent actionEvent) {
+        Stage stage = (Stage) addButton.getScene().getWindow();
+        stage.close();
     }
 
     public void addAction(ActionEvent actionEvent) {
+        if(!passwordField.getText().equals("")) {
+            User user = new User();
+            user.setFirstName("");
+            user.setLastName("");
+            user.setUsername(String.valueOf(usernameChoice.getSelectionModel().getSelectedItem()));
+            user.setPassword(passwordField.getText());
+            user.setRoomNumber((Integer) usernameChoice.getSelectionModel().getSelectedItem());
+            if(privilegeChoice.getSelectionModel().getSelectedItem().equals("DA")) user.setPrivilege(true);
+            else user.setPrivilege(false);
+            dao.addUser(user);
+            list.setAll(dao.getUsers());
+            tableView.setItems(list);
+            cancelAction(actionEvent);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText("Lozinka nije generisana");
+            alert.setContentText("Potrebno je generisati lozinku!");
+            alert.showAndWait();
+        }
     }
 }

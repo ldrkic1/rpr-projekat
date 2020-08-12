@@ -83,4 +83,8 @@ public class User {
         if(privilege) return "DA";
         return "NE";
     }
+    public int getIntegerPrivilege() {
+        if(privilege) return 1;
+        return 0;
+    }
 }
