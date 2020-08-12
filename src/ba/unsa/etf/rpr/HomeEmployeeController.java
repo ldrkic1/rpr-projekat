@@ -300,4 +300,10 @@ public class HomeEmployeeController {
         stage.show();
         updateLists();
     }
+    public void addHotelGuestAction(ActionEvent actionEvent) {
+
+    }
+    public void deleteHotelGuestAction(ActionEvent actionEvent) {
+
+    }
 }
