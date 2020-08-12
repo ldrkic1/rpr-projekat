@@ -15,7 +15,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
-    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID;
+    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent;
@@ -116,6 +116,7 @@ public class VideoLibraryDAO {
             updateHotelStatement = connection.prepareStatement("UPDATE hotel SET rooms_number=? WHERE id=?");
             addUserStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?,?,?,?)");
             userNextID = connection.prepareStatement("SELECT MAX(id)+1 FROM user");
+            deleteUserStatement = connection.prepareStatement("DELETE FROM user where id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -646,6 +647,14 @@ public class VideoLibraryDAO {
             addUserStatement.setInt(6, user.getRoomNumber());
             addUserStatement.setInt(7, user.getIntegerPrivilege());
             addUserStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void deleteHotelGuest(int id) {
+        try {
+            deleteUserStatement.setInt(1,id);
+            deleteUserStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

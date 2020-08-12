@@ -320,6 +320,11 @@ public class HomeEmployeeController {
         }
     }
     public void deleteHotelGuestAction(ActionEvent actionEvent) {
+        if(usersTableView.getSelectionModel().getSelectedItem() != null) {
+            dao.deleteHotelGuest(usersTableView.getSelectionModel().getSelectedItem().getId());
+            usersList.setAll(dao.getUsers());
+            usersTableView.setItems(usersList);
+        }
 
     }
     public void roomsNumberAction(ActionEvent actionEvent) throws IOException {
