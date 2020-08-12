@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
-    private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
+    private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
@@ -110,6 +110,10 @@ public class VideoLibraryDAO {
             addEmployeeStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?)");
             deleteEmployeeStatement = connection.prepareStatement("DELETE FROM employee WHERE id=?");
             updateEmployeeStatement = connection.prepareStatement("UPDATE employee SET username=?, password=? WHERE id=?");
+            getHotelRoomsNumberStatement = connection.prepareStatement("SELECT rooms_number FROM hotel WHERE id=?");
+            getHotelsStatement = connection.prepareStatement("SELECT * FROM hotel");
+            addHotelStatement = connection.prepareStatement("INSERT INTO hotel VALUES (?,?)");
+            updateHotelStatement = connection.prepareStatement("UPDATE hotel SET rooms_number=? WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -120,6 +124,17 @@ public class VideoLibraryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public boolean checkHotel() {
+        try {
+            ResultSet resultSet = getHotelsStatement.executeQuery();
+            if(resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
     public LocalDate stringToDate(String date) {
         ArrayList<String> days = new ArrayList<>(Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
@@ -581,6 +596,35 @@ public class VideoLibraryDAO {
             updateEmployeeStatement.setString(2, e.getPassword());
             updateEmployeeStatement.setInt(3, e.getId());
             updateEmployeeStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void addHotel(int roomsNumber) {
+        try {
+            addHotelStatement.setInt(1, 1);
+            addHotelStatement.setInt(2, roomsNumber);
+            addHotelStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public int getRoomsNumber() {
+        try {
+            ResultSet resultSet = getHotelsStatement.executeQuery();
+            if(resultSet.next()) {
+                return resultSet.getInt(2);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+    public void updateHotel(int roomsNumber) {
+        try {
+            updateHotelStatement.setInt(1, roomsNumber);
+            updateHotelStatement.setInt(2,1);
+            updateHotelStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

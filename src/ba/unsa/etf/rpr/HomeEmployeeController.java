@@ -298,12 +298,38 @@ public class HomeEmployeeController {
         stage.setTitle("Promjena korisničkog imena");
         stage.setScene(scene);
         stage.show();
-        updateLists();
     }
-    public void addHotelGuestAction(ActionEvent actionEvent) {
-
+    public void addHotelGuestAction(ActionEvent actionEvent) throws IOException {
+        if(dao.checkHotel()) {
+            Stage stage = new Stage();
+            AddHotelGuestController ctrl = new AddHotelGuestController(usersTableView, usersList);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addHotelGuest.fxml"));
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+            stage.setTitle("Novi gost hotela");
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText("Broj soba nije definisan!");
+            alert.setContentText("Unesite broj soba!");
+            alert.showAndWait();
+        }
     }
     public void deleteHotelGuestAction(ActionEvent actionEvent) {
 
+    }
+    public void roomsNumberAction(ActionEvent actionEvent) throws IOException {
+        AddRoomsNumberController ctrl = new AddRoomsNumberController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addRoomsNumber.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+        stage.setTitle("Unos broja soba hotela");
+        stage.show();
     }
 }
