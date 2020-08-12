@@ -54,6 +54,7 @@ public class HomeEmployeeController {
     private ObservableList<Employee> employeesList = null;
     private ObservableList<Genre> genresList = null;
     private boolean newGenre = true;
+    private Employee employee = null;
     public HomeEmployeeController() {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
@@ -62,6 +63,17 @@ public class HomeEmployeeController {
         employeesList = FXCollections.observableArrayList(dao.getEmployees());
         genresList = FXCollections.observableArrayList(dao.getGenres());
     }
+
+    public HomeEmployeeController(Employee employee) {
+        dao = VideoLibraryDAO.getInstance();
+        moviesList = FXCollections.observableArrayList(dao.getMovies());
+        serialList = FXCollections.observableArrayList(dao.getSerials());
+        usersList = FXCollections.observableArrayList(dao.getUsers());
+        employeesList = FXCollections.observableArrayList(dao.getEmployees());
+        genresList = FXCollections.observableArrayList(dao.getGenres());
+        this.employee = employee;
+    }
+
     private void addButtonToMovieTable() {
         Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>> cellFactory = new Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>>() {
             @Override
@@ -229,7 +241,6 @@ public class HomeEmployeeController {
     }
     public void deleteMovieAction(ActionEvent actionEvent) {
 
-
     }
     public void addEmployeeAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addEmployeeButton.getScene().getWindow();
@@ -264,6 +275,17 @@ public class HomeEmployeeController {
         stage.setScene(scene);
         stage.setTitle("Prijava");
         currentStage.close();
+        stage.show();
+    }
+    public void changePasswordAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        ChangePasswordController ctrl = new ChangePasswordController(employee);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/changePassword.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setTitle("Promjena lozinke");
+        stage.setScene(scene);
         stage.show();
     }
 }

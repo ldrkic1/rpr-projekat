@@ -11,7 +11,7 @@ public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
     private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement;
-    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee;
+    private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
@@ -109,6 +109,7 @@ public class VideoLibraryDAO {
             nextIdEmployee = connection.prepareStatement("SELECT MAX(id)+1 FROM employee");
             addEmployeeStatement = connection.prepareStatement("INSERT INTO employee VALUES (?,?,?)");
             deleteEmployeeStatement = connection.prepareStatement("DELETE FROM employee WHERE id=?");
+            updateEmployeeStatement = connection.prepareStatement("UPDATE employee SET username=?, password=? WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -570,6 +571,16 @@ public class VideoLibraryDAO {
         try {
             deleteEmployeeStatement.setInt(1, e.getId());
             deleteEmployeeStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void updateEmployee(Employee e) {
+        try {
+            updateEmployeeStatement.setString(1, e.getUsername());
+            updateEmployeeStatement.setString(2, e.getPassword());
+            updateEmployeeStatement.setInt(3, e.getId());
+            updateEmployeeStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

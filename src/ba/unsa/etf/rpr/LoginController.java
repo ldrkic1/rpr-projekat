@@ -27,10 +27,11 @@ public class LoginController {
     }
     public void loginAction(ActionEvent actionEvent) throws IOException {
         if(!usernameField.textProperty().get().equals("") && !passwordField.textProperty().get().equals("")) {
-            if(dao.getEmployee(usernameField.textProperty().get())!=null) {
+            Employee employee = dao.getEmployee(usernameField.textProperty().get());
+            if( employee != null && employee.getPassword().equals(passwordField.getText())) {
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-                HomeEmployeeController ctrl = new HomeEmployeeController();
+                HomeEmployeeController ctrl = new HomeEmployeeController(employee);
                 loader.setController(ctrl);
                 Parent root = loader.load();
                 stage.setTitle("Home");

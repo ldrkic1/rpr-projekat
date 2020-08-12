@@ -132,6 +132,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Postavke korisničkog računa">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#changePasswordAction" text="Promijeni lozinku" />
               <MenuItem fx:id="logoutMenuOption" mnemonicParsing="false" onAction="#logOutAction" text="Odjavi se" />
             </items>
           </Menu>
