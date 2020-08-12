@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -47,7 +46,7 @@ public class HomeEmployeeController {
     public TableColumn genreTitleCol;
     public MenuItem logoutMenuOption;
     public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton;
-    private VideoLibraryDAO dao = null;
+    private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
     private ObservableList<User> usersList = null;
@@ -185,8 +184,9 @@ public class HomeEmployeeController {
         genreTitleCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
     public void updateLists() {
-        moviesList = FXCollections.observableArrayList(dao.getMovies());
-        serialList = FXCollections.observableArrayList(dao.getSerials());
+
+        employeesList.setAll(dao.getEmployees());
+        employeesTableView.setItems(employeesList);
     }
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         AddGenreController ctrl = new AddGenreController(newGenre);
@@ -279,13 +279,25 @@ public class HomeEmployeeController {
     }
     public void changePasswordAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
-        ChangePasswordController ctrl = new ChangePasswordController(employee);
-        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/changePassword.fxml"));
+        ChangeUsernamePasswordController ctrl = new ChangeUsernamePasswordController(employee);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/changeUsernamePassword.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         stage.setTitle("Promjena lozinke");
         stage.setScene(scene);
         stage.show();
+    }
+    public void changeUsernameAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        ChangeUsernamePasswordController ctrl = new ChangeUsernamePasswordController(employee, true, employeesTableView, employeesList);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/changeUsernamePassword.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setTitle("Promjena korisničkog imena");
+        stage.setScene(scene);
+        stage.show();
+        updateLists();
     }
 }
