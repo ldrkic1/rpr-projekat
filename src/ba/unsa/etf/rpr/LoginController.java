@@ -34,7 +34,7 @@ public class LoginController {
                 HomeEmployeeController ctrl = new HomeEmployeeController(employee);
                 loader.setController(ctrl);
                 Parent root = loader.load();
-                stage.setTitle("Home");
+                stage.setTitle("Početna");
                 stage.setScene(new Scene(root, 1200, 700));
                 Stage stage1 = (Stage) usernameField.getScene().getWindow();
                 stage1.close();

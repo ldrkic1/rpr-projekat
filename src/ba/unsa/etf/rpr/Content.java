@@ -14,7 +14,8 @@ public class Content {
     private String image;
     private double price;
     public Content() {
-
+        mainActors = new ArrayList<>();
+        genre = new ArrayList<>();
     }
 
     public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) {

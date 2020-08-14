@@ -14,11 +14,11 @@ public class VideoLibraryDAO {
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
-    private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement;
+    private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
     private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
-    private PreparedStatement deleteActorFromContent, deleteGenreFromContent;
+    private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
     private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement, nextContentIdStatement;
     private PreparedStatement addActorStatement, addGenreStatement, nextIdGenreStatement, nextIdStatement, nextIdContentAcotrStatement, nextIdContentGenreStatement, addContentActorStatement;
@@ -117,6 +117,11 @@ public class VideoLibraryDAO {
             addUserStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?,?,?,?)");
             userNextID = connection.prepareStatement("SELECT MAX(id)+1 FROM user");
             deleteUserStatement = connection.prepareStatement("DELETE FROM user where id=?");
+            deleteContentStatement = connection.prepareStatement("DELETE FROM content where id=?");
+            deleteMovieStatement = connection.prepareStatement("DELETE FROM movie where id=?");
+            deleteSerialStatement = connection.prepareStatement("DELETE FROM serial WHERE id=?");
+            deleteActorContent = connection.prepareStatement("DELETE FROM content_actor where content_id=?");
+            deleteGenreContent = connection.prepareStatement("DELETE from content_genre where content_id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -655,6 +660,46 @@ public class VideoLibraryDAO {
         try {
             deleteUserStatement.setInt(1,id);
             deleteUserStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public int getGenreId(String name) {
+        try {
+            getGenreStatement.setString(1, name);
+            ResultSet resultSet = getGenreStatement.executeQuery();
+            if(resultSet.next()) return resultSet.getInt(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return  0;
+    }
+    public int getActorId(String name, String surname) {
+        try {
+            getActorStatement.setString(1, name);
+            getActorStatement.setString(2, surname);
+            ResultSet resultSet = getActorStatement.executeQuery();
+            if(resultSet.next()) return resultSet.getInt(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return  0;
+    }
+    public void deleteContent(Content c) {
+        try {
+            deleteGenreContent.setInt(1, c.getId());
+            deleteGenreContent.executeUpdate();
+            deleteActorContent.setInt(1, c.getId());
+            if(c instanceof Movie) {
+                deleteMovieStatement.setInt(1, c.getId());
+                deleteMovieStatement.executeUpdate();
+            }
+            else {
+                deleteSerialStatement.setInt(1, c.getId());
+                deleteSerialStatement.executeUpdate();
+            }
+            deleteContentStatement.setInt(1, c.getId());
+            deleteContentStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

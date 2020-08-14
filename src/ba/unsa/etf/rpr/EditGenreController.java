@@ -49,7 +49,7 @@ public class EditGenreController {
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
         stage.setScene(scene);
-        stage.setTitle("Home");
+        stage.setTitle("Početna");
     }
 
     public void saveGenreAction(ActionEvent actionEvent) throws IOException {

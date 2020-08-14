@@ -85,7 +85,7 @@ public class MovieDetailsController {
         loader.setController(ctrl);
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
-        currentStage.setTitle("Home");
+        currentStage.setTitle("Početna");
         currentStage.show();
     }
 }

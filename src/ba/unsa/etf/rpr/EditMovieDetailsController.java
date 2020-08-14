@@ -269,7 +269,7 @@ public class EditMovieDetailsController {
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 700);
                 Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-                stage.setTitle("Home");
+                stage.setTitle("Početna");
                 stage.setScene(scene);
                 stage.show();
             }

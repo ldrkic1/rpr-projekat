@@ -39,6 +39,25 @@ public class AddActorController {
     private ArrayList<Actor> actorsInMovie = null;
     private Content content;
     private boolean allControlsCorrect = true;
+    private boolean newContent = false;
+    private ListView listView = null;
+    private ObservableList<Actor> actorsList = null;
+    public AddActorController(Content content, boolean newContent, ListView actorsListView, ObservableList<Actor> actorsList) {
+        this.content = content;
+        this.newContent = newContent;
+        dao = VideoLibraryDAO.getInstance();
+        actors = FXCollections.observableArrayList(dao.getActors());
+        this.actorsList = actorsList;
+        listView = actorsListView;
+        if(content.getMainActors().size() != 0) {
+            for (Actor a: content.getMainActors()) {
+                if(getActorIndex(a.getId()) != -1) {
+                    actors.remove(getActorIndex(a.getId()));
+                }
+            }
+        }
+    }
+
     private int getActorIndex(int id) {
         for( int i = 0; i < actors.size(); i++) {
             if(actors.get(i).getId() == id) return i;
@@ -245,11 +264,27 @@ public class AddActorController {
                 a.setBornDate(LocalDate.parse(birthDatePicker.getValue().format(formatter), formatter));
                 a.setImage(urlArea.getText());
                 dao.addActor(a);
-                dao.addContentActor(a, content);
+                if(!newContent) {
+                    dao.addContentActor(a, content);
+                }
+                else {
+                    int id = dao.getActorId(a.getFirstName(), a.getLastName());
+                    if(id != 0) {
+                        a.setId(id);
+                        content.getMainActors().add(a);
+                        actorsList.add(a);
+                        listView.setItems(actorsList);
+                    }
+                }
             }
             else {
                 Actor a = (Actor) actorsChoice.getSelectionModel().getSelectedItem();
-                dao.addContentActor(a,content);
+                if(!newContent) dao.addContentActor(a,content);
+                else {
+                    content.getMainActors().add(a);
+                    actorsList.add(a);
+                    listView.setItems(actorsList);
+                }
             }
             cancelAction(actionEvent);
         }
@@ -258,22 +293,26 @@ public class AddActorController {
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsChoice.getScene().getWindow();
-        if(content instanceof Movie) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-            EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
-            loader.setController(ctrl);
-            Parent root = loader.load();
-            stage.setScene(new Scene(root, 1200,700));
+        if(!newContent) {
+            if (content instanceof Movie) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+                EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
+                loader.setController(ctrl);
+                Parent root = loader.load();
+                stage.setScene(new Scene(root, 1200, 700));
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
+                EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
+                loader.setController(ctrl);
+                Parent root = loader.load();
+                stage.setScene(new Scene(root, 1200, 700));
+            }
+            stage.setTitle(content.getTitle());
+            stage.show();
         }
         else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-            EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
-            loader.setController(ctrl);
-            Parent root = loader.load();
-            stage.setScene(new Scene(root, 1200,700));
+            stage.close();
         }
 
-        stage.setTitle(content.getTitle());
-        stage.show();
     }
 }

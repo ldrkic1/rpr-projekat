@@ -81,7 +81,7 @@ public class AddEmployeeController {
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
         stage.setScene(scene);
-        stage.setTitle("Home");
+        stage.setTitle("Početna");
         stage.show();
     }
 }

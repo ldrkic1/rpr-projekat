@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
-        <URL value="@/css/editMovieDetails.css" />
+        <URL value="@/css/addMovie.css" />
     </stylesheets>
     <center>
-        <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="694.0" vgap="5.0">
+        <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="782.0" vgap="5.0">
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -81,7 +75,7 @@
                 <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="124.0" text="URL slike: " GridPane.rowIndex="13" />
             </children>
             <BorderPane.margin>
-                <Insets bottom="100.0" left="200.0" right="200.0" top="100.0" />
+                <Insets bottom="100.0" left="200.0" right="200.0" top="20.0" />
             </BorderPane.margin>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -89,10 +83,10 @@
         </GridPane>
     </center>
     <bottom>
-        <ButtonBar BorderPane.alignment="CENTER">
+        <ButtonBar prefHeight="53.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
             <buttons>
-                <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj" />
                 <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="48.0" text="Poništi" />
+                <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj" />
             </buttons>
             <BorderPane.margin>
                 <Insets left="10.0" right="10.0" />
@@ -102,11 +96,4 @@
     <padding>
         <Insets bottom="20.0" top="10.0" />
     </padding>
-    <top>
-        <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="938.0" text="Ažuriranje podataka o filmu" BorderPane.alignment="CENTER">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-    </top>
 </BorderPane>

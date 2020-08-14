@@ -33,9 +33,31 @@ public class AddGenreController {
     private static ObservableList<Genre> genres = null;
     private ArrayList<Genre> movieGenres = null, serialGenres = null;
     private boolean newGenreToDatabase;
+    private boolean newContent = false;
+    private ListView listView = null;
+    private ObservableList<Genre> genresList = null;
+
     public AddGenreController(boolean newGenre) {
         newGenreToDatabase = newGenre;
         if(dao == null) dao = VideoLibraryDAO.getInstance();
+    }
+
+    public AddGenreController(Content content, boolean newContent, ListView genresListView, ObservableList<Genre> genresList) {
+        this.content = content;
+        this.newContent = newContent;
+        listView = genresListView;
+        this.genresList = genresList;
+        newGenreToDatabase = false;
+        dao = VideoLibraryDAO.getInstance();
+        genres = FXCollections.observableArrayList(dao.getGenres());
+        if(content.getGenre().size() != 0) {
+
+                for (Genre g: content.getGenre()) {
+                    if(getGenreIndex(g.getId()) != -1) {
+                        genres.remove(getGenreIndex(g.getId()));
+                    }
+                }
+        }
     }
 
     private int getGenreIndex(int id) {
@@ -113,33 +135,29 @@ public class AddGenreController {
     public void cancelAction(ActionEvent actionEvent) throws IOException {
        Stage stage = (Stage) cancelButton.getScene().getWindow();
        if(!newGenreToDatabase) {
-           if (content instanceof Movie) {
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-               EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
-               loader.setController(ctrl);
-               Parent root = loader.load();
-               stage.setScene(new Scene(root, 1200, 700));
+           if (!newContent) {
+               if (content instanceof Movie) {
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+                   EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
+                   loader.setController(ctrl);
+                   Parent root = loader.load();
+                   stage.setScene(new Scene(root, 1200, 700));
+               } else {
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
+                   EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
+                   loader.setController(ctrl);
+                   Parent root = loader.load();
+                   stage.setScene(new Scene(root, 1200, 700));
+               }
+               stage.setTitle(content.getTitle());
+               stage.show();
            } else {
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-               EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
-               loader.setController(ctrl);
-               Parent root = loader.load();
-               stage.setScene(new Scene(root, 1200, 700));
+               stage.close();
            }
 
-           stage.setTitle(content.getTitle());
        }
-       else {
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-           HomeEmployeeController ctrl = new HomeEmployeeController();
-           loader.setController(ctrl);
-           Parent root = loader.load();
-           Scene scene = new Scene(root, 1200, 700);
-           stage.setScene(scene);
-           stage.setTitle("Home");
-       }
-        stage.show();
     }
+
 
     public void saveGenreAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
@@ -148,10 +166,26 @@ public class AddGenreController {
                     Genre g = new Genre();
                     g.setName(titleField.getText());
                     dao.addGenre(g);
-                    dao.addContentGenre(g, content);
+                    if(!newContent) {
+                        dao.addContentGenre(g, content);
+                    }
+                    else {
+                        int id = dao.getGenreId(g.getName());
+                        if(id != 0) {
+                            g.setId(id);
+                            content.getGenre().add(g);
+                            genresList.add(g);
+                            listView.setItems(genresList);
+                        }
+                    }
                 } else {
                     Genre g = (Genre) choiceGenre.getSelectionModel().getSelectedItem();
-                    dao.addContentGenre(g, content);
+                    if(!newContent) dao.addContentGenre(g, content);
+                    else {
+                        content.getGenre().add(g);
+                        genresList.add(g);
+                        listView.setItems(genresList);
+                    }
                 }
             }
             else {

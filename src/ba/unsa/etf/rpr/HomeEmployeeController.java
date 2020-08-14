@@ -227,8 +227,8 @@ public class HomeEmployeeController {
     }
     public void addNewMovieAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addNewMovieButton.getScene().getWindow();
-        EditMovieDetailsController ctrl = new EditMovieDetailsController(true);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
+        AddMovieController ctrl = new AddMovieController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMovie.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
@@ -240,7 +240,13 @@ public class HomeEmployeeController {
 
     }
     public void deleteMovieAction(ActionEvent actionEvent) {
-
+        if(tableViewMovies.getSelectionModel().getSelectedItem() != null) {
+            Movie m = new Movie();
+            m.setId(tableViewMovies.getSelectionModel().getSelectedItem().getId());
+            dao.deleteContent(m);
+            moviesList.setAll(dao.getMovies());
+            tableViewMovies.setItems(moviesList);
+        }
     }
     public void addEmployeeAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addEmployeeButton.getScene().getWindow();
