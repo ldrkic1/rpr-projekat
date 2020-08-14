@@ -55,7 +55,7 @@ public class SerialDetailsController {
             actorsVBox.getChildren().add(actorHbox);
         }
         seasonsLabel.textProperty().set(seasonsLabel.getText() + serial.getSeasonsNumber());
-        episodesLabel.textProperty().set(episodesLabel.getText() + serial.getEpisodesPerSeasonNumber() * serial.getSeasonsNumber());
+        episodesLabel.textProperty().set(episodesLabel.getText() + serial.getEpisodesPerSeasonNumber());
         Image icon = new Image("https://cdn1.iconfinder.com/data/icons/ios-11-ui-elements/29/26_back_left_arrow_navigation_sign-512.png");
         ImageView backIcon = new ImageView();
         backIcon.setImage(icon);

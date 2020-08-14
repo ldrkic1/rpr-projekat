@@ -45,7 +45,7 @@ public class HomeEmployeeController {
     public TableColumn genreIdCol;
     public TableColumn genreTitleCol;
     public MenuItem logoutMenuOption;
-    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton;
+    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -343,4 +343,26 @@ public class HomeEmployeeController {
         stage.setTitle("Unos broja soba hotela");
         stage.show();
     }
+    public void addSerialAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) addSerialButton.getScene().getWindow();
+        AddSerialController ctrl = new AddSerialController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSerial.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1200, 700);
+        stage.setScene(scene);
+        stage.setTitle("Dodaj seriju");
+        stage.show();
+    }
+    public void deleteSerialAction(ActionEvent actionEvent) {
+        if(tableViewSeries.getSelectionModel().getSelectedItem() != null) {
+            Serial s = new Serial();
+            s.setId(tableViewSeries.getSelectionModel().getSelectedItem().getId());
+            dao.deleteContent(s);
+            serialList.setAll(dao.getSerials());
+            tableViewSeries.setItems(serialList);
+        }
+    }
 }
+
+

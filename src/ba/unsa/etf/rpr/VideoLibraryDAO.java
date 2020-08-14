@@ -242,7 +242,6 @@ public class VideoLibraryDAO {
             while (resultSet.next()) {
                 Actor actor = new Actor(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), stringToDate(resultSet.getString(5)), resultSet.getString(6));
                 actors.add(actor);
-                //System.out.println(actor);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -731,6 +730,7 @@ public class VideoLibraryDAO {
             deleteGenreContent.setInt(1, c.getId());
             deleteGenreContent.executeUpdate();
             deleteActorContent.setInt(1, c.getId());
+            deleteActorContent.executeUpdate();
             if (c instanceof Movie) {
                 deleteMovieStatement.setInt(1, c.getId());
                 deleteMovieStatement.executeUpdate();

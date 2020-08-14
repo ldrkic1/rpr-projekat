@@ -33,7 +33,6 @@
                            </padding>
                            <children>
                               <Button fx:id="addNewMovieButton" mnemonicParsing="false" onAction="#addNewMovieAction" prefHeight="53.0" prefWidth="127.0" text="Dodaj film" />
-                              <Button fx:id="editMovieButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editMovieAction" prefHeight="53.0" prefWidth="127.0" text="Uredi film" />
                               <Button fx:id="deleteMovieButton" layoutX="152.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteMovieAction" prefHeight="53.0" prefWidth="127.0" text="Obriši film" />
                            </children>
                         </HBox>
@@ -55,6 +54,17 @@
                                 </columns>
                             </TableView>
                         </center>
+                     <bottom>
+                        <HBox prefHeight="70.0" prefWidth="1334.0" spacing="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="addSerialButton" mnemonicParsing="false" onAction="#addSerialAction" prefHeight="63.0" prefWidth="119.0" text="Dodaj seriju" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteSerialAction" prefHeight="63.0" prefWidth="119.0" text="Obriši seriju" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </bottom>
                     </BorderPane>
                 </content>
             </Tab>

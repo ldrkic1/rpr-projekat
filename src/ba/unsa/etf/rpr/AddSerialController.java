@@ -13,10 +13,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
-public class AddMovieController {
+public class AddSerialController {
     public TextField titleField;
     public TextField yearField;
     public TextField directorField;
@@ -30,37 +31,35 @@ public class AddMovieController {
     public ListView genresListView;
     public Button addGenreButton;
     public Button deleteGenreButton;
-    public TextField durationField;
     public TextArea imageUrlArea;
+    public TextField seasonsField;
+    public TextField episodesField;
+    public Button saveChangesButton;
+    public Button cancelButton;
     private VideoLibraryDAO dao = null;
-    private Movie movie = null;
+    private Serial serial = null;
     private ObservableList<Actor> actorsList = FXCollections.observableArrayList();
     private ObservableList<Genre> genresList = FXCollections.observableArrayList();
     private boolean allControlsCorrect = false;
-    public AddMovieController() {
+
+    public AddSerialController() {
         dao = VideoLibraryDAO.getInstance();
-        movie = new Movie();
+        serial = new Serial();
     }
     @FXML
     public void initialize() {
-        if(movie.getMainActors().size() != 0) {
-            actorsList.setAll(movie.getMainActors());
+        if(serial.getMainActors().size() != 0) {
+            actorsList.setAll(serial.getMainActors());
             actorsListView.setItems(actorsList);
         }
-        if(movie.getGenre().size() != 0) {
-            genresList.setAll(movie.getGenre());
+        if(serial.getGenre().size() != 0) {
+            genresList.setAll(serial.getGenre());
             genresListView.setItems(genresList);
         }
         actorsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actor>() {
             @Override
             public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
                 actorsListView.getSelectionModel().select(t1);
-            }
-        });
-        genresListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Genre>() {
-            @Override
-            public void changed(ObservableValue<? extends Genre> observableValue, Genre actor, Genre t1) {
-                genresListView.getSelectionModel().select(t1);
             }
         });
         ratingSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -94,19 +93,6 @@ public class AddMovieController {
                 else {
                     allControlsCorrect = false;
                     yearField.getStyleClass().add("fieldIncorrect");
-                }
-            }
-        });
-        durationField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
-                    allControlsCorrect = true;
-                    durationField.getStyleClass().removeAll("fieldIncorrect");
-                }
-                else {
-                    allControlsCorrect = false;
-                    durationField.getStyleClass().add("fieldIncorrect");
                 }
             }
         });
@@ -175,7 +161,73 @@ public class AddMovieController {
                 }
             }
         });
+        seasonsField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
+                    allControlsCorrect = true;
+                    seasonsField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    seasonsField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
+        episodesField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
+                    allControlsCorrect = true;
+                    episodesField.getStyleClass().removeAll("fieldIncorrect");
+                }
+                else {
+                    allControlsCorrect = false;
+                    episodesField.getStyleClass().add("fieldIncorrect");
+                }
+            }
+        });
     }
+    public void addActorAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
+        AddActorController ctrl = new AddActorController(serial, true, actorsListView, actorsList);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj glumca");
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
+        stage.show();
+    }
+
+    public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
+        Actor a = (Actor) actorsListView.getSelectionModel().getSelectedItem();
+        if(a != null) {
+            dao.deleteActorFromContent(a, serial);
+            actorsListView.getItems().remove(actorsListView.getSelectionModel().getSelectedItem());
+            actorsListView.refresh();
+        }
+    }
+
+    public void addGenreAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
+        AddGenreController ctrl = new AddGenreController(serial, true, genresListView, genresList);
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        stage.setTitle("Dodaj žanr");
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
+        stage.show();
+    }
+
+    public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
+        Genre g = (Genre) genresListView.getSelectionModel().getSelectedItem();
+        if(g != null) {
+            dao.deleteGenreFromContent(g, serial);
+            genresListView.getItems().remove(genresListView.getSelectionModel().getSelectedItem());
+            genresListView.refresh();
+        }
+    }
+
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsListView.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
@@ -190,46 +242,19 @@ public class AddMovieController {
 
     public void saveChangesAction(ActionEvent actionEvent) throws IOException {
         if(allControlsCorrect) {
-            movie.setTitle(titleField.getText());
-            movie.setYear(Integer.parseInt(yearField.getText()));
-            movie.setDirector(directorField.getText());
-            movie.setRating(Double.parseDouble(ratingValueField.getText()));
-            movie.setDescription(descriptionArea.getText());
-            movie.setPrice(Double.parseDouble(priceField.getText()));
-            movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
-            movie.setImage(imageUrlArea.getText());
-            dao.addContent(movie);
-            dao.addGenresToContent(movie, movie.getGenre());
-            dao.addActorsToContent(movie, movie.getMainActors());
+            serial.setTitle(titleField.getText());
+            serial.setYear(Integer.parseInt(yearField.getText()));
+            serial.setDirector(directorField.getText());
+            serial.setRating(Double.parseDouble(ratingValueField.getText()));
+            serial.setDescription(descriptionArea.getText());
+            serial.setPrice(Double.parseDouble(priceField.getText()));
+            serial.setSeasonsNumber(Integer.parseInt(seasonsField.getText()));
+            serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText()));
+            serial.setImage(imageUrlArea.getText());
+            dao.addContent(serial);
+            dao.addGenresToContent(serial, serial.getGenre());
+            dao.addActorsToContent(serial, serial.getMainActors());
             cancelAction(actionEvent);
         }
-    }
-
-    public void addGenreAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(movie, true, genresListView, genresList);
-        loader.setController(ctrl);
-        Parent root = loader.load();
-        stage.setTitle("Dodaj žanr");
-        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
-        stage.show();
-    }
-
-    public void deleteGenreAction(ActionEvent actionEvent) {
-    }
-
-    public void deleteActorAction(ActionEvent actionEvent) {
-    }
-
-    public void addActorAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(movie, true, actorsListView, actorsList);
-        loader.setController(ctrl);
-        Parent root = loader.load();
-        stage.setTitle("Dodaj glumca");
-        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
-        stage.show();
     }
 }

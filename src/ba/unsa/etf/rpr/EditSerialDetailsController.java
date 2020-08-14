@@ -51,7 +51,7 @@ public class EditSerialDetailsController {
         priceField.textProperty().set(String.valueOf(serial.getPrice()));
         imageUrlArea.textProperty().set(serial.getImage());
         seasonsField.textProperty().set(String.valueOf(serial.getSeasonsNumber()));
-        episodesField.textProperty().set(String.valueOf(serial.getEpisodesPerSeasonNumber()*serial.getSeasonsNumber()));
+        episodesField.textProperty().set(String.valueOf(serial.getEpisodesPerSeasonNumber()));
         actorsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actor>() {
             @Override
             public void changed(ObservableValue<? extends Actor> observableValue, Actor actor, Actor t1) {
@@ -230,7 +230,7 @@ public class EditSerialDetailsController {
             serial.setYear(Integer.parseInt(yearField.getText()));
             serial.setDirector(directorField.getText());
             serial.setSeasonsNumber(Integer.parseInt(seasonsField.getText()));
-            serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText())/Integer.parseInt(seasonsField.getText()));
+            serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText()));
             dao.updateSerial(serial);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
             SerialDetailsController ctrl = new SerialDetailsController(serial);
