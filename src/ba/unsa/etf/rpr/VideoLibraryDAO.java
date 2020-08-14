@@ -16,17 +16,19 @@ public class VideoLibraryDAO {
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
     private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement;
-    private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement;
+    private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, getContetStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
-    private PreparedStatement updateContetntStatement,updateMovieStatement, updateSerialStatement, nextContentIdStatement;
+    private PreparedStatement updateContetntStatement, updateMovieStatement, updateSerialStatement, nextContentIdStatement;
     private PreparedStatement addActorStatement, addGenreStatement, nextIdGenreStatement, nextIdStatement, nextIdContentAcotrStatement, nextIdContentGenreStatement, addContentActorStatement;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public static VideoLibraryDAO getInstance() {
-        if(instance == null) instance = new VideoLibraryDAO();
+        if (instance == null) instance = new VideoLibraryDAO();
         return instance;
     }
+
     private void database() {
         Scanner ulaz = null;
         try {
@@ -34,7 +36,7 @@ public class VideoLibraryDAO {
             String sqlUpit = "";
             while (ulaz.hasNext()) {
                 sqlUpit += ulaz.nextLine();
-                if ( sqlUpit.charAt( sqlUpit.length()-1 ) == ';') {
+                if (sqlUpit.charAt(sqlUpit.length() - 1) == ';') {
                     try {
                         Statement stmt = connection.createStatement();
                         stmt.execute(sqlUpit);
@@ -49,6 +51,7 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
+
     private VideoLibraryDAO() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:database.db");
@@ -122,10 +125,12 @@ public class VideoLibraryDAO {
             deleteSerialStatement = connection.prepareStatement("DELETE FROM serial WHERE id=?");
             deleteActorContent = connection.prepareStatement("DELETE FROM content_actor where content_id=?");
             deleteGenreContent = connection.prepareStatement("DELETE from content_genre where content_id=?");
+            getContetStatement = connection.prepareStatement("SELECT id from content WHERE title=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     public void close() {
         try {
             connection.close();
@@ -133,10 +138,11 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
+
     public boolean checkHotel() {
         try {
             ResultSet resultSet = getHotelsStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return true;
             }
         } catch (SQLException throwables) {
@@ -144,48 +150,52 @@ public class VideoLibraryDAO {
         }
         return false;
     }
+
     public LocalDate stringToDate(String date) {
         ArrayList<String> days = new ArrayList<>(Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09"));
         String[] temp = date.split("\\.");
-        String d="";
-        if(Integer.parseInt(temp[0]) >=1 && Integer.parseInt(temp[0])<=9 && !days.contains(temp[0])) d += "0";
+        String d = "";
+        if (Integer.parseInt(temp[0]) >= 1 && Integer.parseInt(temp[0]) <= 9 && !days.contains(temp[0])) d += "0";
         d += temp[0] + "/";
-        if(Integer.parseInt(temp[1]) >=1 && Integer.parseInt(temp[1])<=9 && !days.contains(temp[0])) d += "0";
+        if (Integer.parseInt(temp[1]) >= 1 && Integer.parseInt(temp[1]) <= 9 && !days.contains(temp[1])) d += "0";
         d += temp[1] + "/" + temp[2];
         //convert String to LocalDate
         LocalDate localDate = LocalDate.parse(d, formatter);
         return localDate;
     }
+
     public ArrayList<Employee> getEmployees() {
         ArrayList<Employee> list = new ArrayList<>();
         ResultSet resultSet = null;
         try {
             resultSet = getEmplyeesStamement.executeQuery();
             while (resultSet.next()) {
-                list.add(new Employee(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3)));
+                list.add(new Employee(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return list;
     }
+
     public Employee getEmployee(String username) {
         try {
-            getEmployeeStatament.setString(1,username);
+            getEmployeeStatament.setString(1, username);
             ResultSet resultSet = getEmployeeStatament.executeQuery();
-            if(resultSet.next()) return new Employee(resultSet.getInt(1),username,resultSet.getString(2));
+            if (resultSet.next()) return new Employee(resultSet.getInt(1), username, resultSet.getString(2));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
     }
+
     public ArrayList<Genre> getMovieGenres(int movieId) {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
-            getMovieGenresStatement.setInt(1,movieId);
+            getMovieGenresStatement.setInt(1, movieId);
             ResultSet resultSet = getMovieGenresStatement.executeQuery();
             while (resultSet.next()) {
-                Genre genre = new Genre(resultSet.getInt(1),resultSet.getString(2));
+                Genre genre = new Genre(resultSet.getInt(1), resultSet.getString(2));
                 genres.add(genre);
             }
         } catch (SQLException throwables) {
@@ -193,13 +203,14 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+
     public ArrayList<Genre> getSerialGenres(int serialId) {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
-            getSerialGenresStatement.setInt(1,serialId);
+            getSerialGenresStatement.setInt(1, serialId);
             ResultSet resultSet = getSerialGenresStatement.executeQuery();
             while (resultSet.next()) {
-                Genre genre = new Genre(resultSet.getInt(1),resultSet.getString(2));
+                Genre genre = new Genre(resultSet.getInt(1), resultSet.getString(2));
                 genres.add(genre);
             }
         } catch (SQLException throwables) {
@@ -207,13 +218,14 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+
     public ArrayList<Actor> getActorsInMovie(int movieId) {
         ArrayList<Actor> actors = new ArrayList<>();
         try {
-            getActorsInMovieStatement.setInt(1,movieId);
+            getActorsInMovieStatement.setInt(1, movieId);
             ResultSet resultSet = getActorsInMovieStatement.executeQuery();
             while (resultSet.next()) {
-                Actor actor = new Actor(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),stringToDate(resultSet.getString(5)),resultSet.getString(6));
+                Actor actor = new Actor(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), stringToDate(resultSet.getString(5)), resultSet.getString(6));
                 actors.add(actor);
             }
         } catch (SQLException throwables) {
@@ -221,13 +233,14 @@ public class VideoLibraryDAO {
         }
         return actors;
     }
+
     public ArrayList<Actor> getActorsInSerial(int serialId) {
         ArrayList<Actor> actors = new ArrayList<>();
         try {
-            getActorsInSerialStatement.setInt(1,serialId);
+            getActorsInSerialStatement.setInt(1, serialId);
             ResultSet resultSet = getActorsInSerialStatement.executeQuery();
             while (resultSet.next()) {
-                Actor actor = new Actor(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),stringToDate(resultSet.getString(5)),resultSet.getString(6));
+                Actor actor = new Actor(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), stringToDate(resultSet.getString(5)), resultSet.getString(6));
                 actors.add(actor);
                 //System.out.println(actor);
             }
@@ -236,11 +249,12 @@ public class VideoLibraryDAO {
         }
         return actors;
     }
+
     public ArrayList<Movie> getMovies() {
         ArrayList<Movie> movies = new ArrayList<>();
         try {
             ResultSet resultSet = getMoviesStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Movie movie = new Movie();
                 movie.setId(resultSet.getInt(1));
                 movie.setTitle(resultSet.getString(2));
@@ -260,11 +274,12 @@ public class VideoLibraryDAO {
         }
         return movies;
     }
+
     public ArrayList<Serial> getSerials() {
         ArrayList<Serial> serials = new ArrayList<>();
         try {
             ResultSet resultSet = getSeriesStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Serial serial = new Serial();
                 serial.setId(resultSet.getInt(1));
                 serial.setTitle(resultSet.getString(2));
@@ -285,11 +300,12 @@ public class VideoLibraryDAO {
         }
         return serials;
     }
+
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
             ResultSet resultSet = getUsersStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getInt(1));
                 user.setFirstName(resultSet.getString(2));
@@ -297,7 +313,7 @@ public class VideoLibraryDAO {
                 user.setUsername(resultSet.getString(4));
                 user.setPassword(resultSet.getString(5));
                 user.setRoomNumber(resultSet.getInt(6));
-                if(resultSet.getInt(7) == 1) user.setPrivilege(true);
+                if (resultSet.getInt(7) == 1) user.setPrivilege(true);
                 else user.setPrivilege(false);
                 users.add(user);
             }
@@ -306,6 +322,7 @@ public class VideoLibraryDAO {
         }
         return users;
     }
+
     public void updateMovie(Movie m) {
         try {
             updateContetntStatement.setString(1, m.getTitle());
@@ -324,6 +341,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void updateSerial(Serial s) {
         try {
             updateContetntStatement.setString(1, s.getTitle());
@@ -342,6 +360,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void updateGenre(Genre genre) {
         try {
             updateGenreStatement.setString(1, genre.getName());
@@ -351,6 +370,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public ArrayList<Actor> getActors() {
         ArrayList<Actor> actors = new ArrayList<>();
         try {
@@ -364,6 +384,7 @@ public class VideoLibraryDAO {
         }
         return actors;
     }
+
     public void addActor(Actor a) {
         try {
             ResultSet rs = nextIdStatement.executeQuery();
@@ -384,6 +405,7 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
+
     public void addGenre(Genre g) {
         try {
             ResultSet rs = nextIdGenreStatement.executeQuery();
@@ -398,12 +420,13 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
+
     public void addContentActor(Actor a, Content content) {
         try {
             getActorStatement.setString(1, a.getFirstName());
             getActorStatement.setString(2, a.getLastName());
             ResultSet resultSet = getActorStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 ResultSet rs = nextIdContentAcotrStatement.executeQuery();
                 int id = 1;
                 if (rs.next()) {
@@ -413,23 +436,24 @@ public class VideoLibraryDAO {
                 addContentActorStatement.setInt(2, resultSet.getInt(1));
                 addContentActorStatement.setInt(3, content.getId());
                 addContentActorStatement.executeUpdate();
-                content.getMainActors().add(new Actor(resultSet.getInt(1),a.getFirstName(),a.getLastName(),a.getBiography(),a.getBornDate(),a.getImage()));
+                content.getMainActors().add(new Actor(resultSet.getInt(1), a.getFirstName(), a.getLastName(), a.getBiography(), a.getBornDate(), a.getImage()));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     public void addContentGenre(Genre g, Content content) {
         try {
             getGenreStatement.setString(1, g.getName());
             ResultSet resultSet = getGenreStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 ResultSet rs = nextIdContentGenreStatement.executeQuery();
                 int id = 1;
-                if(rs.next()) {
+                if (rs.next()) {
                     id = rs.getInt(1);
                 }
-                addContentGenreStatement.setInt(1,id);
+                addContentGenreStatement.setInt(1, id);
                 addContentGenreStatement.setInt(2, content.getId());
                 addContentGenreStatement.setInt(3, resultSet.getInt(1));
                 addContentGenreStatement.executeUpdate();
@@ -439,55 +463,58 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void deleteActorFromContent(Actor a, Content content) throws SQLException {
         int idActor = a.getId();
-        if(idActor == 0) {
+        if (idActor == 0) {
             getActorStatement.setString(1, a.getFirstName());
             getActorStatement.setString(2, a.getLastName());
             ResultSet resultSet = getActorStatement.executeQuery();
-            if(resultSet.next()) idActor = resultSet.getInt(1);
+            if (resultSet.next()) idActor = resultSet.getInt(1);
         }
         getContentActor.setInt(1, content.getId());
         getContentActor.setInt(2, idActor);
         ResultSet resultSet = getContentActor.executeQuery();
-        if(resultSet.next()) {
+        if (resultSet.next()) {
             deleteActorFromContent.setInt(1, resultSet.getInt(1));
             deleteActorFromContent.executeUpdate();
             int actorIndex = -1;
-            for(int i = 0; i < content.getMainActors().size(); i++) {
-                if(content.getMainActors().get(i).equals(a)) {
+            for (int i = 0; i < content.getMainActors().size(); i++) {
+                if (content.getMainActors().get(i).equals(a)) {
                     actorIndex = i;
                 }
             }
-            if(actorIndex != -1) {
+            if (actorIndex != -1) {
                 content.getMainActors().remove(actorIndex);
             }
         }
     }
+
     public void deleteGenreFromContent(Genre g, Content content) throws SQLException {
         int idGenre = g.getId();
-        if(idGenre == 0) {
+        if (idGenre == 0) {
             getGenreStatement.setString(1, g.getName());
             ResultSet resultSet = getGenreStatement.executeQuery();
-            if(resultSet.next()) idGenre = resultSet.getInt(1);
+            if (resultSet.next()) idGenre = resultSet.getInt(1);
         }
         getContentGenre.setInt(1, content.getId());
         getContentGenre.setInt(2, idGenre);
         ResultSet resultSet = getContentGenre.executeQuery();
-        if(resultSet.next()) {
+        if (resultSet.next()) {
             deleteGenreFromContent.setInt(1, resultSet.getInt(1));
             deleteGenreFromContent.executeUpdate();
             int genreIndex = -1;
-            for(int i = 0; i < content.getGenre().size(); i++) {
-                if(content.getGenre().get(i).getName().equals(g.getName())) {
+            for (int i = 0; i < content.getGenre().size(); i++) {
+                if (content.getGenre().get(i).getName().equals(g.getName())) {
                     genreIndex = i;
                 }
             }
-            if(genreIndex != -1) {
+            if (genreIndex != -1) {
                 content.getGenre().remove(genreIndex);
             }
         }
     }
+
     public ArrayList<Genre> getGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
@@ -501,6 +528,7 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+
     public ArrayList<Genre> getMovieGenres(Movie m) {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
@@ -515,6 +543,7 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+
     public ArrayList<Genre> getSerialGenres(Serial s) {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
@@ -529,6 +558,7 @@ public class VideoLibraryDAO {
         }
         return genres;
     }
+
     public void deleteGenre(Genre g) {
         try {
             getGenreContentsStatement.setInt(1, g.getId());
@@ -543,6 +573,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void addContent(Content c) {
         try {
             ResultSet rs = nextContentIdStatement.executeQuery();
@@ -560,12 +591,11 @@ public class VideoLibraryDAO {
             addContentStatement.setDouble(8, c.getPrice());
             addContentStatement.executeUpdate();
 
-            if(c instanceof Movie) {
+            if (c instanceof Movie) {
                 addMovieStatement.setInt(1, id);
                 addMovieStatement.setInt(2, ((Movie) c).getDurationMinutes());
                 addMovieStatement.executeUpdate();
-            }
-            else {
+            } else {
                 addSerialStatement.setInt(1, id);
                 addSerialStatement.setInt(2, ((Serial) c).getSeasonsNumber());
                 addSerialStatement.setInt(3, ((Serial) c).getEpisodesPerSeasonNumber());
@@ -575,6 +605,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void addEmployee(Employee e) {
         try {
             ResultSet rs = nextIdEmployee.executeQuery();
@@ -590,6 +621,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void deleteEmployee(Employee e) {
         try {
             deleteEmployeeStatement.setInt(1, e.getId());
@@ -598,6 +630,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void updateEmployee(Employee e) {
         try {
             updateEmployeeStatement.setString(1, e.getUsername());
@@ -608,6 +641,7 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void addHotel(int roomsNumber) {
         try {
             addHotelStatement.setInt(1, 1);
@@ -617,10 +651,11 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public int getRoomsNumber() {
         try {
             ResultSet resultSet = getHotelsStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(2);
             }
         } catch (SQLException throwables) {
@@ -628,15 +663,17 @@ public class VideoLibraryDAO {
         }
         return 0;
     }
+
     public void updateHotel(int roomsNumber) {
         try {
             updateHotelStatement.setInt(1, roomsNumber);
-            updateHotelStatement.setInt(2,1);
+            updateHotelStatement.setInt(2, 1);
             updateHotelStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     public void addUser(User user) {
         try {
             ResultSet rs = userNextID.executeQuery();
@@ -656,50 +693,101 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
     public void deleteHotelGuest(int id) {
         try {
-            deleteUserStatement.setInt(1,id);
+            deleteUserStatement.setInt(1, id);
             deleteUserStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
     public int getGenreId(String name) {
         try {
             getGenreStatement.setString(1, name);
             ResultSet resultSet = getGenreStatement.executeQuery();
-            if(resultSet.next()) return resultSet.getInt(1);
+            if (resultSet.next()) return resultSet.getInt(1);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return  0;
+        return 0;
     }
+
     public int getActorId(String name, String surname) {
         try {
             getActorStatement.setString(1, name);
             getActorStatement.setString(2, surname);
             ResultSet resultSet = getActorStatement.executeQuery();
-            if(resultSet.next()) return resultSet.getInt(1);
+            if (resultSet.next()) return resultSet.getInt(1);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return  0;
+        return 0;
     }
+
     public void deleteContent(Content c) {
         try {
             deleteGenreContent.setInt(1, c.getId());
             deleteGenreContent.executeUpdate();
             deleteActorContent.setInt(1, c.getId());
-            if(c instanceof Movie) {
+            if (c instanceof Movie) {
                 deleteMovieStatement.setInt(1, c.getId());
                 deleteMovieStatement.executeUpdate();
-            }
-            else {
+            } else {
                 deleteSerialStatement.setInt(1, c.getId());
                 deleteSerialStatement.executeUpdate();
             }
             deleteContentStatement.setInt(1, c.getId());
             deleteContentStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void addGenresToContent(Content c, ArrayList<Genre> genres) {
+        try {
+            for (Genre g : genres) {
+                getGenreStatement.setString(1, g.getName());
+                ResultSet resultSet = getGenreStatement.executeQuery();
+                if (resultSet.next()) {
+                    ResultSet rs = nextIdContentGenreStatement.executeQuery();
+                    int id = 1;
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                    getContetStatement.setString(1,c.getTitle());
+                    ResultSet resultSet1 = getContetStatement.executeQuery();
+                    addContentGenreStatement.setInt(1, id);
+                    addContentGenreStatement.setInt(2, resultSet1.getInt(1));
+                    addContentGenreStatement.setInt(3, resultSet.getInt(1));
+                    addContentGenreStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void addActorsToContent(Content c, ArrayList<Actor> actors) {
+        try {
+            for (Actor actor : actors) {
+                getActorStatement.setString(1, actor.getFirstName());
+                getActorStatement.setString(2, actor.getLastName());
+                ResultSet resultSet = getActorStatement.executeQuery();
+                if (resultSet.next()) {
+                    ResultSet rs = nextIdContentAcotrStatement.executeQuery();
+                    int id = 1;
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                    getContetStatement.setString(1,c.getTitle());
+                    ResultSet resultSet1 = getContetStatement.executeQuery();
+                    addContentActorStatement.setInt(1, id);
+                    addContentActorStatement.setInt(3, resultSet1.getInt(1));
+                    addContentActorStatement.setInt(2, resultSet.getInt(1));
+                    addContentActorStatement.executeUpdate();
+                }
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

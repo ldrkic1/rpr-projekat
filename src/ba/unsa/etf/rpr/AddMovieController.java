@@ -199,12 +199,8 @@ public class AddMovieController {
             movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
             movie.setImage(imageUrlArea.getText());
             dao.addContent(movie);
-            for (int i = 0; i < genresList.size(); i++) {
-                dao.addContentGenre(genresList.get(i), movie);
-            }
-            /*for(Actor a: movie.getMainActors()) {
-                dao.addContentActor(a, movie);
-            }*/
+            dao.addGenresToContent(movie, movie.getGenre());
+            dao.addActorsToContent(movie, movie.getMainActors());
             cancelAction(actionEvent);
         }
     }
