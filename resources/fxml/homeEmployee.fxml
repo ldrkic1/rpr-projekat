@@ -80,6 +80,7 @@
                               <TableColumn fx:id="usernameCol" prefWidth="102.0" text="USERNAME" />
                               <TableColumn fx:id="roomNumberCol" prefWidth="121.0" text="BROJ SOBE" />
                               <TableColumn fx:id="privilegeCol" prefWidth="105.0" text="PRIVILEGIJE" />
+                              <TableColumn fx:id="guestPasswordCol" prefWidth="115.0" text="PASSWORD" visible="false" />
                           </columns>
                         </TableView>
                      </center>
@@ -90,7 +91,7 @@
                            </padding>
                            <children>
                               <Button mnemonicParsing="false" onAction="#addHotelGuestAction" prefHeight="55.0" prefWidth="116.0" text="Dodaj" />
-                              <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="120.0" text="Uredi" />
+                              <Button fx:id="editHotelGuestButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editHotelGuestAction" prefHeight="42.0" prefWidth="120.0" text="Uredi" />
                               <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteHotelGuestAction" prefHeight="55.0" prefWidth="116.0" text="Obriši" />
                            </children>
                         </HBox>

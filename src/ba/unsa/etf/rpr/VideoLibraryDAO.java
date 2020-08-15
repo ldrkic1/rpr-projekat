@@ -15,7 +15,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
-    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement;
+    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement, updateUserStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, getContetStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;
@@ -126,6 +126,7 @@ public class VideoLibraryDAO {
             deleteActorContent = connection.prepareStatement("DELETE FROM content_actor where content_id=?");
             deleteGenreContent = connection.prepareStatement("DELETE from content_genre where content_id=?");
             getContetStatement = connection.prepareStatement("SELECT id from content WHERE title=?");
+            updateUserStatement = connection.prepareStatement("UPDATE user SET first_name=?,last_name=?,username=?,password=?,room_number=? WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -788,6 +789,19 @@ public class VideoLibraryDAO {
                     addContentActorStatement.executeUpdate();
                 }
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void updateUser(User user) {
+        try {
+            updateUserStatement.setString(1, user.getFirstName());
+            updateUserStatement.setString(2, user.getLastName());
+            updateUserStatement.setString(3, user.getUsername());
+            updateUserStatement.setString(4, user.getPassword());
+            updateUserStatement.setInt(5, user.getRoomNumber());
+            updateUserStatement.setInt(6,user.getId());
+            updateUserStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

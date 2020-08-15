@@ -48,7 +48,7 @@ public class AddHotelGuestController {
         privilegeChoice.setItems(choicePrivilege);
         privilegeChoice.getSelectionModel().selectFirst();
     }
-    public void generatePasswordAction(ActionEvent actionEvent) {
+    public static String generatePassword() {
         // ASCII range - alphanumeric (0-9, a-z, A-Z)
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
@@ -59,7 +59,10 @@ public class AddHotelGuestController {
             int randomIndex = random.nextInt(chars.length());
             sb.append(chars.charAt(randomIndex));
         }
-        passwordField.setText(sb.toString());
+        return sb.toString();
+    }
+    public void generatePasswordAction(ActionEvent actionEvent) {
+        passwordField.setText(generatePassword());
     }
 
     public void cancelAction(ActionEvent actionEvent) {

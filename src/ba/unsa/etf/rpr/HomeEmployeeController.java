@@ -39,13 +39,14 @@ public class HomeEmployeeController {
     public TableColumn lastNameCol;
     public TableColumn usernameCol;
     public TableColumn roomNumberCol;
+    public TableColumn guestPasswordCol;
     public TableColumn<User,String> privilegeCol;
     public TableColumn usernameEmployeeCol;
     public TableColumn idEmployeeCol;
     public TableColumn genreIdCol;
     public TableColumn genreTitleCol;
     public MenuItem logoutMenuOption;
-    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton;
+    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -62,7 +63,6 @@ public class HomeEmployeeController {
         employeesList = FXCollections.observableArrayList(dao.getEmployees());
         genresList = FXCollections.observableArrayList(dao.getGenres());
     }
-
     public HomeEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
@@ -72,7 +72,6 @@ public class HomeEmployeeController {
         genresList = FXCollections.observableArrayList(dao.getGenres());
         this.employee = employee;
     }
-
     private void addButtonToMovieTable() {
         Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>> cellFactory = new Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>>() {
             @Override
@@ -174,7 +173,7 @@ public class HomeEmployeeController {
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         roomNumberCol.setCellValueFactory(new PropertyValueFactory<>("roomNumber"));
-        //privilegeCol.setCellValueFactory(new PropertyValueFactory<>("privilege"));
+        guestPasswordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
         privilegeCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrivilege()));
         employeesTableView.setItems(employeesList);
         idEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -184,7 +183,6 @@ public class HomeEmployeeController {
         genreTitleCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
     public void updateLists() {
-
         employeesList.setAll(dao.getEmployees());
         employeesTableView.setItems(employeesList);
     }
@@ -207,7 +205,6 @@ public class HomeEmployeeController {
         stage.setTitle("Uredi žanr");
         stage.setScene(new Scene(root, 1200,700));
         stage.show();
-
     }
     public void deleteGenreAction(ActionEvent actionEvent) {
         if(genresTableView.getSelectionModel().getSelectedItem() != null) {
@@ -235,9 +232,6 @@ public class HomeEmployeeController {
         stage.setScene(scene);
         stage.setTitle("Dodaj film");
         stage.show();
-    }
-    public void editMovieAction(ActionEvent actionEvent) {
-
     }
     public void deleteMovieAction(ActionEvent actionEvent) {
         if(tableViewMovies.getSelectionModel().getSelectedItem() != null) {
@@ -330,6 +324,25 @@ public class HomeEmployeeController {
             dao.deleteHotelGuest(usersTableView.getSelectionModel().getSelectedItem().getId());
             usersList.setAll(dao.getUsers());
             usersTableView.setItems(usersList);
+        }
+    }
+    public void editHotelGuestAction(ActionEvent actionEvent) throws IOException {
+        if(usersTableView.getSelectionModel().getSelectedItem() != null) {
+            User u = new User();
+            u.setId(usersTableView.getSelectionModel().getSelectedItem().getId());
+            u.setFirstName(usersTableView.getSelectionModel().getSelectedItem().getFirstName());
+            u.setLastName(usersTableView.getSelectionModel().getSelectedItem().getLastName());
+            u.setUsername(usersTableView.getSelectionModel().getSelectedItem().getUsername());
+            u.setPassword(usersTableView.getSelectionModel().getSelectedItem().getPassword());
+            u.setRoomNumber(usersTableView.getSelectionModel().getSelectedItem().getRoomNumber());
+            EditHotelGuestContrroler ctrl = new EditHotelGuestContrroler(u, usersTableView, usersList);
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editHotelGuest.fxml"));
+            loader.setController(ctrl);
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setTitle("Izmjena podataka");
+            stage.show();
         }
 
     }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<GridPane hgap="5.0" prefHeight="392.0" prefWidth="496.0" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@/css/editHotelGuest.css"/>
+   </stylesheets>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <children>
+      <Label fx:id="nameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="69.0" prefWidth="236.0" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="generatePasswordButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#generatePasswordAction" text="Generiši" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Broj sobe:" GridPane.rowIndex="4" />
+      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lozinka:" GridPane.rowIndex="7" />
+      <TextField fx:id="passwordField" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="11" GridPane.rowSpan="2">
+        <buttons>
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="33.0" prefWidth="94.0" text="Poništi" />
+            <Button fx:id="saveChangesButton" layoutX="412.0" layoutY="24.0" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="33.0" prefWidth="94.0" text="Sačuvaj" />
+        </buttons>
+      </ButtonBar>
+      <ChoiceBox fx:id="roomChoice" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</GridPane>
