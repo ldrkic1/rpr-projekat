@@ -35,10 +35,10 @@ public class AddHotelGuestController {
     public void initialize() throws IOException {
         int roomsNumber = dao.getRoomsNumber();
         ArrayList<Integer> list = new ArrayList<>();
-        for( int i = 1; i < roomsNumber; i++) {
+        for( int i = 1; i <= roomsNumber; i++) {
             list.add(i);
         }
-        ObservableList<Integer> choiceRoomsNumberList = FXCollections.observableArrayList(list);
+        ObservableList<Integer> choiceRoomsNumberList = FXCollections.observableArrayList(freeRomms());
         usernameChoice.setItems(choiceRoomsNumberList);
         usernameChoice.getSelectionModel().selectFirst();
         ArrayList<String> listPrivilege = new ArrayList<>();
@@ -47,6 +47,18 @@ public class AddHotelGuestController {
         ObservableList<String> choicePrivilege = FXCollections.observableArrayList(listPrivilege);
         privilegeChoice.setItems(choicePrivilege);
         privilegeChoice.getSelectionModel().selectFirst();
+    }
+    public ArrayList<Integer> freeRomms() {
+        int roomsNumber = dao.getRoomsNumber();
+        ArrayList<User> users = dao.getUsers();
+        ArrayList<Integer> listRooms = new ArrayList<>();
+        for( int i = 1; i <= roomsNumber; i++) {
+            listRooms.add(i);
+        }
+        for(User u: users) {
+            listRooms.remove((Integer) u.getRoomNumber());
+        }
+        return listRooms;
     }
     public static String generatePassword() {
         // ASCII range - alphanumeric (0-9, a-z, A-Z)

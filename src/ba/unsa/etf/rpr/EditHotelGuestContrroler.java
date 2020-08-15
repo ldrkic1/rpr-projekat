@@ -31,14 +31,22 @@ public class EditHotelGuestContrroler {
     @FXML
     public void initialize() {
         int roomsNumber = dao.getRoomsNumber();
-        ArrayList<Integer> list = new ArrayList<>();
-        for( int i = 1; i < roomsNumber; i++) {
-            list.add(i);
+        ArrayList<Integer> listRooms = new ArrayList<>();
+        int index = 0;
+        for( int i = 1; i <= roomsNumber; i++) {
+            listRooms.add(i);
         }
-        ObservableList<Integer> choiceRoomsNumberList = FXCollections.observableArrayList(list);
+        ArrayList<User> users = dao.getUsers();
+        for(User u: users) {
+            if(u.getRoomNumber() != user.getRoomNumber()) listRooms.remove((Integer) u.getRoomNumber());
+        }
+        for( int i = 0; i < listRooms.size(); i++) {
+            if(listRooms.get(i) == user.getRoomNumber()) index = i;
+        }
+        ObservableList<Integer> choiceRoomsNumberList = FXCollections.observableArrayList(listRooms);
         nameLabel.setText(user.getFirstName() + " " + user.getLastName());
         roomChoice.setItems(choiceRoomsNumberList);
-        roomChoice.getSelectionModel().select(user.getRoomNumber() - 1);
+        roomChoice.getSelectionModel().select(index);
     }
 
     public void generatePasswordAction(ActionEvent actionEvent) {
