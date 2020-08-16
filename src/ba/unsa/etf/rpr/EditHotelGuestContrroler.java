@@ -44,7 +44,7 @@ public class EditHotelGuestContrroler {
             if(listRooms.get(i) == user.getRoomNumber()) index = i;
         }
         ObservableList<Integer> choiceRoomsNumberList = FXCollections.observableArrayList(listRooms);
-        nameLabel.setText(user.getFirstName() + " " + user.getLastName());
+        nameLabel.setText("Gost: " + user.getFirstName() + " " + user.getLastName());
         roomChoice.setItems(choiceRoomsNumberList);
         roomChoice.getSelectionModel().select(index);
     }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -22,8 +23,10 @@ public class LoginController {
     public TextField passwordField;
     public VideoLibraryDAO dao = VideoLibraryDAO.getInstance();
     private ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     public LoginController() throws SQLException {
         employees = dao.getEmployees();
+        users = dao.getUsers();
     }
     public void loginAction(ActionEvent actionEvent) throws IOException {
         if(!usernameField.textProperty().get().equals("") && !passwordField.textProperty().get().equals("")) {
@@ -41,16 +44,38 @@ public class LoginController {
                 stage.show();
             }
             else {
-                Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));
-                RegisterController ctrl = new RegisterController();
-                loader.setController(ctrl);
-                Parent root = loader.load();
-                stage.setTitle("Register");
-                stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-                Stage stage1 = (Stage) usernameField.getScene().getWindow();
-                stage1.close();
-                stage.show();
+                User user = dao.getUser(usernameField.textProperty().get());
+                if(user!= null && user.getPassword().equals(passwordField.getText()) && user.getFirstName().equals("") && user.getLastName().equals("") && user.getRoomNumber() == Integer.parseInt(usernameField.getText())) {
+                    Stage stage = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));
+                    RegisterController ctrl = new RegisterController();
+                    loader.setController(ctrl);
+                    Parent root = loader.load();
+                    stage.setTitle("Register");
+                    stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+                    Stage stage1 = (Stage) usernameField.getScene().getWindow();
+                    stage1.close();
+                    stage.show();
+                }
+                else if(user != null && user.getPassword().equals(passwordField.getText()) && !user.getFirstName().equals("") && !user.getLastName().equals("")) {
+                    Stage stage = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+                    HomeController ctrl = new HomeController();
+                    loader.setController(ctrl);
+                    Parent root = loader.load();
+                    stage.setTitle("Videoteka");
+                    stage.setScene(new Scene(root, 1200, 700));
+                    Stage stage1 = (Stage) usernameField.getScene().getWindow();
+                    stage1.close();
+                    stage.show();
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Neispravni pristupni podaci");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Unesite ispravno korisničko ime i lozinku!");
+                    alert.showAndWait();
+                }
             }
         }
     }

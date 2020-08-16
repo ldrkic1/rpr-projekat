@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
-    private PreparedStatement getUsersStatement, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement;
+    private PreparedStatement getUsersStatement,getUserByUsername, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
@@ -73,6 +73,7 @@ public class VideoLibraryDAO {
             getUserByNameStatement = connection.prepareStatement("SELECT id, username, password, room_number, privilege FROM user WHERE first_name=? AND last_name=?");
             getUserByIdStatement = connection.prepareStatement("SELECT first_name, last_name, username, password, room_number, privilege FROM user WHERE id=?");
             getEmployeeStatament = connection.prepareStatement("SELECT id, password FROM employee WHERE username=?");
+            getUserByUsername = connection.prepareStatement("SELECT * from user where username=?");
             getEmployeeByIdStatement = connection.prepareStatement("SELECT username, password FROM employee WHERE id=?");
             getEmplyeesStamement = connection.prepareStatement("SELECT * FROM employee");
             getActorByIdStatement = connection.prepareStatement("SELECT first_name, last_name, biography, born_date, image FROM actor WHERE id=?");
@@ -189,7 +190,27 @@ public class VideoLibraryDAO {
         }
         return null;
     }
-
+    public User getUser(String username) {
+        try {
+            getUserByUsername.setString(1, username);
+            ResultSet resultSet = getUserByUsername.executeQuery();
+            if (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt(1));
+                user.setFirstName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setUsername(resultSet.getString(4));
+                user.setPassword(resultSet.getString(5));
+                user.setRoomNumber(resultSet.getInt(6));
+                if(resultSet.getInt(7) == 0) user.setPrivilege(false);
+                else user.setPrivilege(true);
+                return user;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
     public ArrayList<Genre> getMovieGenres(int movieId) {
         ArrayList<Genre> genres = new ArrayList<>();
         try {
@@ -529,35 +550,6 @@ public class VideoLibraryDAO {
         return genres;
     }
 
-    public ArrayList<Genre> getMovieGenres(Movie m) {
-        ArrayList<Genre> genres = new ArrayList<>();
-        try {
-            getMovieGenresStatement.setInt(1, m.getId());
-            ResultSet resultSet = getMovieGenresStatement.executeQuery();
-            while (resultSet.next()) {
-                Genre g = new Genre(resultSet.getInt(1), resultSet.getString(2));
-                genres.add(g);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return genres;
-    }
-
-    public ArrayList<Genre> getSerialGenres(Serial s) {
-        ArrayList<Genre> genres = new ArrayList<>();
-        try {
-            getSerialGenresStatement.setInt(1, s.getId());
-            ResultSet resultSet = getSerialGenresStatement.executeQuery();
-            while (resultSet.next()) {
-                Genre g = new Genre(resultSet.getInt(1), resultSet.getString(2));
-                genres.add(g);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return genres;
-    }
 
     public void deleteGenre(Genre g) {
         try {
