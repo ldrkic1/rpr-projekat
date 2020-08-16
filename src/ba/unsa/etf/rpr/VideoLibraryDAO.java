@@ -15,7 +15,7 @@ public class VideoLibraryDAO {
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
-    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, userNextID, deleteUserStatement, updateUserStatement;
+    private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, updateUserStatement, userNextID, deleteUserStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, getContetStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;

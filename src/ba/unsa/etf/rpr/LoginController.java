@@ -48,7 +48,7 @@ public class LoginController {
                 if(user!= null && user.getPassword().equals(passwordField.getText()) && user.getFirstName().equals("") && user.getLastName().equals("") && user.getRoomNumber() == Integer.parseInt(usernameField.getText())) {
                     Stage stage = new Stage();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));
-                    RegisterController ctrl = new RegisterController();
+                    RegisterController ctrl = new RegisterController(user, users);
                     loader.setController(ctrl);
                     Parent root = loader.load();
                     stage.setTitle("Register");
@@ -60,7 +60,7 @@ public class LoginController {
                 else if(user != null && user.getPassword().equals(passwordField.getText()) && !user.getFirstName().equals("") && !user.getLastName().equals("")) {
                     Stage stage = new Stage();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
-                    HomeController ctrl = new HomeController();
+                    HomeController ctrl = new HomeController(user);
                     loader.setController(ctrl);
                     Parent root = loader.load();
                     stage.setTitle("Videoteka");
