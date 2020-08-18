@@ -23,9 +23,17 @@ public class ChangeUsernamePasswordController {
     private boolean changeUsername = false;
     private TableView<Employee> tableView = null;
     private ObservableList<Employee> list = null;
+    private boolean isUser = false;
+    private User user;
     public ChangeUsernamePasswordController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         this.employee = employee;
+    }
+    public ChangeUsernamePasswordController(User user) {
+        dao = VideoLibraryDAO.getInstance();
+        this.user = user;
+        isUser = true;
+        changeUsername = false;
     }
     public ChangeUsernamePasswordController(Employee employee, boolean changeUsername, TableView<Employee> employeesTableView, ObservableList<Employee> list) {
         dao = VideoLibraryDAO.getInstance();
@@ -51,15 +59,27 @@ public class ChangeUsernamePasswordController {
         currentPasswordField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(newValue.equals(employee.getPassword())) {
-                    currentPasswordField.getStyleClass().removeAll("fieldIncorrect");
-                    currentPasswordField.getStyleClass().add("fieldCorrect");
-                    allFieldsCorrect = true;
+                if(isUser) {
+                    if (newValue.equals(user.getPassword())) {
+                        currentPasswordField.getStyleClass().removeAll("fieldIncorrect");
+                        currentPasswordField.getStyleClass().add("fieldCorrect");
+                        allFieldsCorrect = true;
+                    } else {
+                        currentPasswordField.getStyleClass().removeAll("fieldCorrect");
+                        currentPasswordField.getStyleClass().add("fieldIncorrect");
+                        allFieldsCorrect = false;
+                    }
                 }
                 else {
-                    currentPasswordField.getStyleClass().removeAll("fieldCorrect");
-                    currentPasswordField.getStyleClass().add("fieldIncorrect");
-                    allFieldsCorrect = false;
+                    if (newValue.equals(employee.getPassword())) {
+                        currentPasswordField.getStyleClass().removeAll("fieldIncorrect");
+                        currentPasswordField.getStyleClass().add("fieldCorrect");
+                        allFieldsCorrect = true;
+                    } else {
+                        currentPasswordField.getStyleClass().removeAll("fieldCorrect");
+                        currentPasswordField.getStyleClass().add("fieldIncorrect");
+                        allFieldsCorrect = false;
+                    }
                 }
             }
         });
@@ -123,8 +143,14 @@ public class ChangeUsernamePasswordController {
                 tableView.setItems(list);
             }
             else {
-                employee.setPassword(newPasswordField.getText());
-                dao.updateEmployee(employee);
+                if(isUser) {
+                    user.setPassword(newPasswordField.getText());
+                    dao.updateUser(user);
+                }
+                else {
+                    employee.setPassword(newPasswordField.getText());
+                    dao.updateEmployee(employee);
+                }
             }
             cancelAction(actionEvent);
         }

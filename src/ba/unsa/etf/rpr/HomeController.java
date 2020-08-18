@@ -103,7 +103,16 @@ public class HomeController {
     public void userDataAction(ActionEvent actionEvent) {
     }
 
-    public void changePasswordAction(ActionEvent actionEvent) {
+    public void changePasswordAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        ChangeUsernamePasswordController ctrl = new ChangeUsernamePasswordController(user);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/changeUsernamePassword.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setTitle("Promjena lozinke");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void logoutAction(ActionEvent actionEvent) throws SQLException, IOException {
