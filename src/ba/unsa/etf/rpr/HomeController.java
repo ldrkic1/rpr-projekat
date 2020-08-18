@@ -6,8 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,9 +19,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
+
 public class HomeController {
     public Button showMoviesButton;
     public Button showSerialsButton;
@@ -96,7 +106,19 @@ public class HomeController {
     public void changePasswordAction(ActionEvent actionEvent) {
     }
 
-    public void logoutAction(ActionEvent actionEvent) {
+    public void logoutAction(ActionEvent actionEvent) throws SQLException, IOException {
+        Stage currentStage = (Stage) movieTable.getScene().getWindow();
+        Stage stage = new Stage();
+        LoginController ctrl = new LoginController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        root.setId("body");
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setScene(scene);
+        stage.setTitle("Prijava");
+        currentStage.close();
+        stage.show();
     }
 
     public void showAllGenresAction(ActionEvent actionEvent) {
