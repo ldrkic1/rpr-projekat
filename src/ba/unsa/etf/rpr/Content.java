@@ -1,5 +1,8 @@
 package ba.unsa.etf.rpr;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 
 public class Content {
@@ -13,6 +16,7 @@ public class Content {
     private double rating;
     private String image;
     private double price;
+    private ImageView imageView = new ImageView();
     public Content() {
         mainActors = new ArrayList<>();
         genre = new ArrayList<>();
@@ -29,6 +33,10 @@ public class Content {
         this.rating = rating;
         this.image = image;
         this.price = price;
+        Image img = new Image(image);
+        imageView.setImage(img);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(150);
     }
 
     public int getId() {
@@ -101,6 +109,12 @@ public class Content {
 
     public void setImage(String image) {
         this.image = image;
+        Image img = new Image(image);
+        if(image!=null) {
+            imageView.setImage(img);
+            imageView.setFitHeight(200);
+            imageView.setFitWidth(150);
+        }
     }
 
     public double getPrice() {
@@ -109,6 +123,14 @@ public class Content {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
     }
 
     public String getActorsString() {

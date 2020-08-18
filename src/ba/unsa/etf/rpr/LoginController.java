@@ -64,6 +64,8 @@ public class LoginController {
                     loader.setController(ctrl);
                     Parent root = loader.load();
                     stage.setTitle("Videoteka");
+                    //stage.setMaximized(true);
+                    //stage.setResizable(false);
                     stage.setScene(new Scene(root, 1200, 700));
                     Stage stage1 = (Stage) usernameField.getScene().getWindow();
                     stage1.close();

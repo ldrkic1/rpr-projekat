@@ -1,23 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="5" vgap="5" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-    <stylesheets>
-        <URL value="@/css/home.css" />
-    </stylesheets>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-   </rowConstraints>
-   <columnConstraints>
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-   </columnConstraints>
-</GridPane>
+<?import java.net.URL?>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+  <stylesheets>
+      <URL value="@/css/home.css"/>
+  </stylesheets>
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="600.0">
+               <children>
+                  <MenuBar>
+                    <menus>
+                      <Menu mnemonicParsing="false" text="Korisnički račun">
+                        <items>
+                          <MenuItem fx:id="userData" mnemonicParsing="false" onAction="#userDataAction" text="Vaši podaci" />
+                              <MenuItem fx:id="changePasswordOption" mnemonicParsing="false" onAction="#changePasswordAction" text="Promjena lozinka" />
+                              <MenuItem fx:id="signOutMenuItem" mnemonicParsing="false" onAction="#logoutAction" text="Odjavi se" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <VBox fx:id="genreVBox" alignment="TOP_CENTER" prefHeight="675.0" prefWidth="135.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="39.0" prefWidth="137.0" text="Žanrovi">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#showAllGenresAction" prefHeight="48.0" prefWidth="115.0" text="Svi žanrovi">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding></VBox>
+   </left>
+   <right>
+      <VBox fx:id="topContentVBox" alignment="TOP_CENTER" prefHeight="675.0" prefWidth="171.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="151.0" text="Populani filmovi i serije" textAlignment="CENTER" textFill="#030725" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </right>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Filmovi">
+               <content>
+                  <TableView fx:id="movieTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="movieImageCol" prefWidth="197.0" />
+                      <TableColumn fx:id="movieTitleCol" prefWidth="717.0" />
+                    </columns>
+                  </TableView>
+               </content></Tab>
+          <Tab text="Serije">
+               <content>
+                  <TableView fx:id="serialTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="serialImageCol" prefWidth="193.0" />
+                      <TableColumn fx:id="serialTitleCol" prefWidth="721.0" />
+                    </columns>
+                  </TableView>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
