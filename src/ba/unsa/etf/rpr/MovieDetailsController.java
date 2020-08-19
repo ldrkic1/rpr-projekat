@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,15 +20,18 @@ public class MovieDetailsController {
     public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, durationLabel;
     private Movie movie;
     public VBox actorsVBox;
-    public Button backButton, editButton;
+    public Button backButton, editButton, requestWatchButton;
     private Scene previousScene;
     private boolean userPreview = false;
     private User user = null;
+    private VideoLibraryDAO dao = null;
     public MovieDetailsController(Movie movie) {
+        dao = VideoLibraryDAO.getInstance();
         this.movie = movie;
     }
 
     public MovieDetailsController(Movie data, boolean userPreview, User user) {
+        if(dao == null) dao = VideoLibraryDAO.getInstance();
         this.movie = data;
         this.userPreview = userPreview;
         this.user = user;
@@ -35,7 +39,8 @@ public class MovieDetailsController {
 
     @FXML
     public void initialize() {
-        if(userPreview) editButton.setVisible(false);
+        if(userPreview)  editButton.setVisible(false);
+        else requestWatchButton.setVisible(false);
         titleLabel.textProperty().set(movie.getTitle());
         yearLabel.textProperty().set(yearLabel.getText() + movie.getYear());
         String imageSource = movie.getImage();
@@ -100,5 +105,13 @@ public class MovieDetailsController {
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
         currentStage.show();
+    }
+    public void requestWatchAction(ActionEvent actionEvent) {
+        dao.addUserRequest(user, movie);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Potvrda");
+        alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje filma!");
+        alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje filma " + movie.getTitle() + ".");
+        alert.showAndWait();
     }
 }

@@ -14,12 +14,12 @@ public class VideoLibraryDAO {
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement, getTopMoviesStatement, getTopSerialsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
-    private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
+    private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement, getMovieStatement, getSerialStatement;
     private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, updateUserStatement, userNextID, deleteUserStatement;
     private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, getContetStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement;
     private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;
-    private PreparedStatement getMovieGenresStatement, getSerialGenresStatement;
+    private PreparedStatement getMovieGenresStatement, getSerialGenresStatement,getUserRequestsStatement, nexIdUserRequestsStatement, addUserRequestStatement, deleteUserRequestStatement;
     private PreparedStatement updateContetntStatement, updateMovieStatement, updateSerialStatement, nextContentIdStatement;
     private PreparedStatement addActorStatement, addGenreStatement, nextIdGenreStatement, nextIdStatement, nextIdContentAcotrStatement, nextIdContentGenreStatement, addContentActorStatement;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -84,6 +84,8 @@ public class VideoLibraryDAO {
             getGenresStatement = connection.prepareStatement("SELECT * FROM genre");
             getMoviesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, m.duration_minutes FROM content c, movie m WHERE c.id=m.id");
             getSeriesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s WHERE c.id=s.id");
+            getMovieStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, m.duration_minutes FROM content c, movie m WHERE c.id=? AND c.id=m.id");
+            getSerialStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description,c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s WHERE c.id=? AND  c.id=s.id");
             getActorsInMovieStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM actor a, content c, movie m, content_actor ca WHERE m.id=? AND a.id =ca.actor_id AND ca.content_id=c.id AND c.id=m.id");
             getActorsInSerialStatement = connection.prepareStatement("SELECT a.id, a.first_name, a.last_name, a.biography, a.born_date, a.image FROM content_actor ca, serial s, content c, actor a WHERE s.id =? AND s.id=c.id  AND c.id=ca.content_id AND a.id =ca.actor_id");
             getMovieGenresStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c, movie m WHERE m.id=? AND  m.id=c.id AND c.id = cg.content_id AND cg.genre_id=g.id");
@@ -120,6 +122,7 @@ public class VideoLibraryDAO {
             updateHotelStatement = connection.prepareStatement("UPDATE hotel SET rooms_number=? WHERE id=?");
             addUserStatement = connection.prepareStatement("INSERT INTO user VALUES (?,?,?,?,?,?,?)");
             userNextID = connection.prepareStatement("SELECT MAX(id)+1 FROM user");
+            nexIdUserRequestsStatement = connection.prepareStatement("SELECT MAX(id)+1 FROM user_requests");
             deleteUserStatement = connection.prepareStatement("DELETE FROM user where id=?");
             deleteContentStatement = connection.prepareStatement("DELETE FROM content where id=?");
             deleteMovieStatement = connection.prepareStatement("DELETE FROM movie where id=?");
@@ -130,6 +133,9 @@ public class VideoLibraryDAO {
             updateUserStatement = connection.prepareStatement("UPDATE user SET first_name=?,last_name=?,username=?,password=?,room_number=? WHERE id=?");
             getTopMoviesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, m.duration_minutes FROM movie m, content c WHERE m.id = c.id AND c.rating>7");
             getTopSerialsStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM serial s, content c WHERE s.id = c.id AND c.rating>7");
+            getUserRequestsStatement = connection.prepareStatement("SELECT * FROM user_requests");
+            addUserRequestStatement = connection.prepareStatement("INSERT INTO user_requests VALUES (?,?,?)");
+            deleteUserRequestStatement = connection.prepareStatement("DELETE FROM user_requests WHERE id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -840,5 +846,75 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
         return topContent;
+    }
+    public void addUserRequest(User user, Content content) {
+        try {
+            ResultSet rs = nexIdUserRequestsStatement.executeQuery();
+            int id = 1;
+            if (rs.next()) {
+                if(rs.getInt(1) == 0) id = 1;
+                else id = rs.getInt(1);
+            }
+            addUserRequestStatement.setInt(1, id);
+            addUserRequestStatement.setInt(2, user.getId());
+            addUserRequestStatement.setInt(3, content.getId());
+            addUserRequestStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public ArrayList<Request> getUserRequests() {
+        ArrayList<Request> requests = new ArrayList<>();
+        try {
+            ResultSet resultSet = getUserRequestsStatement.executeQuery();
+            while (resultSet.next()) {
+                User u = new User();
+                Content content = new Content();
+                getUserByIdStatement.setInt(1,resultSet.getInt(2));
+                ResultSet rs1 = getActorByIdStatement.executeQuery();
+                if(rs1.next()) {
+                    u.setId(resultSet.getInt(2));
+                    u.setFirstName(rs1.getString(1));
+                    u.setLastName(rs1.getString(2));
+                    u.setUsername(rs1.getString(3));
+                    u.setPassword(rs1.getString(4));
+                    if(rs1.getInt(5) == 0) u.setPrivilege(false);
+                    else u.setPrivilege(true);
+                }
+                getMovieStatement.setInt(1,resultSet.getInt(3));
+                ResultSet rs2 = getMovieStatement.executeQuery();
+                if(rs2.next()) {
+                    Movie movie = new Movie();
+                    movie.setId(rs2.getInt(1));
+                    movie.setTitle(rs2.getString(2));
+                    movie.setYear(rs2.getInt(3));
+                    movie.setDirector(rs2.getString(4));
+                    movie.setDescription(rs2.getString(5));
+                    movie.setRating(rs2.getDouble(6));
+                    movie.setImage(rs2.getString(7));
+                    movie.setPrice(rs2.getDouble(8));
+                    movie.setDurationMinutes(rs2.getInt(9));
+                    requests.add(new Request(resultSet.getInt(1), u, movie));
+                } else {
+                    getSerialStatement.setInt(1,resultSet.getInt(3));
+                    rs2 = getSerialStatement.executeQuery();
+                    Serial serial = new Serial();
+                    serial.setId(rs2.getInt(1));
+                    serial.setTitle(rs2.getString(2));
+                    serial.setYear(rs2.getInt(3));
+                    serial.setDirector(rs2.getString(4));
+                    serial.setDescription(rs2.getString(5));
+                    serial.setRating(rs2.getDouble(6));
+                    serial.setImage(rs2.getString(7));
+                    serial.setPrice(rs2.getDouble(8));
+                    serial.setSeasonsNumber(rs2.getInt(9));
+                    serial.setEpisodesPerSeasonNumber(rs2.getInt(10));
+                    requests.add(new Request(resultSet.getInt(1), u, serial));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return requests;
     }
 }

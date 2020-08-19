@@ -15,7 +15,7 @@
       </ImageView>
    </left>
    <top>
-      <HBox>
+      <HBox alignment="TOP_CENTER">
          <children>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backAction" prefHeight="48.0" prefWidth="54.0">
                <opaqueInsets>
@@ -63,6 +63,10 @@
                   </HBox>
                </children>
             </VBox>
+            <Button fx:id="requestWatchButton" mnemonicParsing="false" onAction="#requestWatchAction" prefHeight="67.0" prefWidth="151.0" text="Gledaj">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Button>
          </children>
       </HBox>
    </top>

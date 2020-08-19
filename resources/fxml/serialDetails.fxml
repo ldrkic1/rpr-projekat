@@ -64,6 +64,10 @@
             </HBox>
             </children>
         </VBox>
+            <Button fx:id="requestWatchButton" mnemonicParsing="false" onAction="#requestWatchAction" prefHeight="67.0" prefWidth="151.0" text="Gledaj">
+                <font>
+                    <Font name="System Bold Italic" size="14.0" />
+                </font></Button>
         </children>
         </HBox>
     </top>

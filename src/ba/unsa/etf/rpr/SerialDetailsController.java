@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,14 +22,17 @@ public class SerialDetailsController {
     public Label titleLabel, descriptionSerialLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, seasonsLabel, episodesLabel;
     private Serial serial;
     public VBox actorsVBox;
-    public Button backButton, editButton;
+    public Button backButton, editButton,requestWatchButton;
     private boolean userPreview = false;
     private User user = null;
+    private VideoLibraryDAO dao = null;
     public SerialDetailsController(Serial s) {
+        dao = VideoLibraryDAO.getInstance();
         serial = s;
     }
 
     public SerialDetailsController(Serial data, boolean userPreview, User user) {
+        if(dao == null) dao = VideoLibraryDAO.getInstance();
         this.serial = data;
         this.userPreview = userPreview;
         this.user = user;
@@ -37,6 +41,7 @@ public class SerialDetailsController {
     @FXML
     public void initialize() {
         if(userPreview) editButton.setVisible(false);
+        else requestWatchButton.setVisible(false);
         titleLabel.textProperty().set(serial.getTitle());
         yearLabel.textProperty().set(yearLabel.getText()+ " " + serial.getYear());
         String imageSource = serial.getImage();
@@ -104,5 +109,13 @@ public class SerialDetailsController {
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
         currentStage.show();
+    }
+    public void requestWatchAction(ActionEvent actionEvent) {
+        dao.addUserRequest(user, serial);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Potvrda");
+        alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje serije!");
+        alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje serije " + serial.getTitle() + ".");
+        alert.showAndWait();
     }
 }
