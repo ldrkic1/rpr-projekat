@@ -26,9 +26,11 @@ public class SerialDetailsController {
     private boolean userPreview = false;
     private User user = null;
     private VideoLibraryDAO dao = null;
-    public SerialDetailsController(Serial s) {
+    private Employee employee = null;
+    public SerialDetailsController(Serial s, Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         serial = s;
+        this.employee = employee;
     }
 
     public SerialDetailsController(Serial data, boolean userPreview, User user) {
@@ -83,7 +85,7 @@ public class SerialDetailsController {
         Scene currentScene = titleLabel.getScene();
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-        EditSerialDetailsController ctrl = new EditSerialDetailsController(serial);
+        EditSerialDetailsController ctrl = new EditSerialDetailsController(serial, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene editScene = new Scene(root, 1200, 700);
@@ -96,7 +98,7 @@ public class SerialDetailsController {
         FXMLLoader loader = null;
         if(!userPreview) {
             loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-            HomeEmployeeController ctrl = new HomeEmployeeController();
+            HomeEmployeeController ctrl = new HomeEmployeeController(employee);
             loader.setController(ctrl);
             currentStage.setTitle("Početna");;
         }

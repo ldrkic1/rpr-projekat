@@ -35,6 +35,7 @@ public class AddGenreController {
     private boolean newGenreToDatabase;
     private boolean newContent = false;
     private ListView listView = null;
+    private Employee employee;
     private ObservableList<Genre> genresList = null;
 
     public AddGenreController(boolean newGenre) {
@@ -42,11 +43,12 @@ public class AddGenreController {
         if(dao == null) dao = VideoLibraryDAO.getInstance();
     }
 
-    public AddGenreController(Content content, boolean newContent, ListView genresListView, ObservableList<Genre> genresList) {
+    public AddGenreController(Content content, boolean newContent, ListView genresListView, ObservableList<Genre> genresList, Employee employee) {
         this.content = content;
         this.newContent = newContent;
         listView = genresListView;
         this.genresList = genresList;
+        this.employee = employee;
         newGenreToDatabase = false;
         dao = VideoLibraryDAO.getInstance();
         genres = FXCollections.observableArrayList(dao.getGenres());
@@ -66,13 +68,14 @@ public class AddGenreController {
         }
         return -1;
     }
-    public AddGenreController(Content content) {
+    public AddGenreController(Content content, Employee employee) {
         newGenreToDatabase = false;
         this.content = content;
         dao = VideoLibraryDAO.getInstance();
         genres = FXCollections.observableArrayList(dao.getGenres());
         movieGenres = dao.getMovieGenres(content.getId());
         serialGenres = dao.getSerialGenres(content.getId());
+        this.employee = employee;
         if(content instanceof Movie) {
             for (Genre g: movieGenres) {
                 if(getGenreIndex(g.getId()) != -1) {
@@ -138,13 +141,13 @@ public class AddGenreController {
            if (!newContent) {
                if (content instanceof Movie) {
                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-                   EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content);
+                   EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content, employee);
                    loader.setController(ctrl);
                    Parent root = loader.load();
                    stage.setScene(new Scene(root, 1200, 700));
                } else {
                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-                   EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content);
+                   EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content, employee);
                    loader.setController(ctrl);
                    Parent root = loader.load();
                    stage.setScene(new Scene(root, 1200, 700));

@@ -24,6 +24,7 @@ public class HomeEmployeeController {
     public TableView<User> usersTableView;
     public TableView<Genre> genresTableView;
     public TableView<Employee> employeesTableView;
+    public TableView<Request> requestsTable;
     public TableColumn colMovieId;
     public TableColumn colMovieTitle;
     public TableColumn colMovieDirector;
@@ -45,6 +46,10 @@ public class HomeEmployeeController {
     public TableColumn idEmployeeCol;
     public TableColumn genreIdCol;
     public TableColumn genreTitleCol;
+    public TableColumn requestIdCol;
+    public TableColumn<Request, String> requestUserCol;
+    public TableColumn<Request, String> requestContentCol;
+    public TableColumn requestButtonCol;
     public MenuItem logoutMenuOption;
     public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton;
     private static VideoLibraryDAO dao = null;
@@ -53,6 +58,7 @@ public class HomeEmployeeController {
     private ObservableList<User> usersList = null;
     private ObservableList<Employee> employeesList = null;
     private ObservableList<Genre> genresList = null;
+    private ObservableList<Request> requestList = null;
     private boolean newGenre = true;
     private Employee employee = null;
     public HomeEmployeeController() {
@@ -62,6 +68,7 @@ public class HomeEmployeeController {
         usersList = FXCollections.observableArrayList(dao.getUsers());
         employeesList = FXCollections.observableArrayList(dao.getEmployees());
         genresList = FXCollections.observableArrayList(dao.getGenres());
+        requestList = FXCollections.observableArrayList(dao.getUserRequests());
     }
     public HomeEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
@@ -70,6 +77,7 @@ public class HomeEmployeeController {
         usersList = FXCollections.observableArrayList(dao.getUsers());
         employeesList = FXCollections.observableArrayList(dao.getEmployees());
         genresList = FXCollections.observableArrayList(dao.getGenres());
+        requestList = FXCollections.observableArrayList(dao.getUserRequests());
         this.employee = employee;
     }
     private void addButtonToMovieTable() {
@@ -86,7 +94,7 @@ public class HomeEmployeeController {
                             try {
                                 Stage stage = (Stage) tableViewMovies.getScene().getWindow();
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
-                                MovieDetailsController ctrl = new MovieDetailsController(data);
+                                MovieDetailsController ctrl = new MovieDetailsController(data, employee);
                                 loader.setController(ctrl);
                                 Parent root = loader.load();
                                 stage.setTitle(data.getTitle());
@@ -126,7 +134,7 @@ public class HomeEmployeeController {
                             try {
                                 Stage stage = (Stage) tableViewSeries.getScene().getWindow();
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
-                                SerialDetailsController ctrl = new SerialDetailsController(data);
+                                SerialDetailsController ctrl = new SerialDetailsController(data, employee);
                                 loader.setController(ctrl);
                                 Parent root = loader.load();
                                 stage.setTitle(data.getTitle());
@@ -181,6 +189,10 @@ public class HomeEmployeeController {
         genresTableView.setItems(genresList);
         genreIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         genreTitleCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        requestsTable.setItems(requestList);
+        requestIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        requestUserCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUser().getFirstName() + data.getValue().getUser().getLastName()));
+        requestContentCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getContent().getTitle()));
     }
     public void updateLists() {
         employeesList.setAll(dao.getEmployees());
@@ -224,7 +236,7 @@ public class HomeEmployeeController {
     }
     public void addNewMovieAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addNewMovieButton.getScene().getWindow();
-        AddMovieController ctrl = new AddMovieController();
+        AddMovieController ctrl = new AddMovieController(employee);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addMovie.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
@@ -358,7 +370,7 @@ public class HomeEmployeeController {
     }
     public void addSerialAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addSerialButton.getScene().getWindow();
-        AddSerialController ctrl = new AddSerialController();
+        AddSerialController ctrl = new AddSerialController(employee);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addSerial.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();

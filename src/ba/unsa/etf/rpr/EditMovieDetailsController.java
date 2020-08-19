@@ -33,11 +33,13 @@ public class EditMovieDetailsController {
     private static ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
     private boolean addNewMovie = false;
-    public EditMovieDetailsController(Movie movie) {
+    private Employee employee;
+    public EditMovieDetailsController(Movie movie, Employee employee) {
         this.movie = movie;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInMovie(movie.getId()));
         genres = FXCollections.observableArrayList(dao.getMovieGenres(movie.getId()));
+        this.employee = employee;
     }
     public EditMovieDetailsController(boolean newMovie) {
         if(dao == null) dao = VideoLibraryDAO.getInstance();
@@ -206,7 +208,7 @@ public class EditMovieDetailsController {
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(movie);
+        AddActorController ctrl = new AddActorController(movie, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
@@ -224,7 +226,7 @@ public class EditMovieDetailsController {
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(movie);
+        AddGenreController ctrl = new AddGenreController(movie,employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
@@ -252,7 +254,7 @@ public class EditMovieDetailsController {
             if(!addNewMovie) {
                 dao.updateMovie(movie);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
-                MovieDetailsController ctrl = new MovieDetailsController(movie);
+                MovieDetailsController ctrl = new MovieDetailsController(movie, employee);
                 loader.setController(ctrl);
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 700);
@@ -264,7 +266,7 @@ public class EditMovieDetailsController {
             else {
                 dao.addContent(movie);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-                HomeEmployeeController ctrl = new HomeEmployeeController();
+                HomeEmployeeController ctrl = new HomeEmployeeController(employee);
                 loader.setController(ctrl);
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 1200, 700);
@@ -277,7 +279,7 @@ public class EditMovieDetailsController {
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
-        MovieDetailsController ctrl = new MovieDetailsController(movie);
+        MovieDetailsController ctrl = new MovieDetailsController(movie, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);

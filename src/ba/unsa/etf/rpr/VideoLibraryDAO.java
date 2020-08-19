@@ -871,7 +871,7 @@ public class VideoLibraryDAO {
                 User u = new User();
                 Content content = new Content();
                 getUserByIdStatement.setInt(1,resultSet.getInt(2));
-                ResultSet rs1 = getActorByIdStatement.executeQuery();
+                ResultSet rs1 = getUserByIdStatement.executeQuery();
                 if(rs1.next()) {
                     u.setId(resultSet.getInt(2));
                     u.setFirstName(rs1.getString(1));

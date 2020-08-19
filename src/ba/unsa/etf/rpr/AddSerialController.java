@@ -41,10 +41,11 @@ public class AddSerialController {
     private ObservableList<Actor> actorsList = FXCollections.observableArrayList();
     private ObservableList<Genre> genresList = FXCollections.observableArrayList();
     private boolean allControlsCorrect = false;
-
-    public AddSerialController() {
+    private Employee employee;
+    public AddSerialController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         serial = new Serial();
+        this.employee = employee;
     }
     @FXML
     public void initialize() {
@@ -191,7 +192,7 @@ public class AddSerialController {
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(serial, true, actorsListView, actorsList);
+        AddActorController ctrl = new AddActorController(serial, true, actorsListView, actorsList, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
@@ -211,7 +212,7 @@ public class AddSerialController {
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(serial, true, genresListView, genresList);
+        AddGenreController ctrl = new AddGenreController(serial, true, genresListView, genresList, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");

@@ -32,11 +32,13 @@ public class EditSerialDetailsController {
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
     private boolean allControlsCorrect = true;
-    public EditSerialDetailsController(Serial serial) {
+    private Employee employee;
+    public EditSerialDetailsController(Serial serial, Employee employee) {
         this.serial = serial;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActorsInSerial(serial.getId()));
         genres = FXCollections.observableArrayList(dao.getSerialGenres(serial.getId()));
+        this.employee = employee;
     }
     @FXML
     public void initialize() {
@@ -187,7 +189,7 @@ public class EditSerialDetailsController {
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(serial);
+        AddActorController ctrl = new AddActorController(serial, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
@@ -205,7 +207,7 @@ public class EditSerialDetailsController {
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) imageUrlArea.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(serial);
+        AddGenreController ctrl = new AddGenreController(serial, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
@@ -233,7 +235,7 @@ public class EditSerialDetailsController {
             serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText()));
             dao.updateSerial(serial);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
-            SerialDetailsController ctrl = new SerialDetailsController(serial);
+            SerialDetailsController ctrl = new SerialDetailsController(serial, employee);
             loader.setController(ctrl);
             Parent root = loader.load();
             Scene scene = new Scene(root, 1200, 700);
@@ -245,7 +247,7 @@ public class EditSerialDetailsController {
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
-        SerialDetailsController ctrl = new SerialDetailsController(serial);
+        SerialDetailsController ctrl = new SerialDetailsController(serial, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);

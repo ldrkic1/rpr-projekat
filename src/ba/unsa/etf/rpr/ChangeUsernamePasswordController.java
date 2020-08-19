@@ -51,6 +51,7 @@ public class ChangeUsernamePasswordController {
             newPasswordField.setVisible(false);
             confirmNewPasswordField.setVisible(false);
             confirmPasswordLabel.setVisible(false);
+            usernameFIeld.setText(employee.getUsername());
         }
         else {
             usernameFIeld.setVisible(false);

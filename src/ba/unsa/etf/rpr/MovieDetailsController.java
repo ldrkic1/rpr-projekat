@@ -25,9 +25,11 @@ public class MovieDetailsController {
     private boolean userPreview = false;
     private User user = null;
     private VideoLibraryDAO dao = null;
-    public MovieDetailsController(Movie movie) {
+    private Employee employee = null;
+    public MovieDetailsController(Movie movie, Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         this.movie = movie;
+        this.employee = employee;
     }
 
     public MovieDetailsController(Movie data, boolean userPreview, User user) {
@@ -80,7 +82,7 @@ public class MovieDetailsController {
         Scene currentScene = titleLabel.getScene();
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie);
+        EditMovieDetailsController ctrl = new EditMovieDetailsController(movie, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene editScene = new Scene(root, 1200, 700);
@@ -92,7 +94,7 @@ public class MovieDetailsController {
         FXMLLoader loader = null;
         if(!userPreview) {
             loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-            HomeEmployeeController ctrl = new HomeEmployeeController();
+            HomeEmployeeController ctrl = new HomeEmployeeController(employee);
             loader.setController(ctrl);
             currentStage.setTitle("Početna");;
         }

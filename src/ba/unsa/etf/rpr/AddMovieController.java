@@ -37,9 +37,11 @@ public class AddMovieController {
     private ObservableList<Actor> actorsList = FXCollections.observableArrayList();
     private ObservableList<Genre> genresList = FXCollections.observableArrayList();
     private boolean allControlsCorrect = false;
-    public AddMovieController() {
+    private Employee employee = null;
+    public AddMovieController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         movie = new Movie();
+        this.employee = employee;
     }
     @FXML
     public void initialize() {
@@ -208,7 +210,7 @@ public class AddMovieController {
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(movie, true, genresListView, genresList);
+        AddGenreController ctrl = new AddGenreController(movie, true, genresListView, genresList, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
@@ -225,7 +227,7 @@ public class AddMovieController {
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(movie, true, actorsListView, actorsList);
+        AddActorController ctrl = new AddActorController(movie, true, actorsListView, actorsList, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
