@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -25,14 +26,14 @@ public class RegisterController {
     public PasswordField repeatPasswordField;
     private VideoLibraryDAO dao = null;
     private User user;
-    private boolean allFielsdCorrect = false;
-    private ArrayList<User> users = null;
+    private boolean allFieldsCorrect = false;
+    private  ArrayList<User> users = null;
     public RegisterController(User user, ArrayList<User> users) {
         this.user = user;
         dao = VideoLibraryDAO.getInstance();
         this.users = users;
     }
-    private boolean isTakenUsername(String username) {
+    public  boolean isTakenUsername(String username) {
         for(User u: users) {
             if(u.getUsername().equals(username)) return true;
         }
@@ -44,11 +45,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
-                    allFielsdCorrect = false;
+                    allFieldsCorrect = false;
                     firstNameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFielsdCorrect = true;
+                    allFieldsCorrect = true;
                     firstNameField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -57,11 +58,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
-                    allFielsdCorrect = false;
+                    allFieldsCorrect = false;
                     lastNameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFielsdCorrect = true;
+                    allFieldsCorrect = true;
                     lastNameField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -70,11 +71,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2 || isTakenUsername(newValue)) {
-                    allFielsdCorrect = false;
+                    allFieldsCorrect = false;
                     usernameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFielsdCorrect = true;
+                    allFieldsCorrect = true;
                     usernameField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -83,11 +84,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 5 ) {
-                    allFielsdCorrect = false;
+                    allFieldsCorrect = false;
                     passwordField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFielsdCorrect = true;
+                    allFieldsCorrect = true;
                     passwordField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -96,18 +97,18 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 5 || !newValue.equals(passwordField.getText())) {
-                    allFielsdCorrect = false;
+                    allFieldsCorrect = false;
                     repeatPasswordField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFielsdCorrect = true;
+                    allFieldsCorrect = true;
                     repeatPasswordField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
         });
     }
     public void  registerAction(ActionEvent actionEvent) throws IOException {
-        if(allFielsdCorrect) {
+        if(allFieldsCorrect) {
             user.setFirstName(firstNameField.getText());
             user.setLastName(lastNameField.getText());
             user.setUsername(usernameField.getText());
@@ -121,6 +122,13 @@ public class RegisterController {
             stage.setTitle("Videoteka");
             stage.setScene(new Scene(root, 1200,700));
             stage.show();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Neispravni podaci");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravne podatke!");
+            alert.showAndWait();
         }
     }
 }

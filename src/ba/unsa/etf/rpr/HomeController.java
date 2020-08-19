@@ -100,7 +100,16 @@ public class HomeController {
         movieTable.setItems(moviesList);
         serialTable.setItems(serialList);
     }
-    public void userDataAction(ActionEvent actionEvent) {
+    public void userDataAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        EditUserDataController ctrl = new EditUserDataController(user);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/fxml/editUser.fxml"));
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        stage.setTitle("Izmjena ličnih podataka");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void changePasswordAction(ActionEvent actionEvent) throws IOException {
