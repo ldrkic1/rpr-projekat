@@ -12,7 +12,7 @@ public class VideoLibraryDAO {
     private Connection connection;
     private PreparedStatement getUsersStatement,getUserByUsername, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
-    private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement;
+    private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement, getTopMoviesStatement, getTopSerialsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement;
     private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, updateUserStatement, userNextID, deleteUserStatement;
@@ -128,6 +128,8 @@ public class VideoLibraryDAO {
             deleteGenreContent = connection.prepareStatement("DELETE from content_genre where content_id=?");
             getContetStatement = connection.prepareStatement("SELECT id from content WHERE title=?");
             updateUserStatement = connection.prepareStatement("UPDATE user SET first_name=?,last_name=?,username=?,password=?,room_number=? WHERE id=?");
+            getTopMoviesStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, m.duration_minutes FROM movie m, content c WHERE m.id = c.id AND c.rating>7");
+            getTopSerialsStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM serial s, content c WHERE s.id = c.id AND c.rating>7");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -797,5 +799,46 @@ public class VideoLibraryDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public ArrayList<Content> getTopContent() {
+        ArrayList<Content> topContent = new ArrayList<>();
+        try {
+            ResultSet resultSet = getTopMoviesStatement.executeQuery();
+            while (resultSet.next()) {
+                Movie m = new Movie();
+                m.setId(resultSet.getInt(1));
+                m.setTitle(resultSet.getString(2));
+                m.setYear(resultSet.getInt(3));
+                m.setDirector(resultSet.getString(4));
+                m.setDescription(resultSet.getString(5));
+                m.setRating(resultSet.getDouble(6));
+                m.setImage(resultSet.getString(7));
+                m.setPrice(resultSet.getDouble(8));
+                m.setDurationMinutes(resultSet.getInt(9));
+                m.setMainActors(getActorsInMovie(m.getId()));
+                m.setGenre(getMovieGenres(m.getId()));
+                topContent.add(m);
+            }
+            ResultSet resultSet1 = getTopSerialsStatement.executeQuery();
+            while (resultSet1.next()) {
+                Serial s = new Serial();
+                s.setId(resultSet1.getInt(1));
+                s.setTitle(resultSet1.getString(2));
+                s.setYear(resultSet1.getInt(3));
+                s.setDirector(resultSet1.getString(4));
+                s.setDescription(resultSet1.getString(5));
+                s.setRating(resultSet1.getDouble(6));
+                s.setImage(resultSet1.getString(7));
+                s.setPrice(resultSet1.getDouble(8));
+                s.setSeasonsNumber(resultSet1.getInt(9));
+                s.setEpisodesPerSeasonNumber(resultSet1.getInt(10));
+                s.setMainActors(getActorsInSerial(s.getId()));
+                s.setGenre(getSerialGenres(s.getId()));
+                topContent.add(s);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return topContent;
     }
 }

@@ -32,7 +32,7 @@ import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 public class HomeController {
     public Button showMoviesButton;
     public Button showSerialsButton;
-    public VBox contentVbox, topContentVBox, genreVBox;
+    public VBox contentVbox, recommendedVbox, genreVBox;
     private User user;
     private VideoLibraryDAO dao = null;
     private ArrayList<Movie> movies = null;
@@ -40,21 +40,27 @@ public class HomeController {
     private ArrayList<Genre> genres = null;
     public TableView<Movie> movieTable;
     public TableView<Serial> serialTable;
+    public TableView<Content> contentTable;
     public TableColumn movieImageCol;
-    public TableColumn  movieTitleCol;
+    public TableColumn movieTitleCol;
     public TableColumn serialImageCol;
-    public TableColumn  serialTitleCol;
+    public TableColumn serialTitleCol;
+    public TableColumn contentImageCol;
+    public TableColumn contentTitleCol;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
-
+    private ObservableList<Content> contentList = null;
+    private ArrayList<Content> topContent = null;
     public HomeController(User user) {
         this.user = user;
         dao = VideoLibraryDAO.getInstance();
         movies = dao.getMovies();
         serials = dao.getSerials();
+        topContent = dao.getTopContent();
         genres = dao.getGenres();
         moviesList = FXCollections.observableArrayList(movies);
         serialList = FXCollections.observableArrayList(serials);
+        contentList = FXCollections.observableArrayList(topContent);
     }
     @FXML
     public void initialize() {
@@ -64,7 +70,9 @@ public class HomeController {
         serialTable.setItems(serialList);
         serialTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         serialImageCol.setCellValueFactory(new PropertyValueFactory<>("imageView"));
-
+        contentTable.setItems(contentList);
+        contentImageCol.setCellValueFactory(new PropertyValueFactory<>("imageView"));
+        contentTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         for(Genre g: genres) {
             Button button = new Button();
             button.setText(g.getName());
@@ -89,16 +97,23 @@ public class HomeController {
     public void filterContentByGenre(String title) {
         ArrayList<Movie> filteredMovies = new ArrayList<>();
         ArrayList<Serial> filteredSerials = new ArrayList<>();
+        ArrayList<Content> filteredContent = new ArrayList<>();
         for(Movie m: movies) {
             if(containGenre(m, title)) filteredMovies.add(m);
         }
         for(Serial s: serials) {
             if(containGenre(s, title)) filteredSerials.add(s);
         }
+        for(Content c: topContent) {
+            if(containGenre(c, title)) filteredContent.add(c);
+        }
+
         moviesList.setAll(filteredMovies);
         serialList.setAll(filteredSerials);
+        contentList.setAll(filteredContent);
         movieTable.setItems(moviesList);
         serialTable.setItems(serialList);
+        contentTable.setItems(contentList);
     }
     public void userDataAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
@@ -142,11 +157,9 @@ public class HomeController {
     public void showAllGenresAction(ActionEvent actionEvent) {
         moviesList.setAll(movies);
         serialList.setAll(serials);
+        contentList.setAll(topContent);
         movieTable.setItems(moviesList);
-        movieTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        movieImageCol.setCellValueFactory(new PropertyValueFactory<>("imageView"));
         serialTable.setItems(serialList);
-        serialTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        serialImageCol.setCellValueFactory(new PropertyValueFactory<>("imageView"));
+        contentTable.setItems(contentList);
     }
 }

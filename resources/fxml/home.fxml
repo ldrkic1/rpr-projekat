@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
   <stylesheets>
-      <URL value="@/css/home.css"/>
+      <URL value="@/css/home.css" />
   </stylesheets>
    <top>
       <VBox BorderPane.alignment="CENTER">
@@ -50,22 +50,37 @@
          </padding></VBox>
    </left>
    <right>
-      <VBox fx:id="topContentVBox" alignment="TOP_CENTER" prefHeight="675.0" prefWidth="171.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="151.0" text="Populani filmovi i serije" textAlignment="CENTER" textFill="#030725" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="187.0" text="Preporučujemo Vam" textAlignment="CENTER" textFill="#030725" wrapText="true">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
+            <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <content>
+                  <VBox fx:id="recommendedVbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="628.0" prefWidth="171.0" spacing="5.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
       </VBox>
    </right>
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
+            <Tab text="Popularno">
+                  <content>
+                      <TableView fx:id="contentTable" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                              <TableColumn fx:id="contentImageCol" prefWidth="197.0" />
+                              <TableColumn fx:id="contentTitleCol" prefWidth="717.0" />
+                          </columns>
+                      </TableView>
+                  </content></Tab>
           <Tab text="Filmovi">
                <content>
                   <TableView fx:id="movieTable" prefHeight="200.0" prefWidth="200.0">
