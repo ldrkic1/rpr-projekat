@@ -11,3 +11,12 @@
     -fx-font-style: italic;
 
 }
+.detailsButton {
+    -fx-background-color: #6ea3c4;
+    -fx-max-width: 200px;
+    -fx-max-height: 60px;
+
+}
+.align {
+    -fx-alignment: center;
+}

@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -26,6 +23,7 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -47,6 +45,9 @@ public class HomeController {
     public TableColumn serialTitleCol;
     public TableColumn contentImageCol;
     public TableColumn contentTitleCol;
+    public TableColumn contentButtonCol;
+    public TableColumn movieButtonCol;
+    public TableColumn serialButtonCol;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
     private ObservableList<Content> contentList = null;
@@ -61,6 +62,136 @@ public class HomeController {
         moviesList = FXCollections.observableArrayList(movies);
         serialList = FXCollections.observableArrayList(serials);
         contentList = FXCollections.observableArrayList(topContent);
+    }
+    //top content - tableNum = 1
+    //movies - tableNum = 2
+    //serials - tableNum = 3
+    private void addButtonInTable(int tableNum) {
+        if(tableNum == 1) {
+            Callback<TableColumn<Content, Void>, TableCell<Content, Void>> cellFactory = new Callback<TableColumn<Content, Void>, TableCell<Content, Void>>() {
+                @Override
+                public TableCell<Content, Void> call(final TableColumn<Content, Void> param) {
+                    final TableCell<Content, Void> cell = new TableCell<Content, Void>() {
+                        private final Button btn = new Button("Opširnije");
+                        {
+                            btn.getStyleClass().add("detailsButton");
+                            btn.setOnAction((ActionEvent event) -> {
+                                Content data = getTableView().getItems().get(getIndex());
+                                try {
+                                    Stage stage = (Stage) contentTable.getScene().getWindow();
+                                    FXMLLoader loader = null;
+                                    if(data instanceof  Serial) {
+                                        loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
+                                        SerialDetailsController ctrl = new SerialDetailsController((Serial) data, true, user);
+                                        loader.setController(ctrl);
+                                    }
+                                    else {
+                                        loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
+                                        MovieDetailsController ctrl = new MovieDetailsController((Movie) data, true, user);
+                                        loader.setController(ctrl);
+                                    }
+                                    Parent root = loader.load();
+                                    stage.setTitle(data.getTitle());
+                                    stage.setScene(new Scene(root, 1200, 700));
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+                        @Override
+                        public void updateItem(Void item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                setGraphic(btn);
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            };
+            contentButtonCol.setCellFactory(cellFactory);
+        }
+        if(tableNum == 2) {
+            Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>> cellFactory = new Callback<TableColumn<Movie, Void>, TableCell<Movie, Void>>() {
+                @Override
+                public TableCell<Movie, Void> call(final TableColumn<Movie, Void> param) {
+                    final TableCell<Movie, Void> cell = new TableCell<Movie, Void>() {
+                        private final Button btn = new Button("Opširnije");
+                        {
+                            btn.getStyleClass().add("detailsButton");
+                            btn.setOnAction((ActionEvent event) -> {
+                                Movie data = getTableView().getItems().get(getIndex());
+                                try {
+                                    Stage stage = (Stage) movieTable.getScene().getWindow();
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movieDetails.fxml"));
+                                    MovieDetailsController ctrl = new MovieDetailsController(data, true, user);
+                                    loader.setController(ctrl);
+                                    Parent root = loader.load();
+                                    stage.setTitle(data.getTitle());
+                                    stage.setScene(new Scene(root, 1200, 700));
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+                        @Override
+                        public void updateItem(Void item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                setGraphic(btn);
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            };
+            movieButtonCol.setCellFactory(cellFactory);
+        }
+        if(tableNum == 3) {
+            Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>> cellFactory = new Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>>() {
+                @Override
+                public TableCell<Serial, Void> call(final TableColumn<Serial, Void> param) {
+                    final TableCell<Serial, Void> cell = new TableCell<Serial, Void>() {
+                        private final Button btn = new Button("Opširnije");
+                        {
+                            btn.getStyleClass().add("detailsButton");
+                            btn.setOnAction((ActionEvent event) -> {
+                                Serial data = getTableView().getItems().get(getIndex());
+                                try {
+                                    Stage stage = (Stage) serialTable.getScene().getWindow();
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/serialDetails.fxml"));
+                                    SerialDetailsController ctrl = new SerialDetailsController(data, true, user);
+                                    loader.setController(ctrl);
+                                    Parent root = loader.load();
+                                    stage.setTitle(data.getTitle());
+                                    stage.setScene(new Scene(root, 1200, 700));
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+                        @Override
+                        public void updateItem(Void item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                setGraphic(btn);
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            };
+            serialButtonCol.setCellFactory(cellFactory);
+        }
     }
     @FXML
     public void initialize() {
@@ -87,6 +218,9 @@ public class HomeController {
             });
             genreVBox.getChildren().add(button);
         }
+        addButtonInTable(1);
+        addButtonInTable(2);
+        addButtonInTable(3);
     }
     private boolean containGenre(Content content, String genre) {
         for(Genre g: content.getGenre()) {

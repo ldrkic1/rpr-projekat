@@ -19,19 +19,23 @@ public class MovieDetailsController {
     public Label titleLabel, descriptionMovieLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, durationLabel;
     private Movie movie;
     public VBox actorsVBox;
-    public Button backButton;
+    public Button backButton, editButton;
     private Scene previousScene;
-    public MovieDetailsController(Movie m, Scene scene) {
-        movie = m;
-        previousScene = scene;
-    }
-
+    private boolean userPreview = false;
+    private User user = null;
     public MovieDetailsController(Movie movie) {
         this.movie = movie;
     }
 
+    public MovieDetailsController(Movie data, boolean userPreview, User user) {
+        this.movie = data;
+        this.userPreview = userPreview;
+        this.user = user;
+    }
+
     @FXML
     public void initialize() {
+        if(userPreview) editButton.setVisible(false);
         titleLabel.textProperty().set(movie.getTitle());
         yearLabel.textProperty().set(yearLabel.getText() + movie.getYear());
         String imageSource = movie.getImage();
@@ -80,12 +84,21 @@ public class MovieDetailsController {
     }
     public void backAction(ActionEvent actionEvent) throws IOException {
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        HomeEmployeeController ctrl = new HomeEmployeeController();
-        loader.setController(ctrl);
+        FXMLLoader loader = null;
+        if(!userPreview) {
+            loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
+            HomeEmployeeController ctrl = new HomeEmployeeController();
+            loader.setController(ctrl);
+            currentStage.setTitle("Početna");;
+        }
+        else {
+            loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+            HomeController ctrl = new HomeController(user);
+            loader.setController(ctrl);
+            currentStage.setTitle("Videoteka");
+        }
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
-        currentStage.setTitle("Početna");
         currentStage.show();
     }
 }

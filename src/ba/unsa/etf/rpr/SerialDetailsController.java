@@ -21,12 +21,22 @@ public class SerialDetailsController {
     public Label titleLabel, descriptionSerialLabel, yearLabel, ratingLabel, priceLabel, directorLabel, genreLabel, seasonsLabel, episodesLabel;
     private Serial serial;
     public VBox actorsVBox;
-    public Button backButton;
+    public Button backButton, editButton;
+    private boolean userPreview = false;
+    private User user = null;
     public SerialDetailsController(Serial s) {
         serial = s;
     }
+
+    public SerialDetailsController(Serial data, boolean userPreview, User user) {
+        this.serial = data;
+        this.userPreview = userPreview;
+        this.user = user;
+    }
+
     @FXML
     public void initialize() {
+        if(userPreview) editButton.setVisible(false);
         titleLabel.textProperty().set(serial.getTitle());
         yearLabel.textProperty().set(yearLabel.getText()+ " " + serial.getYear());
         String imageSource = serial.getImage();
@@ -78,12 +88,21 @@ public class SerialDetailsController {
     }
     public void backAction(ActionEvent actionEvent) throws IOException {
         Stage currentStage = (Stage) titleLabel.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        HomeEmployeeController ctrl = new HomeEmployeeController();
-        loader.setController(ctrl);
+        FXMLLoader loader = null;
+        if(!userPreview) {
+            loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
+            HomeEmployeeController ctrl = new HomeEmployeeController();
+            loader.setController(ctrl);
+            currentStage.setTitle("Početna");;
+        }
+        else {
+            loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+            HomeController ctrl = new HomeController(user);
+            loader.setController(ctrl);
+            currentStage.setTitle("Videoteka");
+        }
         Parent root = loader.load();
         currentStage.setScene(new Scene(root, 1200, 700));
-        currentStage.setTitle("Početna");
         currentStage.show();
     }
 }

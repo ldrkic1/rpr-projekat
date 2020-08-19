@@ -68,7 +68,7 @@
         </HBox>
     </top>
     <bottom>
-        <Button mnemonicParsing="false" onAction="#editAction" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
+        <Button fx:id="editButton" mnemonicParsing="false" onAction="#editAction" prefHeight="46.0" prefWidth="186.0" text="Uredi" BorderPane.alignment="CENTER" />
     </bottom>
     <center>
         <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">

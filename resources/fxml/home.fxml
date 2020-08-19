@@ -72,12 +72,13 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-            <Tab text="Popularno">
+            <Tab styleClass="align" text="Popularno">
                   <content>
                       <TableView fx:id="contentTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                              <TableColumn fx:id="contentImageCol" prefWidth="197.0" />
-                              <TableColumn fx:id="contentTitleCol" prefWidth="717.0" />
+                              <TableColumn fx:id="contentImageCol" prefWidth="200.0" styleClass="align" />
+                              <TableColumn fx:id="contentTitleCol" prefWidth="426.0" />
+                        <TableColumn fx:id="contentButtonCol" prefWidth="145.0" styleClass="align" />
                           </columns>
                       </TableView>
                   </content></Tab>
@@ -85,8 +86,9 @@
                <content>
                   <TableView fx:id="movieTable" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="movieImageCol" prefWidth="197.0" />
-                      <TableColumn fx:id="movieTitleCol" prefWidth="717.0" />
+                      <TableColumn fx:id="movieImageCol" prefWidth="200.0" styleClass="align" />
+                      <TableColumn fx:id="movieTitleCol" prefWidth="426.0" />
+                        <TableColumn fx:id="movieButtonCol" prefWidth="145.0" styleClass="align" />
                     </columns>
                   </TableView>
                </content></Tab>
@@ -94,8 +96,9 @@
                <content>
                   <TableView fx:id="serialTable" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="serialImageCol" prefWidth="193.0" />
-                      <TableColumn fx:id="serialTitleCol" prefWidth="721.0" />
+                      <TableColumn fx:id="serialImageCol" prefWidth="200.0" styleClass="align" />
+                      <TableColumn fx:id="serialTitleCol" prefWidth="426.0" />
+                        <TableColumn fx:id="serialButtonCol" prefWidth="145.0" styleClass="align" />
                     </columns>
                   </TableView>
                </content></Tab>
