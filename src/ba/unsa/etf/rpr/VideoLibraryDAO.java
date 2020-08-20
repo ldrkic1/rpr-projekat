@@ -917,4 +917,12 @@ public class VideoLibraryDAO {
         }
         return requests;
     }
+    public void deleteRequset(Request r) {
+        try {
+            deleteUserRequestStatement.setInt(1, r.getId());
+            deleteUserRequestStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

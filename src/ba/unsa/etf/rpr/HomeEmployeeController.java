@@ -51,7 +51,7 @@ public class HomeEmployeeController {
     public TableColumn<Request, String> requestContentCol;
     public TableColumn requestButtonCol;
     public MenuItem logoutMenuOption;
-    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton;
+    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -191,7 +191,7 @@ public class HomeEmployeeController {
         genreTitleCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         requestsTable.setItems(requestList);
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        requestUserCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUser().getFirstName() + data.getValue().getUser().getLastName()));
+        requestUserCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUser().getFirstName() + " " + data.getValue().getUser().getLastName()));
         requestContentCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getContent().getTitle()));
     }
     public void updateLists() {
@@ -386,6 +386,15 @@ public class HomeEmployeeController {
             dao.deleteContent(s);
             serialList.setAll(dao.getSerials());
             tableViewSeries.setItems(serialList);
+        }
+    }
+    public void deleteRequestAction(ActionEvent actionEvent) {
+        if(requestsTable.getSelectionModel().getSelectedItem() != null) {
+            Request r = new Request();
+            r.setId(requestsTable.getSelectionModel().getSelectedItem().getId());
+            dao.deleteRequset(r);
+            requestList.setAll((dao.getUserRequests()));
+            requestsTable.setItems(requestList);
         }
     }
 }

@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class ChangeUsernamePasswordController {
 
     public PasswordField currentPasswordField;
@@ -25,9 +27,11 @@ public class ChangeUsernamePasswordController {
     private ObservableList<Employee> list = null;
     private boolean isUser = false;
     private User user;
+    private ArrayList<Employee> employees = null;
     public ChangeUsernamePasswordController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         this.employee = employee;
+        employees = dao.getEmployees();
     }
     public ChangeUsernamePasswordController(User user) {
         dao = VideoLibraryDAO.getInstance();
@@ -41,6 +45,7 @@ public class ChangeUsernamePasswordController {
         this.changeUsername = changeUsername;
         tableView = employeesTableView;
         this.list = list;
+        employees = dao.getEmployees();
     }
     @FXML
     public void initialize() {
@@ -126,6 +131,13 @@ public class ChangeUsernamePasswordController {
                     usernameFIeld.getStyleClass().removeAll("fieldIncorrect");
                     usernameFIeld.getStyleClass().add("fieldCorrect");
                     allFieldsCorrect = true;
+                }
+                for (Employee e: employees) {
+                    if(e.getUsername().equals(newValue) && !employee.getUsername().equals(newValue)) {
+                        usernameFIeld.getStyleClass().removeAll("fieldCorrect");
+                        usernameFIeld.getStyleClass().add("fieldIncorrect");
+                        allFieldsCorrect = false;
+                    }
                 }
             }
         });
