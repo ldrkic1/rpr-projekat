@@ -151,4 +151,30 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 INSERT INTO 'user' VALUES (1, 'Lamija', 'Drkić', 'lamka', 'lamka123', 1, 0);
 INSERT INTO 'user' VALUES (2, 'Dino', 'Merlin', 'merlin', 'svejelaz', 2, 1);
+CREATE TABLE IF NOT EXISTS "hotel" (
+    "id" INTEGER,
+    "rooms_number" INTEGER,
+    PRIMARY KEY("id")
+);
+INSERT INTO "hotel" VALUES (1, 50);
+CREATE TABLE IF NOT EXISTS "user_genres" (
+    "id" INTEGER,
+    "user_id" INTEGER,
+    "genre_id" INTEGER,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("user_id") REFERENCES "user"("id"),
+    FOREIGN KEY ("genre_id") REFERENCES "genre"("id")
+);
+INSERT INTO "user_genres" VALUES (1, 2, 3);
+INSERT INTO "user_genres" VALUES (2, 2, 5);
+CREATE TABLE IF NOT EXISTS "user_requests" (
+    "id" INTEGER,
+    "user_id" INTEGER,
+    "content_id" INTEGER,
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("user_id") REFERENCES "user"("id"),
+    FOREIGN KEY ("content_id") REFERENCES "content"("id")
+);
+INSERT INTO "user_requests" VALUES (1, 1, 5);
+INSERT INTO "user_requests" VALUES (2, 1, 4);
 COMMIT;
