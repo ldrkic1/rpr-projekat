@@ -113,11 +113,20 @@ public class SerialDetailsController {
         currentStage.show();
     }
     public void requestWatchAction(ActionEvent actionEvent) {
-        dao.addUserRequest(user, serial);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Potvrda");
-        alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje serije!");
-        alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje serije " + serial.getTitle() + ".");
-        alert.showAndWait();
+        boolean added = dao.addUserRequest(user, serial);
+        if(added) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Potvrda");
+            alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje serije!");
+            alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje serije " + serial.getTitle() + ".");
+            alert.showAndWait();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Obavijest");
+            alert.setHeaderText(null);
+            alert.setContentText("Već ste poslali zahtjev za gledanje serije " + serial.getTitle() + ". Osoblje našeg hotela će Vam uskoro omogućiti gledanje serije.");
+            alert.showAndWait();
+        }
     }
 }

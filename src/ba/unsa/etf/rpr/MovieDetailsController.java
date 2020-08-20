@@ -109,11 +109,20 @@ public class MovieDetailsController {
         currentStage.show();
     }
     public void requestWatchAction(ActionEvent actionEvent) {
-        dao.addUserRequest(user, movie);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Potvrda");
-        alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje filma!");
-        alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje filma " + movie.getTitle() + ".");
-        alert.showAndWait();
+        boolean added = dao.addUserRequest(user, movie);
+        if(added) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Potvrda");
+            alert.setHeaderText("Uspješno ste poslali zahtjev za gledanje filma!");
+            alert.setContentText("Osoblje našeg hotela će Vam uskoro omogućiti gledanje filma " + movie.getTitle() + ".");
+            alert.showAndWait();
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Obavijest");
+            alert.setHeaderText(null);
+            alert.setContentText("Već ste poslali zahtjev za gledanje filma " + movie.getTitle() + ". Osoblje našeg hotela će Vam uskoro omogućiti gledanje filma.");
+            alert.showAndWait();
+        }
     }
 }
