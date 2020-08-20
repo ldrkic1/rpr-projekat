@@ -5,3 +5,100 @@
 .align {
     -fx-alignment: center;
 }
+.borderPane {
+    -fx-background-color: #131e45;
+}
+/*.table-view .column-header {
+    -fx-background-color: #131e45;
+}
+.table-view .column-header-background .filler {
+    -fx-background-color: #131e45;
+}
+.table-view .column-header .label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+    -fx-font-size: 14;
+    -fx-alignment: CENTER;
+}
+.table-view .cell{
+    -fx-alignment: center-left;
+    -fx-background-color: #131e43;
+    -fx-border-color: #131e43;
+    -fx-text-fill: #9fb9d7;
+}
+.table-view:selected {
+    -fx-background-color: #9fb9d7;
+    -fx-text-background-color:  #131e43;
+}
+.table-row-cell:selected {
+    -fx-background-color: linear-gradient(black, black,dimgrey);
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: #131e43;
+    -fx-border-color:derive( #9fb9d7,80%);
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}*/
+.background{
+    -fx-background-color: #020b2b;
+    -fx-border-color: #6b6edc;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+}
+.table-view{
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: #07163e;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-border-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-row-cell{
+    -fx-background-color: #030e24;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: #030e24;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: linear-gradient(transparent, transparent, #3b73a0);
+    -fx-text-fill: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3b73a0;
+}
+.table-view .scroll-bar .thumb{
+    -fx-background-color: #030e24;
+}
+
+.table-view .scroll-bar{
+    -fx-background-color: #030e24;
+}

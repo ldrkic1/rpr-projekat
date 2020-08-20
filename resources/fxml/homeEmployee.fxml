@@ -5,9 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="700.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="700.0" prefWidth="1334.0" styleClass="background" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" styleClass="background" tabClosingPolicy="UNAVAILABLE">
        <stylesheets>
            <URL value="@/css/homeEmployee.css" />
        </stylesheets>
@@ -16,13 +16,16 @@
             <content>
                   <BorderPane>
                      <center>
-                        <TableView fx:id="tableViewMovies" prefHeight="604.0" prefWidth="1165.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tableViewMovies" prefHeight="564.0" prefWidth="1201.0" BorderPane.alignment="CENTER">
                           <columns>
                             <TableColumn fx:id="colMovieId" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="colMovieTitle" prefWidth="139.0" text="NAZIV" />
-                              <TableColumn fx:id="colMovieDirector" prefWidth="100.0" text="REŽISER" />
-                              <TableColumn fx:id="colMovieActors" prefWidth="264.0" text="GLUMCI" />
-                              <TableColumn fx:id="colMovieDetailsButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" styleClass="align" />
+                            <TableColumn fx:id="colMovieTitle" prefWidth="204.0" text="NAZIV" />
+                              <TableColumn fx:id="colMovieDirector" prefWidth="226.0" text="REŽISER" />
+                              <TableColumn fx:id="colMovieActors" prefWidth="226.0" text="GLUMCI" />
+                              <TableColumn fx:id="colMovieDetailsButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn fx:id="colMovieDetailsButton1" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn fx:id="colMovieDetailsButton11" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn fx:id="colMovieDetailsButton111" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
                           </columns>
                         </TableView>
                      </center>
@@ -47,10 +50,13 @@
                             <TableView fx:id="tableViewSeries" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                 <columns>
                                     <TableColumn fx:id="colSerialId" prefWidth="75.0" text="ID" />
-                                    <TableColumn fx:id="colSerialTitle" prefWidth="139.0" text="NAZIV" />
-                                    <TableColumn fx:id="colSerialDirector" prefWidth="100.0" text="REŽISER" />
-                                    <TableColumn fx:id="colSerialActors" prefWidth="264.0" text="GLUMCI" />
-                                    <TableColumn fx:id="colSerialDetailsButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" styleClass="align" />
+                                    <TableColumn fx:id="colSerialTitle" prefWidth="204.0" text="NAZIV" />
+                                    <TableColumn fx:id="colSerialDirector" prefWidth="233.0" text="REŽISER" />
+                                    <TableColumn fx:id="colSerialActors" prefWidth="256.0" text="GLUMCI" />
+                                    <TableColumn fx:id="colSerialDetailsButton" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="168.0" resizable="false" styleClass="align" />
                                 </columns>
                             </TableView>
                         </center>
@@ -74,13 +80,16 @@
                      <center>
                         <TableView fx:id="usersTableView" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn fx:id="colUserId" prefWidth="54.0" text="ID" />
-                            <TableColumn fx:id="firstNameCol" prefWidth="105.0" text="IME" />
-                              <TableColumn fx:id="lastNameCol" prefWidth="126.0" text="PREZIME" />
-                              <TableColumn fx:id="usernameCol" prefWidth="102.0" text="USERNAME" />
+                            <TableColumn fx:id="colUserId" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="firstNameCol" prefWidth="204.0" text="IME" />
+                              <TableColumn fx:id="lastNameCol" prefWidth="204.0" text="PREZIME" />
+                              <TableColumn fx:id="usernameCol" prefWidth="204.0" text="USERNAME" />
                               <TableColumn fx:id="roomNumberCol" prefWidth="121.0" text="BROJ SOBE" />
-                              <TableColumn fx:id="privilegeCol" prefWidth="105.0" text="PRIVILEGIJE" />
+                              <TableColumn fx:id="privilegeCol" prefWidth="204.0" text="PRIVILEGIJE" />
                               <TableColumn fx:id="guestPasswordCol" prefWidth="115.0" text="PASSWORD" visible="false" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn fx:id="" prefWidth="204.0" text="" />
                           </columns>
                         </TableView>
                      </center>
@@ -105,10 +114,15 @@
                      <center>
                         <TableView fx:id="requestsTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn fx:id="requestIdCol" prefWidth="87.0" text="ID" />
-                            <TableColumn fx:id="requestUserCol" prefWidth="121.0" text="GOST HOTELA" />
-                              <TableColumn fx:id="requestContentCol" prefWidth="278.0" text="FILM/SERIJA" />
-                              <TableColumn fx:id="requestButtonCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" styleClass="align" text="" />
+                            <TableColumn fx:id="requestIdCol" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="requestUserCol" prefWidth="204.0" text="GOST HOTELA" />
+                              <TableColumn fx:id="requestContentCol" prefWidth="300.0" text="FILM/SERIJA" />
+                              <TableColumn fx:id="requestButtonCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="151.0" resizable="false" styleClass="align" text="" />
                           </columns>
                         </TableView>
                      </center>
@@ -132,7 +146,13 @@
                         <TableView fx:id="employeesTableView" prefHeight="200.0" prefWidth="200.0">
                           <columns>
                             <TableColumn fx:id="idEmployeeCol" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="usernameEmployeeCol" prefWidth="99.0" text="USERNAME" />
+                            <TableColumn fx:id="usernameEmployeeCol" prefWidth="204.0" text="USERNAME" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
                           </columns>
                         </TableView>
                      </center>
@@ -157,7 +177,13 @@
                         <TableView fx:id="genresTableView" prefHeight="351.0" prefWidth="390.0">
                           <columns>
                             <TableColumn fx:id="genreIdCol" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="genreTitleCol" prefWidth="161.0" text="NAZIV" />
+                            <TableColumn fx:id="genreTitleCol" prefWidth="204.0" text="NAZIV" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
+                              <TableColumn prefWidth="204.0" />
                           </columns>
                         </TableView>
                      </center>
@@ -181,7 +207,7 @@
       </TabPane>
    </center>
    <top>
-      <HBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_RIGHT" styleClass="background" BorderPane.alignment="CENTER">
          <children>
             <MenuBar prefHeight="40.0" prefWidth="80.0">
               <menus>
