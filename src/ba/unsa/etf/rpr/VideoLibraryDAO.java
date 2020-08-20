@@ -18,9 +18,9 @@ public class VideoLibraryDAO {
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
     private PreparedStatement getMoviesStatement, addMovieStatement, addContentStatement, deleteContentStatement, deleteMovieStatement, deleteSerialStatement, getMovieStatement, getSerialStatement;
     private PreparedStatement getSeriesStatement, addSerialStatement, addUserStatement, updateUserStatement, userNextID, deleteUserStatement;
-    private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, getContetStatement;
+    private PreparedStatement getContentActor, getContentGenre, addContentGenreStatement, nextIdUserGenre, getContetStatement, checkUserGenreStatement, getUserGenreStatement, addUserGenreStatement;
     private PreparedStatement getActorsInMovieStatement, getActorsInSerialStatement, getMovieRecommendationStatement,getSerialRecommendationStatement, checkUserContent;
-    private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent;
+    private PreparedStatement deleteActorFromContent, deleteGenreFromContent, deleteGenreContent, deleteActorContent, getUserGenres;
     private PreparedStatement getMovieGenresStatement, getSerialGenresStatement,getUserRequestsStatement, nexIdUserRequestsStatement, addUserRequestStatement, deleteUserRequestStatement;
     private PreparedStatement updateContetntStatement, updateMovieStatement, updateSerialStatement, nextContentIdStatement;
     private PreparedStatement addActorStatement, addGenreStatement, nextIdGenreStatement, nextIdStatement, nextIdContentAcotrStatement, nextIdContentGenreStatement, addContentActorStatement;
@@ -135,12 +135,84 @@ public class VideoLibraryDAO {
             getUserRequestsStatement = connection.prepareStatement("SELECT * FROM user_requests");
             addUserRequestStatement = connection.prepareStatement("INSERT INTO user_requests VALUES (?,?,?)");
             deleteUserRequestStatement = connection.prepareStatement("DELETE FROM user_requests WHERE id=?");
-            getMovieRecommendationStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, m.duration_minutes FROM content c, movie m, user u, user_genres ug, genre g, content_genre cg WHERE c.id=m.id AND c.id=cg.content_id AND g.id=cg.id AND ug.genre_id=g.id AND u.id=ug.user_id and u.id=?");
-            getSerialRecommendationStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s, user u, user_genres ug, genre g, content_genre cg WHERE c.id=s.id AND c.id=cg.content_id AND g.id=cg.id AND ug.genre_id=g.id AND u.id=ug.user_id and u.id=?");
+            getMovieRecommendationStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, m.duration_minutes FROM content c, movie m, genre g, content_genre cg WHERE c.id=m.id AND c.id=cg.content_id AND g.id=cg.genre_id AND g.id=?");
+            getSerialRecommendationStatement = connection.prepareStatement("SELECT c.id, c.title, c.year, c.director, c.description, c.rating, c.image, c.price, s.seasons_number, s.episodes_per_season FROM content c, serial s, genre g, content_genre cg WHERE c.id=s.id AND c.id=cg.content_id AND g.id=cg.genre_id AND g.id=?");
             checkUserContent = connection.prepareStatement("SELECT id FROM user_requests WHERE user_id=? AND content_id=?");
+            checkUserGenreStatement = connection.prepareStatement("SELECT id FROM user_genres WHERE user_id=? AND genre_id=?");
+            getUserGenreStatement = connection.prepareStatement("SELECT g.id, g.name FROM genre g, content_genre cg, content c WHERE c.id=? AND c.id = cg.content_id AND cg.genre_id=g.id");
+            addUserGenreStatement = connection.prepareStatement("INSERT INTO user_genres VALUES (?,?,?)");
+            nextIdUserGenre = connection.prepareStatement("SELECT MAX(id)+1 FROM user_genres");
+            getUserGenres = connection.prepareStatement("SELECT * FROM user_genres WHERE user_id=?");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    private boolean containsContent(ArrayList<Content> list, Content c) {
+        for(Content content: list) {
+            if(c.getId() == content.getId()) return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Content> getRecommendation(User u) {
+        ArrayList<Content> recommended = new ArrayList<>();
+        try {
+            getUserGenres.setInt(1,u.getId());
+            ResultSet resultS = getUserGenres.executeQuery();
+            if(!resultS.isClosed()) {
+                while (resultS.next()) {
+                    if(recommended.size() >= 5) break;
+                    getMovieRecommendationStatement.setInt(1, resultS.getInt(3));
+                    ResultSet resultSet = getMovieRecommendationStatement.executeQuery();
+                    if (!resultSet.isClosed()) {
+                        while (resultSet.next()) {
+                            Movie m = new Movie();
+                            m.setId(resultSet.getInt(1));
+                            m.setTitle(resultSet.getString(2));
+                            m.setYear(resultSet.getInt(3));
+                            m.setDirector(resultSet.getString(4));
+                            m.setDescription(resultSet.getString(5));
+                            m.setRating(resultSet.getDouble(6));
+                            m.setImage(resultSet.getString(7));
+                            m.setPrice(resultSet.getDouble(8));
+                            m.setDurationMinutes(resultSet.getInt(9));
+                            m.setMainActors(getActorsInMovie(m.getId()));
+                            m.setGenre(getMovieGenres(m.getId()));
+                            if (!containsContent(recommended, m)) {
+                                recommended.add(m);
+                                if(recommended.size() >= 5) break;
+                            }
+                        }
+                    }
+                    getSerialRecommendationStatement.setInt(1, resultS.getInt(3));
+                    ResultSet resultSet1 = getSerialRecommendationStatement.executeQuery();
+                    if (!resultSet1.isClosed()) {
+                        while (resultSet1.next()) {
+                            Serial s = new Serial();
+                            s.setId(resultSet1.getInt(1));
+                            s.setTitle(resultSet1.getString(2));
+                            s.setYear(resultSet1.getInt(3));
+                            s.setDirector(resultSet1.getString(4));
+                            s.setDescription(resultSet1.getString(5));
+                            s.setRating(resultSet1.getDouble(6));
+                            s.setImage(resultSet1.getString(7));
+                            s.setPrice(resultSet1.getDouble(8));
+                            s.setSeasonsNumber(resultSet1.getInt(9));
+                            s.setEpisodesPerSeasonNumber(resultSet1.getInt(10));
+                            s.setMainActors(getActorsInSerial(s.getId()));
+                            s.setGenre(getSerialGenres(s.getId()));
+                            if (!containsContent(recommended, s))  {
+                                recommended.add(s);
+                                if(recommended.size() >= 5) break;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return recommended;
     }
     public void close() {
         try {
@@ -828,6 +900,27 @@ public class VideoLibraryDAO {
                 addUserRequestStatement.setInt(2, user.getId());
                 addUserRequestStatement.setInt(3, content.getId());
                 addUserRequestStatement.executeUpdate();
+
+                getUserGenreStatement.setInt(1, content.getId());
+                ResultSet resultSet = getUserGenreStatement.executeQuery();
+                while(resultSet.next()) {
+                    checkUserGenreStatement.setInt(1, user.getId());
+                    checkUserGenreStatement.setInt(2, resultSet.getInt(1));
+                    ResultSet resultSet1 = checkUserGenreStatement.executeQuery();
+                    if(resultSet1.isClosed()) {
+                        ResultSet rs1 = nextIdUserGenre.executeQuery();
+                        int idUserGenre = 1;
+                        if (rs1.next()) {
+                            if (rs1.getInt(1) == 0) idUserGenre = 1;
+                            else idUserGenre = rs1.getInt(1);
+                        }
+                        addUserGenreStatement.setInt(1, idUserGenre);
+                        addUserGenreStatement.setInt(2, user.getId());
+                        addUserGenreStatement.setInt(3, resultSet.getInt(1));
+                        addUserGenreStatement.executeUpdate();
+                    }
+                }
+
                 return true;
             }
 
@@ -898,4 +991,5 @@ public class VideoLibraryDAO {
             throwables.printStackTrace();
         }
     }
+
 }

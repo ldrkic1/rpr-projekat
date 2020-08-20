@@ -50,7 +50,7 @@
          </padding></VBox>
    </left>
    <right>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox fx:id="recommendMainVbox" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="187.0" text="Preporučujemo Vam" textAlignment="CENTER" textFill="#030725" wrapText="true">
                <font>

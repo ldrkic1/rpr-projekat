@@ -30,7 +30,7 @@ import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 public class HomeController {
     public Button showMoviesButton;
     public Button showSerialsButton;
-    public VBox contentVbox, recommendedVbox, genreVBox;
+    public VBox contentVbox, recommendMainVbox, genreVBox, recommendedVbox;
     private User user;
     private VideoLibraryDAO dao = null;
     private ArrayList<Movie> movies = null;
@@ -51,7 +51,9 @@ public class HomeController {
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
     private ObservableList<Content> contentList = null;
+    private ObservableList<Content> recommendedList = null;
     private ArrayList<Content> topContent = null;
+    private ArrayList<Content> recommended = null;
     public HomeController(User user) {
         this.user = user;
         dao = VideoLibraryDAO.getInstance();
@@ -62,6 +64,10 @@ public class HomeController {
         moviesList = FXCollections.observableArrayList(movies);
         serialList = FXCollections.observableArrayList(serials);
         contentList = FXCollections.observableArrayList(topContent);
+        if(user.isPrivilege()) {
+            recommended = dao.getRecommendation(user);
+            recommendedList = FXCollections.observableArrayList(recommended);
+        }
     }
     //top content - tableNum = 1
     //movies - tableNum = 2
@@ -217,6 +223,25 @@ public class HomeController {
                 }
             });
             genreVBox.getChildren().add(button);
+        }
+        if(user.isPrivilege()) {
+            for(int i = 0; i < recommended.size(); i++) {
+                VBox vBox = new VBox();
+                vBox.setPadding(new Insets(10,10,10,10));
+                vBox.setSpacing(5);
+                Image image = new Image(recommended.get(i).getImage());
+                ImageView imageView = new ImageView();
+                imageView.setImage(image);
+                imageView.setFitHeight(110);
+                imageView.setFitWidth(100);
+                Label title = new Label();
+                title.textProperty().set(String.valueOf(recommended.get(i).getTitle()));
+                vBox.getChildren().addAll(imageView,title);
+                recommendedVbox.getChildren().add(vBox);
+            }
+        }
+        else {
+            recommendMainVbox.setVisible(false);
         }
         addButtonInTable(1);
         addButtonInTable(2);

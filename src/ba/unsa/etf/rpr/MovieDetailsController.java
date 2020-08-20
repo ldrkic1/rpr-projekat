@@ -21,7 +21,6 @@ public class MovieDetailsController {
     private Movie movie;
     public VBox actorsVBox;
     public Button backButton, editButton, requestWatchButton;
-    private Scene previousScene;
     private boolean userPreview = false;
     private User user = null;
     private VideoLibraryDAO dao = null;
@@ -96,7 +95,7 @@ public class MovieDetailsController {
             loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
             HomeEmployeeController ctrl = new HomeEmployeeController(employee);
             loader.setController(ctrl);
-            currentStage.setTitle("Početna");;
+            currentStage.setTitle("Početna");
         }
         else {
             loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
