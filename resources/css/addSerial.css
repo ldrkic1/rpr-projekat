@@ -4,3 +4,36 @@
 .fieldIncorrect {
     -fx-background-color: #f59a9a;
 }
+#borderPane {
+    -fx-background-image: url("../images/serialcollage.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+#gridPane {
+    -fx-background-color: #030e24;
+    -fx-border-radius: 2;
+}
+.label {
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+.button {
+    -fx-background-color: linear-gradient(#6191b1, #141a2d);
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+}
+.button:hover {
+    -fx-background-color: linear-gradient(#6191b1, #96aee8);
+    -fx-text-fill: #141a2d;
+}
+.text-field, .text-area {
+    -fx-border-width: 2;
+    -fx-border-color: #6191b1;
+    -fx-border-radius: 2;
+}
+.hbox {
+    -fx-background-color: #030e24;
+}

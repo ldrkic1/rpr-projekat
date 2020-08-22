@@ -5,12 +5,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/addSerial.css" />
     </stylesheets>
     <center>
-        <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="660.0" vgap="9.0">
+        <GridPane fx:id="gridPane" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="658.0" vgap="9.0">
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                 <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="34.0" />
@@ -26,6 +26,8 @@
                 <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="27.0" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             </rowConstraints>
             <columnConstraints>
                 <ColumnConstraints maxWidth="148.0" minWidth="10.0" prefWidth="125.0" />
@@ -78,6 +80,12 @@
                 <Label alignment="CENTER" prefHeight="25.0" prefWidth="249.0" text="Ukupan broj epizoda:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                 <TextField fx:id="seasonsField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <TextField fx:id="episodesField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+              <ButtonBar prefHeight="81.0" prefWidth="651.0" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
+                  <buttons>
+                      <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="47.0" text="Poništi" />
+                      <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Dodaj" />
+                  </buttons>
+              </ButtonBar>
             </children>
             <BorderPane.margin>
                 <Insets bottom="100.0" left="200.0" right="200.0" top="100.0" />
@@ -87,17 +95,6 @@
             </padding>
         </GridPane>
     </center>
-    <bottom>
-        <ButtonBar BorderPane.alignment="CENTER">
-            <buttons>
-                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="47.0" text="Poništi" />
-                <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Dodaj" />
-            </buttons>
-            <BorderPane.margin>
-                <Insets left="10.0" right="10.0" />
-            </BorderPane.margin>
-        </ButtonBar>
-    </bottom>
     <padding>
         <Insets bottom="20.0" top="10.0" />
     </padding>
