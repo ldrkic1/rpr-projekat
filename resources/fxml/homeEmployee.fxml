@@ -7,7 +7,7 @@
 
 <BorderPane prefHeight="700.0" prefWidth="1334.0" styleClass="background" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" styleClass="background" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" styleClass="background" tabClosingPolicy="UNAVAILABLE">
        <stylesheets>
            <URL value="@/css/homeEmployee.css" />
        </stylesheets>
@@ -30,13 +30,13 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox prefHeight="67.0" prefWidth="1200.0" spacing="5.0" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="68.0" prefWidth="1200.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Button fx:id="addNewMovieButton" mnemonicParsing="false" onAction="#addNewMovieAction" prefHeight="53.0" prefWidth="127.0" text="Dodaj film" />
-                              <Button fx:id="deleteMovieButton" layoutX="152.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteMovieAction" prefHeight="53.0" prefWidth="127.0" text="Obriši film" />
+                              <Button fx:id="addNewMovieButton" mnemonicParsing="false" onAction="#addNewMovieAction" prefHeight="61.0" prefWidth="127.0" text="Dodaj" />
+                              <Button fx:id="deleteMovieButton" layoutX="152.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteMovieAction" prefHeight="61.0" prefWidth="127.0" text="Obriši" />
                            </children>
                         </HBox>
                      </bottom>
@@ -61,10 +61,10 @@
                             </TableView>
                         </center>
                      <bottom>
-                        <HBox prefHeight="70.0" prefWidth="1334.0" spacing="5.0" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="68.0" prefWidth="1334.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button fx:id="addSerialButton" mnemonicParsing="false" onAction="#addSerialAction" prefHeight="63.0" prefWidth="119.0" text="Dodaj seriju" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteSerialAction" prefHeight="63.0" prefWidth="119.0" text="Obriši seriju" />
+                              <Button fx:id="addSerialButton" mnemonicParsing="false" onAction="#addSerialAction" prefHeight="61.0" prefWidth="127.0" text="Dodaj" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteSerialAction" prefHeight="61.0" prefWidth="127.0" text="Obriši" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -94,14 +94,14 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox prefHeight="62.0" prefWidth="1147.0" spacing="5.0" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="68.0" prefWidth="1147.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addHotelGuestAction" prefHeight="55.0" prefWidth="116.0" text="Dodaj" />
-                              <Button fx:id="editHotelGuestButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editHotelGuestAction" prefHeight="42.0" prefWidth="120.0" text="Uredi" />
-                              <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteHotelGuestAction" prefHeight="55.0" prefWidth="116.0" text="Obriši" />
+                              <Button mnemonicParsing="false" onAction="#addHotelGuestAction" prefHeight="67.0" prefWidth="127.0" text="Dodaj" />
+                              <Button fx:id="editHotelGuestButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editHotelGuestAction" prefHeight="67.0" prefWidth="120.0" text="Uredi" />
+                              <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteHotelGuestAction" prefHeight="67.0" prefWidth="116.0" text="Obriši" />
                            </children>
                         </HBox>
                      </bottom>
@@ -127,9 +127,9 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="1334.0" BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1334.0" BorderPane.alignment="TOP_LEFT">
                            <children>
-                              <Button fx:id="deleteRequestButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteRequestAction" prefHeight="61.0" prefWidth="139.0" text="Obriši" />
+                              <Button fx:id="deleteRequestButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteRequestAction" prefHeight="61.0" prefWidth="127.0" text="Obriši" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -157,13 +157,13 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox prefHeight="66.0" prefWidth="1194.0" spacing="5.0" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="68.0" prefWidth="1194.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployeeAction" prefHeight="48.0" prefWidth="123.0" text="Dodaj" />
-                              <Button layoutX="148.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteEmployeeAction" prefHeight="48.0" prefWidth="123.0" text="Obriši " />
+                              <Button fx:id="addEmployeeButton" mnemonicParsing="false" onAction="#addEmployeeAction" prefHeight="67.0" prefWidth="127.0" text="Dodaj" />
+                              <Button layoutX="148.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteEmployeeAction" prefHeight="67.0" prefWidth="127.0" text="Obriši " />
                            </children>
                         </HBox>
                      </bottom>
@@ -188,11 +188,11 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox prefHeight="57.0" prefWidth="1199.0" spacing="5.0" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="68.0" prefWidth="1199.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button fx:id="addGenreButton" mnemonicParsing="false" onAction="#addGenreAction" prefHeight="43.0" prefWidth="121.0" text="Dodaj žanr" />
-                              <Button fx:id="editGenreButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editGenreAction" prefHeight="43.0" prefWidth="121.0" text="Uredi žanr" />
-                              <Button fx:id="deleteGenreButton" layoutX="146.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteGenreAction" prefHeight="43.0" prefWidth="121.0" text="Obriši žanr" />
+                              <Button fx:id="addGenreButton" mnemonicParsing="false" onAction="#addGenreAction" prefHeight="67.0" prefWidth="127.0" text="Dodaj" />
+                              <Button fx:id="editGenreButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editGenreAction" prefHeight="67.0" prefWidth="127.0" text="Uredi" />
+                              <Button fx:id="deleteGenreButton" layoutX="146.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteGenreAction" prefHeight="67.0" prefWidth="127.0" text="Obriši" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -207,9 +207,9 @@
       </TabPane>
    </center>
    <top>
-      <HBox alignment="TOP_RIGHT" styleClass="background" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_RIGHT" style="-fx-background-color: #030e24;" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar prefHeight="40.0" prefWidth="80.0">
+            <MenuBar prefHeight="40.0" prefWidth="80.0" stylesheets="@../css/homeEmployee.css">
               <menus>
                 <Menu mnemonicParsing="false" text="O hotelu">
                   <items>
@@ -218,7 +218,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <MenuBar prefHeight="40.0" prefWidth="187.0">
+            <MenuBar prefHeight="40.0" prefWidth="217.0" stylesheets="@../css/homeEmployee.css">
               <menus>
                 <Menu mnemonicParsing="false" text="Postavke korisničkog računa">
                   <items>
