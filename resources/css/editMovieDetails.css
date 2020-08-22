@@ -25,3 +25,16 @@
     -fx-text-fill: whitesmoke;
     -fx-font-weight: bold;
 }
+.vbox {
+    -fx-background-color: #030e24;
+}
+.hbox {
+    -fx-background-color: #030e24;
+}
+.hbox.label {
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+}
+#scrollPane {
+    -fx-background-color: #030e24;
+}
