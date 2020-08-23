@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<GridPane hgap="5.0" prefHeight="427.0" prefWidth="504.0" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane hgap="5.0" prefHeight="476.0" prefWidth="515.0" styleClass="grid-pane" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
-      <URL value="@/css/addHotelGuest.css"/>
+      <URL value="@/css/addActor.css" />
    </stylesheets>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -25,9 +25,10 @@
    </rowConstraints>
    <columnConstraints>
       <ColumnConstraints maxWidth="78.0" minWidth="0.0" prefWidth="0.0" />
-      <ColumnConstraints maxWidth="164.0" minWidth="10.0" prefWidth="93.0" />
-      <ColumnConstraints maxWidth="161.0" minWidth="10.0" prefWidth="161.0" />
-      <ColumnConstraints maxWidth="90.0" minWidth="10.0" prefWidth="82.0" />
+      <ColumnConstraints maxWidth="164.0" minWidth="10.0" prefWidth="130.0" />
+      <ColumnConstraints maxWidth="161.0" minWidth="10.0" prefWidth="82.0" />
+      <ColumnConstraints maxWidth="133.0" minWidth="10.0" prefWidth="130.0" />
+      <ColumnConstraints maxWidth="108.0" minWidth="10.0" prefWidth="36.0" />
       <ColumnConstraints maxWidth="108.0" minWidth="10.0" prefWidth="108.0" />
    </columnConstraints>
    <children>
@@ -36,11 +37,11 @@
       <Label prefHeight="66.0" prefWidth="104.0" text="Privilegije: " GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <TextField fx:id="passwordField" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="226.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" />
       <ChoiceBox fx:id="privilegeChoice" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="228.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" />
-      <Button fx:id="generatePasswordButton" mnemonicParsing="false" onAction="#generatePasswordAction" prefHeight="40.0" prefWidth="114.0" text="Generiši lozinku" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="10" GridPane.rowSpan="2">
+      <Button fx:id="generatePasswordButton" mnemonicParsing="false" onAction="#generatePasswordAction" prefHeight="30.0" prefWidth="143.0" text="Generiši lozinku" wrapText="true" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="10" GridPane.rowSpan="2">
         <buttons>
-          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="39.0" prefWidth="90.0" text="Poništi" />
-            <Button fx:id="addButton" layoutX="404.0" layoutY="21.0" mnemonicParsing="false" onAction="#addAction" prefHeight="39.0" prefWidth="90.0" text="Dodaj" />
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="120.0" text="Poništi" />
+            <Button fx:id="addButton" layoutX="404.0" layoutY="21.0" mnemonicParsing="false" onAction="#addAction" prefHeight="45.0" prefWidth="120.0" text="Dodaj" />
         </buttons>
       </ButtonBar>
       <ChoiceBox fx:id="usernameChoice" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />

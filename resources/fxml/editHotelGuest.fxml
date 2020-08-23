@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
-<GridPane hgap="5.0" prefHeight="392.0" prefWidth="496.0" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane hgap="5.0" prefHeight="392.0" prefWidth="496.0" styleClass="grid-pane" vgap="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
-      <URL value="@/css/editHotelGuest.css"/>
+      <URL value="@/css/addActor.css" />
    </stylesheets>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -44,8 +44,8 @@
       <TextField fx:id="passwordField" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" />
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="11" GridPane.rowSpan="2">
         <buttons>
-          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="33.0" prefWidth="94.0" text="Poništi" />
-            <Button fx:id="saveChangesButton" layoutX="412.0" layoutY="24.0" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="33.0" prefWidth="94.0" text="Sačuvaj" />
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="40.0" prefWidth="130.0" text="Poništi" />
+            <Button fx:id="saveChangesButton" layoutX="412.0" layoutY="24.0" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="40.0" prefWidth="130.0" text="Sačuvaj" />
         </buttons>
       </ButtonBar>
       <ChoiceBox fx:id="roomChoice" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />

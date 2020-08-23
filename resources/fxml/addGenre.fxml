@@ -5,9 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane prefHeight="383.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="383.0" prefWidth="462.0" styleClass="grid-pane" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
-      <URL value="@/css/addGenre.css" />
+      <URL value="@/css/addActor.css" />
    </stylesheets>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -35,13 +35,13 @@
       <Label fx:id="genreLabel" prefHeight="74.0" prefWidth="138.0" text="Odaberi žanr:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <ChoiceBox fx:id="choiceGenre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <Separator fx:id="separator" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="4" />
-      <RadioButton fx:id="genreRadio" mnemonicParsing="false" prefHeight="50.0" prefWidth="195.0" text="Dodaj novi žanr" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <RadioButton fx:id="genreRadio" mnemonicParsing="false" prefHeight="50.0" prefWidth="195.0" style="-fx-text-fill: whitesmoke; -fx-font-weight: bold;" text="Dodaj novi žanr" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
       <Label fx:id="titleLabel" prefHeight="60.0" prefWidth="144.0" text="Naziv:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <TextField fx:id="titleField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="5" GridPane.rowIndex="11" GridPane.rowSpan="2">
         <buttons>
-          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="Poništi" />
-            <Button fx:id="saveGenreButton" layoutX="397.0" layoutY="28.0" mnemonicParsing="false" onAction="#saveGenreAction" text="Dodaj" />
+          <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="45.0" prefWidth="120.0" text="Poništi" />
+            <Button fx:id="saveGenreButton" layoutX="397.0" layoutY="28.0" mnemonicParsing="false" onAction="#saveGenreAction" prefHeight="45.0" prefWidth="120.0" text="Dodaj" />
         </buttons>
       </ButtonBar>
    </children>
