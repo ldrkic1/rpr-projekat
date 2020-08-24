@@ -8,6 +8,7 @@ public class Genre {
     }
 
     public Genre(int id, String name) {
+        if(name.equals("")) throw new IllegalArgumentException();
         this.id = id;
         this.name = name;
     }
@@ -25,6 +26,7 @@ public class Genre {
     }
 
     public void setName(String name) {
+        if(name.equals("")) throw new IllegalArgumentException();
         this.name = name;
     }
 
