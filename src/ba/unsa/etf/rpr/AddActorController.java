@@ -255,7 +255,7 @@ public class AddActorController {
         });
     }
 
-    public void addActorAction(ActionEvent actionEvent) throws IOException {
+    public void addActorAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
         if(allControlsCorrect) {
             if(addActorRadio.isSelected()) {
                 String date = birthDatePicker.getValue().format(formatter).toString();

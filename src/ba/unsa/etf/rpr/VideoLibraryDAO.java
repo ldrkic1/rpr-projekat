@@ -327,6 +327,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return actors;
     }
@@ -341,6 +343,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return actors;
     }
@@ -469,6 +473,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return actors;
     }
@@ -525,6 +531,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
     }
     public void addContentGenre(Genre g, Content content) {

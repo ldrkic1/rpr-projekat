@@ -16,7 +16,10 @@ public class Actor {
 
     }
 
-    public Actor(int id,String firstName, String lastName, String biography, LocalDate bornDate, String image) {
+    public Actor(int id,String firstName, String lastName, String biography, LocalDate bornDate, String image) throws InvalidURLException {
+        if (firstName.equals("") || lastName.equals("")) throw new IllegalArgumentException();
+        if (bornDate == null) throw new NullPointerException();
+        if (!AddActorController.isValid(image)) throw new InvalidURLException();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,6 +41,7 @@ public class Actor {
     }
 
     public void setFirstName(String firstName) {
+        if(firstName.equals("")) throw new IllegalArgumentException();
         this.firstName = firstName;
     }
 
@@ -46,6 +50,7 @@ public class Actor {
     }
 
     public void setLastName(String lastName) {
+        if(lastName.equals("")) throw new IllegalArgumentException();
         this.lastName = lastName;
     }
 
@@ -62,6 +67,7 @@ public class Actor {
     }
 
     public void setBornDate(LocalDate bornDate) {
+        if(bornDate == null) throw new NullPointerException();
         this.bornDate = bornDate;
     }
 
@@ -70,7 +76,8 @@ public class Actor {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(String image) throws InvalidURLException {
+        if(!AddActorController.isValid(image)) throw new InvalidURLException();
         this.image = image;
     }
 
@@ -83,6 +90,6 @@ public class Actor {
     public boolean equals(Object obj) {
         Actor a = (Actor) obj;
         if(a == null) return false;
-        return a.getFirstName().equals(firstName) && a.getLastName().equals(lastName) && a.getBiography().equals(biography) && a.getImage().equals(image);
+        return a.getFirstName().equals(firstName) && a.getLastName().equals(lastName) && a.getBiography().equals(biography) && a.getBornDate().equals(bornDate);
     }
 }
