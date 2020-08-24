@@ -16,13 +16,14 @@ public class Content {
     private double rating;
     private String image;
     private double price;
-    private ImageView imageView = new ImageView();
     public Content() {
         mainActors = new ArrayList<>();
         genre = new ArrayList<>();
     }
 
-    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) {
+    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) throws InvalidURLException {
+        if (title.equals("")) throw new IllegalArgumentException();
+        if(!AddActorController.isValid(image)) throw new InvalidURLException();
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -33,10 +34,6 @@ public class Content {
         this.rating = rating;
         this.image = image;
         this.price = price;
-        Image img = new Image(image);
-        imageView.setImage(img);
-        imageView.setFitHeight(200);
-        imageView.setFitWidth(150);
     }
 
     public int getId() {
@@ -52,6 +49,7 @@ public class Content {
     }
 
     public void setTitle(String title) {
+        if (title.equals("")) throw new IllegalArgumentException();
         this.title = title;
     }
 
@@ -76,6 +74,7 @@ public class Content {
     }
 
     public void setDirector(String director) {
+        if (director.equals("")) throw new IllegalArgumentException();
         this.director = director;
     }
 
@@ -92,6 +91,7 @@ public class Content {
     }
 
     public void setDescription(String description) {
+        if (description.equals("")) throw new IllegalArgumentException();
         this.description = description;
     }
 
@@ -107,14 +107,9 @@ public class Content {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(String image) throws InvalidURLException {
+        if(!AddActorController.isValid(image)) throw new InvalidURLException();
         this.image = image;
-        Image img = new Image(image);
-        if(image!=null) {
-            imageView.setImage(img);
-            imageView.setFitHeight(200);
-            imageView.setFitWidth(150);
-        }
     }
 
     public double getPrice() {
@@ -123,14 +118,6 @@ public class Content {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
     }
 
     public String getActorsString() {

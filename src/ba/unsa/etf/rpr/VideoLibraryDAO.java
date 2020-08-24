@@ -211,6 +211,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return recommended;
     }
@@ -369,6 +371,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return movies;
     }
@@ -394,6 +398,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return serials;
     }
@@ -889,6 +895,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return topContent;
     }
@@ -988,6 +996,8 @@ public class VideoLibraryDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InvalidURLException e) {
+            e.printStackTrace();
         }
         return requests;
     }

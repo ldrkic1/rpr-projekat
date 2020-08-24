@@ -190,7 +190,7 @@ public class AddMovieController {
         stage.show();
     }
 
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
         if(allControlsCorrect) {
             movie.setTitle(titleField.getText());
             movie.setYear(Integer.parseInt(yearField.getText()));

@@ -222,7 +222,7 @@ public class EditSerialDetailsController {
             genresListView.refresh();
         }
     }
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
         if(allControlsCorrect) {
             serial.setTitle(titleField.getText());
             serial.setPrice(Double.parseDouble(priceField.getText()));

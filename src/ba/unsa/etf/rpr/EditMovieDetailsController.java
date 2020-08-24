@@ -241,7 +241,7 @@ public class EditMovieDetailsController {
             genresListView.refresh();
         }
     }
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
         if(allControlsCorrect) {
             movie.setTitle(titleField.getText());
             movie.setDurationMinutes(Integer.parseInt(durationField.getText()));
