@@ -20,3 +20,131 @@
 .align {
     -fx-alignment: center;
 }
+
+.borderPane {
+    -fx-background-color: #131e45;
+    -fx-text-fill: whitesmoke;
+}
+.background{
+    -fx-background-color: #020b2b;
+    -fx-border-color: #6b6edc;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+}
+.table-view{
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: #07163e;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-border-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-row-cell{
+    -fx-background-color: #030e24;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: #030e24;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: linear-gradient(transparent, transparent, #3b73a0);
+    -fx-text-fill: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3b73a0;
+}
+.table-view .scroll-bar .thumb{
+    -fx-background-color: #030e24;
+}
+
+.table-view .scroll-bar{
+    -fx-background-color: #030e24;
+}
+
+.tab-pane {
+    -fx-tab-min-width:170px;
+    -fx-tab-max-width:170px;
+    -fx-tab-min-height:50px;
+    -fx-tab-max-height:50px;
+    -fx-background-color: #030e24;
+}
+
+.tab {
+    -fx-font-size: 18;
+    -fx-background-color: #030e24;
+    -fx-text-fill: whitesmoke;
+}
+
+.tab:selected {
+    -fx-background-color: #6c97b6;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #030e24;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#6191b1, #141a2d);
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 14px;
+}
+.button:hover {
+    -fx-background-color: linear-gradient(#6191b1, #96aee8);
+    -fx-text-fill: #141a2d;
+
+}
+.hbox {
+    -fx-background-color: #030e24;
+}
+.hbox-group {
+    -fx-background-color: #030e24;
+}
+
+.menu-bar {
+    -fx-background-color: #07163e;
+}
+.menu-bar .label {
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+
+}
+.menu-item:selected {
+    -fx-background-color: #80bce7;
+}
+.menu-item .label {
+    -fx-text-fill: #07163e;
+}
+.context-menu {
+    -fx-background-color: #96aee8;
+}
+.label {
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+}

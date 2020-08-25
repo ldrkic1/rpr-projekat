@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="background" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
   <stylesheets>
       <URL value="@/css/home.css" />
   </stylesheets>
@@ -34,12 +34,12 @@
    <left>
       <VBox fx:id="genreVBox" alignment="TOP_CENTER" prefHeight="675.0" prefWidth="135.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="39.0" prefWidth="137.0" text="Žanrovi">
+            <Label alignment="CENTER" prefHeight="39.0" prefWidth="137.0" stylesheets="@../css/home.css" text="Žanrovi">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#showAllGenresAction" prefHeight="48.0" prefWidth="115.0" text="Svi žanrovi">
+            <Button mnemonicParsing="false" onAction="#showAllGenresAction" prefHeight="48.0" prefWidth="115.0" stylesheets="@../css/home.css" text="Svi žanrovi">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
@@ -52,14 +52,14 @@
    <right>
       <VBox fx:id="recommendMainVbox" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="187.0" text="Preporučujemo Vam" textAlignment="CENTER" textFill="#030725" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="187.0" stylesheets="@../css/home.css" text="Preporučujemo Vam" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
             <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <content>
-                  <VBox fx:id="recommendedVbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="628.0" prefWidth="171.0" spacing="5.0">
+                  <VBox fx:id="recommendedVbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="628.0" prefWidth="171.0" spacing="5.0" styleClass="background" stylesheets="@../css/home.css">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -74,11 +74,12 @@
         <tabs>
             <Tab styleClass="align" text="Popularno">
                   <content>
-                      <TableView fx:id="contentTable" prefHeight="200.0" prefWidth="200.0">
+                      <TableView fx:id="contentTable" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/home.css">
                           <columns>
                               <TableColumn fx:id="contentImageCol" prefWidth="200.0" styleClass="align" />
                               <TableColumn fx:id="contentTitleCol" prefWidth="426.0" />
                         <TableColumn fx:id="contentButtonCol" prefWidth="145.0" styleClass="align" />
+                        <TableColumn minWidth="0.0" prefWidth="300.0" styleClass="align" />
                           </columns>
                       </TableView>
                   </content></Tab>
@@ -89,6 +90,7 @@
                       <TableColumn fx:id="movieImageCol" prefWidth="200.0" styleClass="align" />
                       <TableColumn fx:id="movieTitleCol" prefWidth="426.0" />
                         <TableColumn fx:id="movieButtonCol" prefWidth="145.0" styleClass="align" />
+                        <TableColumn prefWidth="300.0" styleClass="align" />
                     </columns>
                   </TableView>
                </content></Tab>
@@ -99,6 +101,7 @@
                       <TableColumn fx:id="serialImageCol" prefWidth="200.0" styleClass="align" />
                       <TableColumn fx:id="serialTitleCol" prefWidth="426.0" />
                         <TableColumn fx:id="serialButtonCol" prefWidth="145.0" styleClass="align" />
+                        <TableColumn prefWidth="300.0" styleClass="align" />
                     </columns>
                   </TableView>
                </content></Tab>
