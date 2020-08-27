@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 public class Serial extends Content {
     private int seasonsNumber;
-    private int episodesPerSeasonNumber;
+    private int episodesNumber;
 
     Serial() {
 
     }
-    public Serial(int seasonsNumber, int episodesPerSeasonNumber) {
+    public Serial(int seasonsNumber, int episodesNumber) {
         this.seasonsNumber = seasonsNumber;
-        this.episodesPerSeasonNumber = episodesPerSeasonNumber;
+        this.episodesNumber = episodesNumber;
     }
 
-    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price, int seasonsNumber, int episodesPerSeasonNumber) throws InvalidURLException {
+    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price, int seasonsNumber, int episodesNumber) throws InvalidURLException {
         super(id, title, genre, year, director, mainActors, description, rating, image, price);
         this.seasonsNumber = seasonsNumber;
-        this.episodesPerSeasonNumber = episodesPerSeasonNumber;
+        this.episodesNumber = episodesNumber;
     }
 
     public int getSeasonsNumber() {
@@ -28,11 +28,11 @@ public class Serial extends Content {
         this.seasonsNumber = seasonsNumber;
     }
 
-    public int getEpisodesPerSeasonNumber() {
-        return episodesPerSeasonNumber;
+    public int getEpisodesNumber() {
+        return episodesNumber;
     }
 
-    public void setEpisodesPerSeasonNumber(int episodesPerSeasonNumber) {
-        this.episodesPerSeasonNumber = episodesPerSeasonNumber;
+    public void setEpisodesNumber(int episodesNumber) {
+        this.episodesNumber = episodesNumber;
     }
 }

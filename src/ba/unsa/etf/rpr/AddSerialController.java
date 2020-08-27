@@ -250,7 +250,7 @@ public class AddSerialController {
             serial.setDescription(descriptionArea.getText());
             serial.setPrice(Double.parseDouble(priceField.getText()));
             serial.setSeasonsNumber(Integer.parseInt(seasonsField.getText()));
-            serial.setEpisodesPerSeasonNumber(Integer.parseInt(episodesField.getText()));
+            serial.setEpisodesNumber(Integer.parseInt(episodesField.getText()));
             serial.setImage(imageUrlArea.getText());
             dao.addContent(serial);
             dao.addGenresToContent(serial, serial.getGenre());

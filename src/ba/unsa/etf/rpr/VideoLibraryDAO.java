@@ -1,5 +1,4 @@
 package ba.unsa.etf.rpr;
-import javafx.scene.control.Alert;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -198,7 +197,7 @@ public class VideoLibraryDAO {
                             s.setImage(resultSet1.getString(7));
                             s.setPrice(resultSet1.getDouble(8));
                             s.setSeasonsNumber(resultSet1.getInt(9));
-                            s.setEpisodesPerSeasonNumber(resultSet1.getInt(10));
+                            s.setEpisodesNumber(resultSet1.getInt(10));
                             s.setMainActors(getActorsInSerial(s.getId()));
                             s.setGenre(getSerialGenres(s.getId()));
                             if (!containsContent(recommended, s))  {
@@ -391,7 +390,7 @@ public class VideoLibraryDAO {
                 serial.setImage(resultSet.getString(7));
                 serial.setPrice(resultSet.getDouble(8));
                 serial.setSeasonsNumber(resultSet.getInt(9));
-                serial.setEpisodesPerSeasonNumber(resultSet.getInt(10));
+                serial.setEpisodesNumber(resultSet.getInt(10));
                 serial.setMainActors(getActorsInSerial(serial.getId()));
                 serial.setGenre(getSerialGenres(serial.getId()));
                 serials.add(serial);
@@ -454,7 +453,7 @@ public class VideoLibraryDAO {
             updateContetntStatement.setInt(8, s.getId());
             updateContetntStatement.executeUpdate();
             updateSerialStatement.setInt(1, s.getSeasonsNumber());
-            updateSerialStatement.setInt(3, s.getEpisodesPerSeasonNumber());
+            updateSerialStatement.setInt(3, s.getEpisodesNumber());
             updateSerialStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -661,7 +660,7 @@ public class VideoLibraryDAO {
             } else {
                 addSerialStatement.setInt(1, id);
                 addSerialStatement.setInt(2, ((Serial) c).getSeasonsNumber());
-                addSerialStatement.setInt(3, ((Serial) c).getEpisodesPerSeasonNumber());
+                addSerialStatement.setInt(3, ((Serial) c).getEpisodesNumber());
                 addSerialStatement.executeUpdate();
             }
         } catch (SQLException throwables) {
@@ -888,7 +887,7 @@ public class VideoLibraryDAO {
                 s.setImage(resultSet1.getString(7));
                 s.setPrice(resultSet1.getDouble(8));
                 s.setSeasonsNumber(resultSet1.getInt(9));
-                s.setEpisodesPerSeasonNumber(resultSet1.getInt(10));
+                s.setEpisodesNumber(resultSet1.getInt(10));
                 s.setMainActors(getActorsInSerial(s.getId()));
                 s.setGenre(getSerialGenres(s.getId()));
                 topContent.add(s);
@@ -990,7 +989,7 @@ public class VideoLibraryDAO {
                     serial.setImage(rs2.getString(7));
                     serial.setPrice(rs2.getDouble(8));
                     serial.setSeasonsNumber(rs2.getInt(9));
-                    serial.setEpisodesPerSeasonNumber(rs2.getInt(10));
+                    serial.setEpisodesNumber(rs2.getInt(10));
                     requests.add(new Request(resultSet.getInt(1), u, serial));
                 }
             }
