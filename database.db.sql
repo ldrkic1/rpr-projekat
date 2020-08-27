@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 INSERT INTO 'user' VALUES (1, 'Lamija', 'Drkić', 'lamka', 'lamka123', 1, 0);
 INSERT INTO 'user' VALUES (2, 'Dino', 'Merlin', 'merlin', 'svejelaz', 2, 1);
+INSERT INTO 'user' VALUES (3, '', '', '14', '3Cs6HrRLJl', 14, 0);
 CREATE TABLE IF NOT EXISTS "hotel" (
     "id" INTEGER,
     "rooms_number" INTEGER,

@@ -220,7 +220,7 @@
             </MenuBar>
             <MenuBar prefHeight="40.0" prefWidth="217.0" stylesheets="@../css/homeEmployee.css">
               <menus>
-                <Menu mnemonicParsing="false" text="Postavke korisničkog računa">
+                <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Postavke korisničkog računa">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#changeUsernameAction" text="Promijeni korisničko ime" />
                         <MenuItem mnemonicParsing="false" onAction="#changePasswordAction" text="Promijeni lozinku" />

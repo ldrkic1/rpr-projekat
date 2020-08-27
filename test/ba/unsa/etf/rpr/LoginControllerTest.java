@@ -3,12 +3,14 @@ package ba.unsa.etf.rpr;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -17,6 +19,7 @@ import org.testfx.framework.junit5.Start;
 @ExtendWith(ApplicationExtension.class)
 
 class LoginControllerTest {
+
     @Start
     public void start (Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
@@ -33,6 +36,8 @@ class LoginControllerTest {
     public void lookForLoginBtn(FxRobot robot) {
         Button loginBtn = robot.lookup("#loginButton").queryAs(Button.class);
         assertNotNull(loginBtn);
+        Stage stage = (Stage) loginBtn.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
     }
     @Test
     public void employeeLogin(FxRobot robot) {
@@ -45,6 +50,8 @@ class LoginControllerTest {
         robot.clickOn("#loginButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
     }
     @Test
     public void employeeLoginIncorrect(FxRobot robot) {
@@ -57,6 +64,9 @@ class LoginControllerTest {
         robot.clickOn("#loginButton");
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
+        robot.clickOn("OK");
+        Stage stage = (Stage) usernameFld.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
     }
     @Test
     public void userLoginIncorrect(FxRobot robot) {
@@ -69,6 +79,9 @@ class LoginControllerTest {
         robot.clickOn("#loginButton");
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
+        robot.clickOn("OK");
+        Stage stage = (Stage) usernameFld.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
     }
     @Test
     public void userLogin(FxRobot robot) {
@@ -81,5 +94,8 @@ class LoginControllerTest {
         robot.clickOn("#loginButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
     }
+
 }

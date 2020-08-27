@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 
 public class RegisterController {
-    public Button registerButton;
+    public Button registerButton, cancelButton;
     public TextField firstNameField;
     public TextField lastNameField;
     public TextField usernameField;
@@ -26,7 +26,7 @@ public class RegisterController {
     public PasswordField repeatPasswordField;
     private VideoLibraryDAO dao = null;
     private User user;
-    private boolean allFieldsCorrect = false;
+    private boolean passwordCorrect = false, passwordRepeatCorrect = false, nameCorrect = false, surnameCorrect = false, usernameCorrect = false;
     private  ArrayList<User> users = null;
     public RegisterController(User user, ArrayList<User> users) {
         this.user = user;
@@ -45,11 +45,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
-                    allFieldsCorrect = false;
+                    nameCorrect = false;
                     firstNameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFieldsCorrect = true;
+                    nameCorrect = true;
                     firstNameField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -58,11 +58,11 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
-                    allFieldsCorrect = false;
+                    surnameCorrect = false;
                     lastNameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFieldsCorrect = true;
+                    surnameCorrect = true;
                     lastNameField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -71,12 +71,14 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2 || isTakenUsername(newValue)) {
-                    allFieldsCorrect = false;
+                    usernameCorrect = false;
+                    usernameField.getStyleClass().removeAll("fieldCorrect");
                     usernameField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFieldsCorrect = true;
+                    usernameCorrect = true;
                     usernameField.getStyleClass().removeAll("fieldIncorrect");
+                    usernameField.getStyleClass().add("fieldCorrect");
                 }
             }
         });
@@ -84,12 +86,14 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 5 ) {
-                    allFieldsCorrect = false;
+                    passwordCorrect = false;
+                    passwordField.getStyleClass().removeAll("fieldCorrect");
                     passwordField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFieldsCorrect = true;
+                    passwordCorrect = true;
                     passwordField.getStyleClass().removeAll("fieldIncorrect");
+                    passwordField.getStyleClass().add("fieldCorrect");
                 }
             }
         });
@@ -97,18 +101,20 @@ public class RegisterController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 5 || !newValue.equals(passwordField.getText())) {
-                    allFieldsCorrect = false;
+                    passwordRepeatCorrect = false;
+                    repeatPasswordField.getStyleClass().removeAll("fieldCorrect");
                     repeatPasswordField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allFieldsCorrect = true;
+                    passwordRepeatCorrect = true;
                     repeatPasswordField.getStyleClass().removeAll("fieldIncorrect");
+                    repeatPasswordField.getStyleClass().add("fieldCorrect");
                 }
             }
         });
     }
     public void  registerAction(ActionEvent actionEvent) throws IOException {
-        if(allFieldsCorrect) {
+        if(nameCorrect && surnameCorrect && usernameCorrect && passwordCorrect && passwordRepeatCorrect) {
             user.setFirstName(firstNameField.getText());
             user.setLastName(lastNameField.getText());
             user.setUsername(usernameField.getText());
@@ -130,5 +136,9 @@ public class RegisterController {
             alert.setContentText("Unesite ispravne podatke!");
             alert.showAndWait();
         }
+    }
+    public void  cancelAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
 }

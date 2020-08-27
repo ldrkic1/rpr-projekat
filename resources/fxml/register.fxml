@@ -28,7 +28,12 @@
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <children>
-      <Button fx:id="registerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAction" prefHeight="41.0" prefWidth="214.0" text="Registruj se!" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+      <ButtonBar GridPane.columnSpan="5" GridPane.rowIndex="8">
+         <buttons>
+            <Button fx:id="cancelButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancelAction" prefHeight="35.0" prefWidth="150.0" text="Poništi" />
+            <Button fx:id="registerButton" layoutX="304.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAction" prefHeight="35.0" prefWidth="226.0" text="Registruj se!" />
+         </buttons>
+      </ButtonBar>
       <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ime:" GridPane.columnSpan="2" GridPane.rowIndex="1" />
       <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Prezime:" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Korisničko ime:" GridPane.columnSpan="2" GridPane.rowIndex="3" />

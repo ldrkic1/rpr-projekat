@@ -17,7 +17,7 @@
                <children>
                   <MenuBar>
                     <menus>
-                      <Menu mnemonicParsing="false" text="Korisnički račun">
+                      <Menu fx:id="accountOptions" mnemonicParsing="false" text="Korisnički račun">
                         <items>
                           <MenuItem fx:id="userData" mnemonicParsing="false" onAction="#userDataAction" text="Vaši podaci" />
                               <MenuItem fx:id="changePasswordOption" mnemonicParsing="false" onAction="#changePasswordAction" text="Promjena lozinka" />
