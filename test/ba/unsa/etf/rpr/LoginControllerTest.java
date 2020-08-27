@@ -58,4 +58,28 @@ class LoginControllerTest {
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
     }
+    @Test
+    public void userLoginIncorrect(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("lamka");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("lamka1");
+        robot.clickOn("#loginButton");
+        Button okButton = robot.lookup("OK").queryAs(Button.class);
+        assertNotNull(okButton);
+    }
+    @Test
+    public void userLogin(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("lamka");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("lamka14");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+    }
 }
