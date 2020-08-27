@@ -16,7 +16,16 @@ class ContentTest {
         Actor a = new Actor(1,"Tolga", "Saritas", "Biografija...", LocalDate.of(1991,5,30),"https://i2.cnnturk.com/i/cnnturk/75/800x400/5e1ae3d117aca93390e41d99");
         ArrayList<Actor> actors = new ArrayList<>();
         actors.add(a);
-        Content c = new Content(1, "Soz", genres, 2017, "Yagiz Alp Akaydin",actors, "Opis serije", 10, "https://i.pinimg.com/564x/34/09/31/340931dca19a12f3a75339891297b601.jpg", 0);
+        Content c = new Content();
+        c.setMainActors(actors);
+        c.setGenre(genres);
+        c.setId(1);
+        c.setTitle("Soz");
+        c.setPrice(0);
+        c.setYear(2017);
+        c.setDescription("Opis...");
+        c.setDirector("Yagiz Alp Akaydin");
+        c.setRating(10);
         assertEquals("Tolga Saritas", c.getMainActors().get(0).toString());
         assertEquals(1, c.getId());
         assertEquals(2017, c.getYear());
@@ -47,7 +56,7 @@ class ContentTest {
         c.setDescription("Opis...");
         c.setDirector("Yagiz Alp Akaydin");
         c.setRating(10);
-        assertDoesNotThrow(() -> c.setImage("https://i.pinimg.com/564x/34/09/31/340931dca19a12f3a75339891297b601.jpg"));
+
         assertTrue(c.getDescription().length() > 0);
         assertFalse(c.getDirector().isEmpty());
         assertEquals(10.0, c.getRating());
@@ -74,8 +83,6 @@ class ContentTest {
         c.setDescription("Opis...");
         c.setDirector("Yagiz Alp Akaydin");
         c.setRating(10);
-        c.setImage("https://i.pinimg.com/564x/34/09/31/340931dca19a12f3a75339891297b601.jpg");
-        assertTrue(!c.getImage().isEmpty());
         assertEquals("Tolga Saritas", c.getActorsString());
     }
 

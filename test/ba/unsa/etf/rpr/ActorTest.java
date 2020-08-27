@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
+//--module-path "C:\Users\User\Downloads\javafx-sdk-14.0.2.1\lib" --add-modules javafx.controls,javafx.fxml
 class ActorTest {
 
     @Test

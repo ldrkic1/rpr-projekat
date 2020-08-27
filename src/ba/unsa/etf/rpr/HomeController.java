@@ -199,6 +199,7 @@ public class HomeController {
             serialButtonCol.setCellFactory(cellFactory);
         }
     }
+
     @FXML
     public void initialize() {
         movieTable.setItems(moviesList);

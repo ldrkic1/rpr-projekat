@@ -1,0 +1,61 @@
+package ba.unsa.etf.rpr;
+
+import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
+import static org.junit.jupiter.api.Assertions.*;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.robot.Robot;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+@ExtendWith(ApplicationExtension.class)
+
+class LoginControllerTest {
+    @Start
+    public void start (Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        LoginController ctrl = new LoginController();
+        loader.setController(ctrl);
+        Parent root = loader.load();
+        root.setId("body");
+        stage.setTitle("Prijava");
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+        stage.show();
+        stage.toFront();
+    }
+    @Test
+    public void lookForLoginBtn(FxRobot robot) {
+        Button loginBtn = robot.lookup("#loginButton").queryAs(Button.class);
+        assertNotNull(loginBtn);
+    }
+    @Test
+    public void employeeLogin(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+    }
+    @Test
+    public void employeeLoginIncorrect(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("pasword");
+        robot.clickOn("#loginButton");
+        Button okButton = robot.lookup("OK").queryAs(Button.class);
+        assertNotNull(okButton);
+    }
+}
