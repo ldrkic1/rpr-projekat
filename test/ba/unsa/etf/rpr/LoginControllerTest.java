@@ -105,4 +105,19 @@ class LoginControllerTest {
         Platform.runLater(() -> stage.close());
     }
 
+    @Test
+    public void newGuestLogin(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("14");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("3Cs6HrRLJl");
+        robot.clickOn("#loginButton");
+        Button regButton = robot.lookup("#registerButton").queryAs(Button.class);
+        assertNotNull(regButton);
+        Stage stage = (Stage) regButton.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+
 }

@@ -16,16 +16,18 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.io.File;
 import java.util.ArrayList;
 
 @ExtendWith(ApplicationExtension.class)
 
 class RegisterControllerTest {
-    VideoLibraryDAO dao = VideoLibraryDAO.getInstance();
-    User user = null;
-    ArrayList<User> users = dao.getUsers();
     @Start
     public void start (Stage stage) throws Exception {
+        VideoLibraryDAO.removeInstance();
+        File dbfile = new File("database.db");
+        dbfile.delete();
+        VideoLibraryDAO dao = VideoLibraryDAO.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         LoginController ctrl = new LoginController();
         loader.setController(ctrl);
@@ -86,8 +88,7 @@ class RegisterControllerTest {
         robot.clickOn("#lastNameField");
         robot.write("Nekic");
         robot.clickOn("#usernameField");
-        if(users.size()!= 0) robot.write(users.get(0).getUsername());
-        else robot.write("l");
+        robot.write("lamka");
         robot.clickOn("#passwordField");
         robot.write("password");
         robot.clickOn("#repeatPasswordField");
@@ -113,36 +114,19 @@ class RegisterControllerTest {
     }
     @Test
     public void register(FxRobot robot) {
-        user = new User();
-        user.setFirstName("");
-        user.setLastName("");
-        user.setPrivilege(false);
-        user.setPassword(AddHotelGuestController.generatePassword());
-        if(users.size() == 0) {
-            user.setId(1);
-            user.setRoomNumber(1);
-            user.setUsername("1");
-        }
-        else {
-            user.setId(users.size() + 1);
-            user.setUsername(String.valueOf(users.get(0).getRoomNumber()));
-            user.setRoomNumber(users.get(0).getRoomNumber());
-        }
-        dao.addUser(user);
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
-        robot.write(user.getUsername());
+        robot.write("14");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
         robot.clickOn("#passwordField");
-        robot.write(user.getPassword());
+        robot.write("3Cs6HrRLJl");
         robot.clickOn("#loginButton");
         robot.clickOn("#firstNameField");
         robot.write("Neko");
         robot.clickOn("#lastNameField");
         robot.write("Nekic");
         robot.clickOn("#usernameField");
-        if(users.size() == 0) robot.write("neko1");
-        else robot.write(users.get(0).getUsername() + "2");
+        robot.write("neko1");
         robot.clickOn("#passwordField");
         robot.write("password");
         robot.clickOn("#repeatPasswordField");
@@ -161,14 +145,8 @@ class RegisterControllerTest {
         robot.clickOn("#registerButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);
-        user.setPassword(passwordFld.getText());
-        user.setUsername(usernameField.getText());
-        user.setFirstName(firstNameFld.getText());
-        user.setLastName(lastNameFld.getText());
-        dao.updateUser(user);
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
-        dao.deleteHotelGuest(user.getId());
     }
 
 }
