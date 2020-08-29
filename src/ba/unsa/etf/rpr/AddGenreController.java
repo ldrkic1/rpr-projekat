@@ -137,7 +137,8 @@ public class AddGenreController {
     }
     public void cancelAction(ActionEvent actionEvent) throws IOException {
        Stage stage = (Stage) cancelButton.getScene().getWindow();
-       if(!newGenreToDatabase) {
+       stage.close();
+       /*if(!newGenreToDatabase) {
            if (!newContent) {
                if (content instanceof Movie) {
                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
@@ -158,7 +159,7 @@ public class AddGenreController {
                stage.close();
            }
 
-       }
+       }*/
     }
 
 

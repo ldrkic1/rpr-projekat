@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -200,13 +202,20 @@ public class HomeEmployeeController {
     }
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         AddGenreController ctrl = new AddGenreController(newGenre);
-        Stage stage = (Stage) genresTableView.getScene().getWindow();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
-        stage.setScene(new Scene(root, 1200,700));
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                genresList.setAll(dao.getGenres());
+                genresTableView.setItems(genresList);
+            }
+        });
     }
     public void editGenreAction(ActionEvent actionEvent) throws IOException {
         EditGenreController ctrl = new EditGenreController(genresTableView.getSelectionModel().getSelectedItem());
@@ -255,15 +264,22 @@ public class HomeEmployeeController {
         }
     }
     public void addEmployeeAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) addEmployeeButton.getScene().getWindow();
-        AddEmployeeController ctrl = new AddEmployeeController();
+        Stage stage = new Stage();
+        AddEmployeeController ctrl = new AddEmployeeController(employee);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addEmployee.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
-        Scene scene = new Scene(root, 1200, 700);
+        Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         stage.setScene(scene);
         stage.setTitle("Dodaj uposlenika");
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                employeesList.setAll(dao.getEmployees());
+                employeesTableView.setItems(employeesList);
+            }
+        });
     }
     public void deleteEmployeeAction(ActionEvent actionEvent) {
         if(employeesTableView.getSelectionModel().getSelectedItem() != null) {

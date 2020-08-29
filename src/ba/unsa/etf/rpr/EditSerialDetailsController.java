@@ -4,14 +4,20 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
+
 public class EditSerialDetailsController {
     private Serial serial;
     public Button saveChangesButton;
@@ -205,14 +211,21 @@ public class EditSerialDetailsController {
         }
     }
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
         AddGenreController ctrl = new AddGenreController(serial, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
-        stage.setScene(new Scene(root, 1200,700));
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                genres.setAll(dao.getMovieGenres(serial.getId()));
+                genresListView.setItems(genres);
+            }
+        });
     }
     public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
         Genre g = genresListView.getSelectionModel().getSelectedItem();

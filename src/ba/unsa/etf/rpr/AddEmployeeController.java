@@ -24,9 +24,11 @@ public class AddEmployeeController {
     private VideoLibraryDAO dao = null;
     private ObservableList<Employee> employees = null;
     private boolean allFieldsCorrect = false;
-    public AddEmployeeController() {
+    private Employee employee;
+    public AddEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         employees = FXCollections.observableArrayList(dao.getEmployees());
+        this.employee = employee;
     }
     private boolean checkUsername(String username) {
         for (Employee e: employees) {
@@ -75,13 +77,14 @@ public class AddEmployeeController {
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addButton.getScene().getWindow();
-        HomeEmployeeController ctrl = new HomeEmployeeController();
+        stage.close();
+       /* HomeEmployeeController ctrl = new HomeEmployeeController(employee);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
         stage.setScene(scene);
         stage.setTitle("Početna");
-        stage.show();
+        stage.show();*/
     }
 }

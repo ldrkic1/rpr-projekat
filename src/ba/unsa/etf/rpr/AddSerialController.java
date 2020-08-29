@@ -232,7 +232,7 @@ public class AddSerialController {
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsListView.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        HomeEmployeeController ctrl = new HomeEmployeeController();
+        HomeEmployeeController ctrl = new HomeEmployeeController(employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);

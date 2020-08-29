@@ -181,7 +181,7 @@ public class AddMovieController {
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsListView.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        HomeEmployeeController ctrl = new HomeEmployeeController();
+        HomeEmployeeController ctrl = new HomeEmployeeController(employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
@@ -216,6 +216,7 @@ public class AddMovieController {
         stage.setTitle("Dodaj žanr");
         stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+
     }
 
     public void deleteGenreAction(ActionEvent actionEvent) {
