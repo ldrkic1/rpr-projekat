@@ -52,22 +52,9 @@ public class AddEmployeeController {
                 }
             }
         });
-        passwordField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(newValue.length() < 5 ) {
-                    passwordField.getStyleClass().add("fieldIncorrect");
-                    allFieldsCorrect = false;
-                }
-                else {
-                    passwordField.getStyleClass().removeAll("fieldIncorrect");
-                    allFieldsCorrect = true;
-                }
-            }
-        });
     }
     public void addAction(ActionEvent actionEvent) throws IOException {
-        if(!passwordField.getText().isEmpty() && !usernameField.getText().isEmpty()) {
+        if(!passwordField.getText().isEmpty() && !usernameField.getText().isEmpty() && allFieldsCorrect) {
             Employee e = new Employee();
             e.setUsername(usernameField.getText());
             e.setPassword(passwordField.getText());

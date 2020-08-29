@@ -99,7 +99,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#addHotelGuestAction" prefHeight="67.0" prefWidth="127.0" text="Dodaj" />
+                              <Button fx:id="addGuestButton" mnemonicParsing="false" onAction="#addHotelGuestAction" prefHeight="67.0" prefWidth="127.0" text="Dodaj" />
                               <Button fx:id="editHotelGuestButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#editHotelGuestAction" prefHeight="67.0" prefWidth="120.0" text="Uredi" />
                               <Button fx:id="deleteGuestButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteHotelGuestAction" prefHeight="67.0" prefWidth="116.0" text="Obriši" />
                            </children>

@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.robot.Robot;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -226,7 +227,7 @@ class HomeEmployeeControllerTest {
         Platform.runLater(() -> stage.close());
     }
     @Test
-    public void employeeDeleteEmployeeOption(FxRobot robot) {
+    public void adminDeleteEmployeeOption(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
         robot.write("admin");
@@ -238,10 +239,10 @@ class HomeEmployeeControllerTest {
         assertNotNull(tabPane);
         robot.clickOn("#employeesTab");
         TableView tableView1 = robot.lookup("#employeesTableView").queryAs(TableView.class);
-        assertEquals(2, tableView1.getItems().size());
-        tableView1.getSelectionModel().selectFirst();
+        assertEquals(3, tableView1.getItems().size());
+        tableView1.getSelectionModel().selectLast();
         robot.clickOn("#deleteEmployeeButton");
-        assertEquals(1, tableView1.getItems().size());
+        assertEquals(2, tableView1.getItems().size());
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }
@@ -288,7 +289,7 @@ class HomeEmployeeControllerTest {
         Platform.runLater(() -> stage.close());
     }
     @Test
-    public void employeeAddEmployeeOption(FxRobot robot) {
+    public void adminAddEmployeeOption1(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
         robot.write("admin");
@@ -300,16 +301,47 @@ class HomeEmployeeControllerTest {
         assertNotNull(tabPane);
         robot.clickOn("#employeesTab");
         TableView tableView = robot.lookup("#employeesTableView").queryAs(TableView.class);
-        assertTrue(tableView.getItems().size() == 2);
+        assertTrue(tableView.getItems().size() == 3);
         robot.clickOn("#addEmployeeButton");
         Button button = robot.lookup("#addButton").queryAs(Button.class);
         assertTrue(button.isVisible());
         robot.clickOn("#usernameField");
+        robot.write("test");
+        robot.clickOn("#generatePasswordButton");
+        TextField password = robot.lookup("#passwordField").queryAs(TextField.class);
+        assertFalse(password.getText().isEmpty());
+        robot.clickOn("#addButton");
+        assertTrue(tableView.getItems().size() == 4);
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void adminAddEmployeeOption2(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
         robot.write("admin");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
         robot.clickOn("#passwordField");
         robot.write("password");
-        robot.clickOn("#addButton");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#employeesTab");
+        TableView tableView = robot.lookup("#employeesTableView").queryAs(TableView.class);
         assertTrue(tableView.getItems().size() == 3);
+        robot.clickOn("#addEmployeeButton");
+        Button button = robot.lookup("#addButton").queryAs(Button.class);
+        assertTrue(button.isVisible());
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        robot.clickOn("#generatePasswordButton");
+        TextField password = robot.lookup("#passwordField").queryAs(TextField.class);
+        assertFalse(password.getText().isEmpty());
+        robot.clickOn("#addButton");
+        Button okButton = robot.lookup("OK").queryAs(Button.class);
+        assertNotNull(okButton);
+        robot.clickOn("OK");
+        robot.clickOn("#cancelButton");
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }
@@ -334,6 +366,124 @@ class HomeEmployeeControllerTest {
         robot.write("Horor");
         robot.clickOn("#saveGenreButton");
         assertTrue(tableView.getItems().size() == 8);
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void employeeEditGenreOption(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#genresTab");
+        TableView tableView = robot.lookup("#genresTableView").queryAs(TableView.class);
+        assertTrue(tableView.getItems().size() == 7);
+        tableView.getSelectionModel().selectFirst();
+        robot.clickOn("#editGenreButton");
+        TextField textField = robot.lookup("#titleField").queryAs(TextField.class);
+        assertTrue(textField.isVisible());
+        assertTrue(textField.getText().equals("Drama"));
+        robot.clickOn("#cancelButton");
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void adminDeleteOption(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("admin");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#employeesTab");
+        TableView tableView1 = robot.lookup("#employeesTableView").queryAs(TableView.class);
+        assertEquals(3, tableView1.getItems().size());
+        tableView1.getSelectionModel().selectFirst();
+        robot.clickOn("#deleteEmployeeButton");
+        Button okButton = robot.lookup("OK").queryAs(Button.class);
+        assertNotNull(okButton);
+        robot.clickOn("OK");
+        assertEquals(3, tableView1.getItems().size());
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void employeeAddGuest1(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#guestsTab");
+        TableView tableView1 = robot.lookup("#usersTableView").queryAs(TableView.class);
+        assertEquals(3, tableView1.getItems().size());
+        robot.clickOn("#addGuestButton");
+        ChoiceBox choiceBox = robot.lookup("#usernameChoice").queryAs(ChoiceBox.class);
+        assertNotNull(choiceBox);
+        robot.clickOn("#usernameChoice");
+        robot.clickOn("19");
+        robot.clickOn("#generatePasswordButton");
+        robot.clickOn("#addButton");
+        assertEquals(4, tableView1.getItems().size());
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void employeeAddGuest2(FxRobot robot) {
+        dao.deleteHotelInformation();
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#guestsTab");
+        TableView tableView1 = robot.lookup("#usersTableView").queryAs(TableView.class);
+        assertEquals(3, tableView1.getItems().size());
+        robot.clickOn("#addGuestButton");
+        Button okButton = robot.lookup("OK").queryAs(Button.class);
+        assertNotNull(okButton);
+        robot.clickOn("OK");
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+    @Test
+    public void employeeEditGuest(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        robot.clickOn("#usernameField");
+        robot.write("user");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#guestsTab");
+        TableView tableView1 = robot.lookup("#usersTableView").queryAs(TableView.class);
+        assertEquals(3, tableView1.getItems().size());
+        tableView1.getSelectionModel().selectFirst();
+        robot.clickOn("#editHotelGuestButton");
+        ChoiceBox choiceBox = robot.lookup("#roomChoice").queryAs(ChoiceBox.class);
+        assertNotNull(choiceBox);
+        assertTrue(choiceBox.getSelectionModel().getSelectedItem().toString().equals("1"));
+        robot.clickOn("#roomChoice");
+        robot.clickOn("19");
+        robot.clickOn("#saveChangesButton");
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }

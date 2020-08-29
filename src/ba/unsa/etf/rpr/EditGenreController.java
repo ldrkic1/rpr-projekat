@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -43,13 +44,7 @@ public class EditGenreController {
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        HomeEmployeeController ctrl = new HomeEmployeeController();
-        loader.setController(ctrl);
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 1200, 700);
-        stage.setScene(scene);
-        stage.setTitle("Početna");
+        stage.close();
     }
 
     public void saveGenreAction(ActionEvent actionEvent) throws IOException {
@@ -57,6 +52,13 @@ public class EditGenreController {
             genre.setName(titleField.getText());
             dao.updateGenre(genre);
             cancelAction(actionEvent);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravan naziv žanra!");
+            alert.showAndWait();
         }
     }
 }

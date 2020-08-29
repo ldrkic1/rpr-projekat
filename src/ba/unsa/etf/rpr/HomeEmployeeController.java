@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.WeakEventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,15 +68,6 @@ public class HomeEmployeeController {
     private ObservableList<Request> requestList = null;
     private boolean newGenre = true;
     private Employee employee = null;
-    public HomeEmployeeController() {
-        dao = VideoLibraryDAO.getInstance();
-        moviesList = FXCollections.observableArrayList(dao.getMovies());
-        serialList = FXCollections.observableArrayList(dao.getSerials());
-        usersList = FXCollections.observableArrayList(dao.getUsers());
-        employeesList = FXCollections.observableArrayList(dao.getEmployees());
-        genresList = FXCollections.observableArrayList(dao.getGenres());
-        requestList = FXCollections.observableArrayList(dao.getUserRequests());
-    }
     public HomeEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
@@ -206,10 +198,7 @@ public class HomeEmployeeController {
         requestUserCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUser().getFirstName() + " " + data.getValue().getUser().getLastName()));
         requestContentCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getContent().getTitle()));
     }
-    public void updateLists() {
-        employeesList.setAll(dao.getEmployees());
-        employeesTableView.setItems(employeesList);
-    }
+
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         AddGenreController ctrl = new AddGenreController(newGenre);
         Stage stage = new Stage();
@@ -229,13 +218,20 @@ public class HomeEmployeeController {
     }
     public void editGenreAction(ActionEvent actionEvent) throws IOException {
         EditGenreController ctrl = new EditGenreController(genresTableView.getSelectionModel().getSelectedItem());
-        Stage stage = (Stage) genresTableView.getScene().getWindow();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editGenre.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Uredi žanr");
-        stage.setScene(new Scene(root, 1200,700));
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                genresList.setAll(dao.getGenres());
+                genresTableView.setItems(genresList);
+            }
+        });
     }
     public void deleteGenreAction(ActionEvent actionEvent) {
         if(genresTableView.getSelectionModel().getSelectedItem() != null) {
@@ -350,7 +346,7 @@ public class HomeEmployeeController {
     public void addHotelGuestAction(ActionEvent actionEvent) throws IOException {
         if(dao.checkHotel()) {
             Stage stage = new Stage();
-            AddHotelGuestController ctrl = new AddHotelGuestController(usersTableView, usersList);
+            AddHotelGuestController ctrl = new AddHotelGuestController();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addHotelGuest.fxml"));
             loader.setController(ctrl);
             Parent root = loader.load();
@@ -358,6 +354,13 @@ public class HomeEmployeeController {
             stage.setTitle("Novi gost hotela");
             stage.setScene(scene);
             stage.show();
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent windowEvent) {
+                    usersList.setAll(dao.getUsers());
+                    usersTableView.setItems(usersList);
+                }
+            });
         }
         else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -383,7 +386,7 @@ public class HomeEmployeeController {
             u.setUsername(usersTableView.getSelectionModel().getSelectedItem().getUsername());
             u.setPassword(usersTableView.getSelectionModel().getSelectedItem().getPassword());
             u.setRoomNumber(usersTableView.getSelectionModel().getSelectedItem().getRoomNumber());
-            EditHotelGuestContrroler ctrl = new EditHotelGuestContrroler(u, usersTableView, usersList);
+            EditHotelGuestContrroler ctrl = new EditHotelGuestContrroler(u);
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editHotelGuest.fxml"));
             loader.setController(ctrl);
@@ -391,8 +394,14 @@ public class HomeEmployeeController {
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setTitle("Izmjena podataka");
             stage.show();
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent windowEvent) {
+                    usersList.setAll(dao.getUsers());
+                    usersTableView.setItems(usersList);
+                }
+            });
         }
-
     }
     public void roomsNumberAction(ActionEvent actionEvent) throws IOException {
         AddRoomsNumberController ctrl = new AddRoomsNumberController();

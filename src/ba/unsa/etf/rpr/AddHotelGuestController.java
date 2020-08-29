@@ -19,16 +19,9 @@ public class AddHotelGuestController {
     public Button cancelButton;
     public Button addButton;
     private VideoLibraryDAO dao = null;
-    private TableView<User> tableView = null;
-    private ObservableList<User> list = null;
     public AddHotelGuestController() {
         dao = VideoLibraryDAO.getInstance();
 
-    }
-    public AddHotelGuestController(TableView<User> usersTableView, ObservableList<User> usersList) throws IOException {
-        dao = VideoLibraryDAO.getInstance();
-        tableView = usersTableView;
-        list = usersList;
     }
 
     @FXML
@@ -93,8 +86,6 @@ public class AddHotelGuestController {
             if(privilegeChoice.getSelectionModel().getSelectedItem().equals("DA")) user.setPrivilege(true);
             else user.setPrivilege(false);
             dao.addUser(user);
-            list.setAll(dao.getUsers());
-            tableView.setItems(list);
             cancelAction(actionEvent);
         }
         else {

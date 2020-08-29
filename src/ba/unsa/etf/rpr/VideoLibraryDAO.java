@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class VideoLibraryDAO {
     private static VideoLibraryDAO instance;
     private Connection connection;
-    private PreparedStatement getUsersStatement,getUserByUsername, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement;
+    private PreparedStatement getUsersStatement,getUserByUsername, getUserStatement, getUserByNameStatement, getUserByIdStatement, getHotelRoomsNumberStatement, getHotelsStatement, addHotelStatement, updateHotelStatement, deleteHotelStatement;
     private PreparedStatement getEmployeeStatament, getEmployeeByIdStatement, deleteEmployeeStatement, getEmplyeesStamement, addEmployeeStatement, nextIdEmployee, updateEmployeeStatement;
     private PreparedStatement getActorStatement, getActorByIdStatement, getActorsStatement, getTopMoviesStatement, getTopSerialsStatement;
     private PreparedStatement getGenreStatement, getGenreByIdStatement, getGenresStatement, deleteGenreStatement, getGenreContentsStatement, updateGenreStatement;
@@ -149,6 +149,7 @@ public class VideoLibraryDAO {
             addUserGenreStatement = connection.prepareStatement("INSERT INTO user_genres VALUES (?,?,?)");
             nextIdUserGenre = connection.prepareStatement("SELECT MAX(id)+1 FROM user_genres");
             getUserGenres = connection.prepareStatement("SELECT * FROM user_genres WHERE user_id=?");
+            deleteHotelStatement = connection.prepareStatement("DELETE FROM hotel where id=1");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -227,6 +228,13 @@ public class VideoLibraryDAO {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    public void deleteHotelInformation() {
+        try {
+            deleteHotelStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
     public boolean checkHotel() {

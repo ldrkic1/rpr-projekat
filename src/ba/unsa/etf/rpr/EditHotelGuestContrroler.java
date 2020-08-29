@@ -19,13 +19,9 @@ public class EditHotelGuestContrroler {
     private User user;
     private VideoLibraryDAO dao = null;
     private ObservableList<User> list = null;
-    private TableView<User> usersTableView = null;
-    private ObservableList<User> usersList = null;
-    public EditHotelGuestContrroler(User user, TableView<User> usersTableView, ObservableList<User> usersList) {
+    public EditHotelGuestContrroler(User user) {
         this.user = user;
         dao = VideoLibraryDAO.getInstance();
-        this.usersTableView = usersTableView;
-        this.usersList = usersList;
     }
 
     @FXML
@@ -63,8 +59,6 @@ public class EditHotelGuestContrroler {
         if(user.getFirstName().equals("") && user.getLastName().equals("")) user.setUsername(String.valueOf(roomChoice.getSelectionModel().getSelectedItem()));
         if(!passwordField.getText().equals("")) user.setPassword(passwordField.getText());
         dao.updateUser(user);
-        usersList.setAll(FXCollections.observableArrayList(dao.getUsers()));
-        usersTableView.setItems(usersList);
         cancelAction(actionEvent);
     }
 }
