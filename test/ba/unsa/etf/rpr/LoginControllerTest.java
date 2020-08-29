@@ -16,12 +16,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+
+import java.io.File;
+
 @ExtendWith(ApplicationExtension.class)
 
 class LoginControllerTest {
 
     @Start
     public void start (Stage stage) throws Exception {
+        VideoLibraryDAO.removeInstance();
+        File dbfile = new File("database.db");
+        dbfile.delete();
+        VideoLibraryDAO dao = VideoLibraryDAO.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         LoginController ctrl = new LoginController();
         loader.setController(ctrl);
@@ -90,7 +97,7 @@ class LoginControllerTest {
         robot.write("lamka");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
         robot.clickOn("#passwordField");
-        robot.write("lamka14");
+        robot.write("lamka123");
         robot.clickOn("#loginButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);

@@ -28,6 +28,13 @@ public class VideoLibraryDAO {
         if (instance == null) instance = new VideoLibraryDAO();
         return instance;
     }
+
+    public static void removeInstance() {
+        if (instance == null) return;
+        instance.close();
+        instance = null;
+    }
+
     private void database() {
         Scanner ulaz = null;
         try {
