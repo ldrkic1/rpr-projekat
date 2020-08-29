@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -20,7 +21,7 @@ public class AddEmployeeController {
     public Button addButton;
     public Button cancelButton;
     public TextField usernameField;
-    public PasswordField passwordField;
+    public TextField passwordField;
     private VideoLibraryDAO dao = null;
     private ObservableList<Employee> employees = null;
     private boolean allFieldsCorrect = false;
@@ -66,25 +67,27 @@ public class AddEmployeeController {
         });
     }
     public void addAction(ActionEvent actionEvent) throws IOException {
-        if(allFieldsCorrect) {
+        if(!passwordField.getText().isEmpty() && !usernameField.getText().isEmpty()) {
             Employee e = new Employee();
             e.setUsername(usernameField.getText());
             e.setPassword(passwordField.getText());
             dao.addEmployee(e);
+            cancelAction(actionEvent);
         }
-        cancelAction(actionEvent);
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravne podatke!");
+            alert.showAndWait();
+        }
     }
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) addButton.getScene().getWindow();
         stage.close();
-       /* HomeEmployeeController ctrl = new HomeEmployeeController(employee);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-        loader.setController(ctrl);
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 1200, 700);
-        stage.setScene(scene);
-        stage.setTitle("Početna");
-        stage.show();*/
+    }
+    public void generatePasswordAction(ActionEvent actionEvent) {
+        passwordField.setText(AddHotelGuestController.generatePassword());
     }
 }

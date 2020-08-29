@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
 public class HomeEmployeeController {
+    public TabPane tabPane;
     public TableView<Movie> tableViewMovies;
     public TableView<Serial> tableViewSeries;
     public TableView<User> usersTableView;
@@ -52,7 +53,10 @@ public class HomeEmployeeController {
     public TableColumn<Request, String> requestUserCol;
     public TableColumn<Request, String> requestContentCol;
     public TableColumn requestButtonCol;
-    public MenuItem logoutMenuOption;
+    public MenuItem logoutMenuOption, changeUsernameOption;
+    public Menu settingsMenu;
+
+    public Tab employeesTab;
     public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
@@ -165,6 +169,12 @@ public class HomeEmployeeController {
     }
     @FXML
     public void initialize() {
+        if(!employee.getUsername().equals("admin")) {
+            tabPane.getTabs().remove(employeesTab);
+        }
+        else {
+            settingsMenu.getItems().remove(changeUsernameOption);
+        }
         tableViewMovies.setItems(moviesList);
         colMovieId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -286,9 +296,19 @@ public class HomeEmployeeController {
             Employee e = new Employee();
             e.setId(employeesTableView.getSelectionModel().getSelectedItem().getId());
             e.setUsername(employeesTableView.getSelectionModel().getSelectedItem().getUsername());
-            dao.deleteEmployee(e);
-            employeesList.setAll(dao.getEmployees());
-            employeesTableView.setItems(employeesList);
+            if(!e.getUsername().equals("admin")) {
+                dao.deleteEmployee(e);
+                employeesList.setAll(dao.getEmployees());
+                employeesTableView.setItems(employeesList);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Upozorenje");
+                alert.setHeaderText(null);
+                alert.setContentText("Brisanje admina nije dozvoljeno!");
+                alert.showAndWait();
+            }
+
         }
     }
     public void logOutAction(ActionEvent actionEvent) throws SQLException, IOException {

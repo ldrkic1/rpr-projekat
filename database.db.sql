@@ -5,8 +5,10 @@ CREATE TABLE IF NOT EXISTS "employee" (
 	"password"	TEXT,
 	PRIMARY KEY("id")
 );
-INSERT INTO 'employee' VALUES (1, 'user', 'password');
+INSERT INTO 'employee' VALUES (1, 'admin', 'password');
 INSERT INTO 'employee' VALUES (2,'ldrkic1','lamka123');
+INSERT INTO 'employee' VALUES (3,'user','password');
+
 CREATE TABLE IF NOT EXISTS "actor" (
 	"id"	INTEGER,
 	"first_name"	TEXT,

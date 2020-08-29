@@ -229,7 +229,7 @@ class HomeEmployeeControllerTest {
     public void employeeDeleteEmployeeOption(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
-        robot.write("user");
+        robot.write("admin");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
         robot.clickOn("#passwordField");
         robot.write("password");
@@ -291,7 +291,7 @@ class HomeEmployeeControllerTest {
     public void employeeAddEmployeeOption(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
-        robot.write("user");
+        robot.write("admin");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
         robot.clickOn("#passwordField");
         robot.write("password");
