@@ -34,26 +34,21 @@ public class AddGenreController {
     private ArrayList<Genre> movieGenres = null, serialGenres = null;
     private boolean newGenreToDatabase;
     private boolean newContent = false;
-    private ListView listView = null;
     private Employee employee;
-    private ObservableList<Genre> genresList = null;
 
     public AddGenreController(boolean newGenre) {
         newGenreToDatabase = newGenre;
         if(dao == null) dao = VideoLibraryDAO.getInstance();
     }
 
-    public AddGenreController(Content content, boolean newContent, ListView genresListView, ObservableList<Genre> genresList, Employee employee) {
+    public AddGenreController(Content content, boolean newContent, Employee employee) {
         this.content = content;
         this.newContent = newContent;
-        listView = genresListView;
-        this.genresList = genresList;
         this.employee = employee;
         newGenreToDatabase = false;
         dao = VideoLibraryDAO.getInstance();
         genres = FXCollections.observableArrayList(dao.getGenres());
         if(content.getGenre().size() != 0) {
-
                 for (Genre g: content.getGenre()) {
                     if(getGenreIndex(g.getId()) != -1) {
                         genres.remove(getGenreIndex(g.getId()));
@@ -106,11 +101,13 @@ public class AddGenreController {
                         choiceGenre.setDisable(true);
                         titleField.setDisable(false);
                         titleLabel.setDisable(false);
+                        allControlsCorrect = false;
                     } else {
                         genreLabel.setDisable(false);
                         choiceGenre.setDisable(false);
                         titleField.setDisable(true);
                         titleLabel.setDisable(true);
+                        allControlsCorrect = true;
                     }
                 }
             });
@@ -138,28 +135,6 @@ public class AddGenreController {
     public void cancelAction(ActionEvent actionEvent) throws IOException {
        Stage stage = (Stage) cancelButton.getScene().getWindow();
        stage.close();
-       /*if(!newGenreToDatabase) {
-           if (!newContent) {
-               if (content instanceof Movie) {
-                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-                   EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content, employee);
-                   loader.setController(ctrl);
-                   Parent root = loader.load();
-                   stage.setScene(new Scene(root, 1200, 700));
-               } else {
-                   FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-                   EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content, employee);
-                   loader.setController(ctrl);
-                   Parent root = loader.load();
-                   stage.setScene(new Scene(root, 1200, 700));
-               }
-               stage.setTitle(content.getTitle());
-               stage.show();
-           } else {
-               stage.close();
-           }
-
-       }*/
     }
 
 
@@ -178,8 +153,6 @@ public class AddGenreController {
                         if(id != 0) {
                             g.setId(id);
                             content.getGenre().add(g);
-                            genresList.add(g);
-                            listView.setItems(genresList);
                         }
                     }
                 } else {
@@ -187,8 +160,6 @@ public class AddGenreController {
                     if(!newContent) dao.addContentGenre(g, content);
                     else {
                         content.getGenre().add(g);
-                        genresList.add(g);
-                        listView.setItems(genresList);
                     }
                 }
             }
@@ -198,6 +169,13 @@ public class AddGenreController {
                 dao.addGenre(g);
             }
             cancelAction(actionEvent);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravne podatke!");
+            alert.showAndWait();
         }
     }
 }

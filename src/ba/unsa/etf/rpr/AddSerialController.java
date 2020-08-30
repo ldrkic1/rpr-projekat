@@ -221,12 +221,19 @@ public class AddSerialController {
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addGenre.fxml"));
-        AddGenreController ctrl = new AddGenreController(serial, true, genresListView, genresList, employee);
+        AddGenreController ctrl = new AddGenreController(serial, true, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj žanr");
         stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                genresList.setAll(serial.getGenre());
+                genresListView.setItems(genresList);
+            }
+        });
     }
 
     public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
