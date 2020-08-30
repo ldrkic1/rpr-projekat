@@ -518,7 +518,7 @@ public class VideoLibraryDAO {
             e.printStackTrace();
         }
     }
-    public void addGenre(Genre g) {
+    public void addGenre(Genre g) throws SQLException {
         try {
             ResultSet rs = nextIdGenreStatement.executeQuery();
             int id = 1;
@@ -530,6 +530,10 @@ public class VideoLibraryDAO {
             addGenreStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            int id = getGenres().size() + 1;
+            addGenreStatement.setInt(1, id);
+            addGenreStatement.setString(2, g.getName());
+            addGenreStatement.executeUpdate();
         }
     }
     public void addContentActor(Actor a, Content content) {

@@ -79,7 +79,7 @@ class AddActorControllerTest {
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
         robot.clickOn("OK");
-        robot.clickOn("#cancelButton");
+        robot.clickOn("#cancelAddActorButton");
         TextField textField = robot.lookup("#titleField").queryAs(TextField.class);
         Stage stage = (Stage) textField.getScene().getWindow();
         Platform.runLater(() -> stage.close());
@@ -182,7 +182,7 @@ class AddActorControllerTest {
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
         robot.clickOn("OK");
-        robot.clickOn("#cancelButton");
+        robot.clickOn("#cancelAddActorButton");
         ListView listView = robot.lookup("#actorsListView").queryAs(ListView.class);
         assertTrue(listView.getItems().isEmpty());
         Stage stage = (Stage) listView.getScene().getWindow();

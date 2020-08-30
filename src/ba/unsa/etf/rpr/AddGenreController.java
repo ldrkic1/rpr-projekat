@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.security.PublicKey;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AddGenreController {
@@ -138,7 +139,7 @@ public class AddGenreController {
     }
 
 
-    public void saveGenreAction(ActionEvent actionEvent) throws IOException {
+    public void saveGenreAction(ActionEvent actionEvent) throws IOException, SQLException {
         if(allControlsCorrect) {
             if(!newGenreToDatabase) {
                 if (genreRadio.isSelected()) {

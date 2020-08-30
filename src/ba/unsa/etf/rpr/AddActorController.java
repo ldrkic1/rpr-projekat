@@ -33,7 +33,7 @@ public class AddActorController {
     public TextArea biographyArea, urlArea;
     public ImageView actorImg;
     public Pane pane;
-    public Button addActorButton, cancelButton;
+    public Button addActorButton, cancelAddActorButton;
     private VideoLibraryDAO dao = null;
     private ObservableList<Actor> actors = null;
     private ArrayList<Actor> actorsInMovie = null;
