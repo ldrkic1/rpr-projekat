@@ -42,7 +42,7 @@ public class AddSerialController {
     private Serial serial = null;
     private ObservableList<Actor> actorsList = FXCollections.observableArrayList();
     private ObservableList<Genre> genresList = FXCollections.observableArrayList();
-    private boolean allControlsCorrect = false;
+    private boolean seasonsCorrect = false, episodesCorrect = false, titleCorrect = false, yearCorrect = false, directorCorrect = false, descriptionCorrect = false, priceCorrect = false, ratingCorrect = false, durationCorrect = false, urlCorrect = false;
     private Employee employee;
     public AddSerialController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
@@ -75,12 +75,12 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(!newValue.isEmpty() && EditMovieDetailsController.isNumeric(newValue)) {
-                    allControlsCorrect = true;
+                    ratingCorrect = true;
                     ratingValueField.getStyleClass().removeAll("fieldIncorrect");
                     ratingSlider.setValue(Double.parseDouble(newValue));
                 }
                 else {
-                    allControlsCorrect = false;
+                    ratingCorrect = false;
                     ratingValueField.getStyleClass().removeAll("fieldCorrect");
                     ratingValueField.getStyleClass().add("fieldIncorrect");
                 }
@@ -90,11 +90,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
-                    allControlsCorrect = true;
+                    yearCorrect = true;
                     yearField.getStyleClass().removeAll("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = false;
+                    yearCorrect = false;
                     yearField.getStyleClass().add("fieldIncorrect");
                 }
             }
@@ -103,12 +103,12 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(!newValue.isEmpty() && EditMovieDetailsController.isNumeric(newValue)) {
-                    allControlsCorrect = true;
+                    priceCorrect = true;
                     priceField.getStyleClass().removeAll("fieldIncorrect");
                 }
                 else {
                     priceField.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    priceCorrect = false;
                 }
             }
         });
@@ -116,11 +116,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
-                    allControlsCorrect = false;
+                    titleCorrect = false;
                     titleField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = true;
+                    titleCorrect = true;
                     titleField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -129,11 +129,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
-                    allControlsCorrect = false;
+                    descriptionCorrect = false;
                     descriptionArea.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = true;
+                    descriptionCorrect = true;
                     descriptionArea.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -142,11 +142,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
-                    allControlsCorrect = false;
+                    directorCorrect = false;
                     directorField.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = true;
+                    directorCorrect = true;
                     directorField.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -155,11 +155,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
-                    allControlsCorrect = false;
+                    urlCorrect = false;
                     imageUrlArea.getStyleClass().add("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = true;
+                    urlCorrect = true;
                     imageUrlArea.getStyleClass().removeAll("fieldIncorrect");
                 }
             }
@@ -168,11 +168,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
-                    allControlsCorrect = true;
+                    seasonsCorrect = true;
                     seasonsField.getStyleClass().removeAll("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = false;
+                    seasonsCorrect = false;
                     seasonsField.getStyleClass().add("fieldIncorrect");
                 }
             }
@@ -181,11 +181,11 @@ public class AddSerialController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(!newValue.isEmpty() && EditMovieDetailsController.isInt(newValue)) {
-                    allControlsCorrect = true;
+                    episodesCorrect = true;
                     episodesField.getStyleClass().removeAll("fieldIncorrect");
                 }
                 else {
-                    allControlsCorrect = false;
+                    episodesCorrect = false;
                     episodesField.getStyleClass().add("fieldIncorrect");
                 }
             }
@@ -203,7 +203,7 @@ public class AddSerialController {
         stage.setOnHiding(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
-                actorsList.setAll(dao.getActorsInSerial(serial.getId()));
+                actorsList.setAll(serial.getMainActors());
                 actorsListView.setItems(actorsList);
             }
         });
@@ -258,7 +258,7 @@ public class AddSerialController {
     }
 
     public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
-        if(allControlsCorrect) {
+        if(yearCorrect && descriptionCorrect && directorCorrect && episodesCorrect && priceCorrect && ratingCorrect && seasonsCorrect && titleCorrect && urlCorrect) {
             serial.setTitle(titleField.getText());
             serial.setYear(Integer.parseInt(yearField.getText()));
             serial.setDirector(directorField.getText());
@@ -272,6 +272,13 @@ public class AddSerialController {
             dao.addGenresToContent(serial, serial.getGenre());
             dao.addActorsToContent(serial, serial.getMainActors());
             cancelAction(actionEvent);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravne podatke!");
+            alert.showAndWait();
         }
     }
 }

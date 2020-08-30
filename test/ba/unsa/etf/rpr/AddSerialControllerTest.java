@@ -21,7 +21,7 @@ import java.time.LocalDate;
 
 @ExtendWith(ApplicationExtension.class)
 
-class AddMovieControllerTest {
+class AddSerialControllerTest {
     VideoLibraryDAO dao = null;
     @Start
     public void start (Stage stage) throws Exception {
@@ -40,7 +40,7 @@ class AddMovieControllerTest {
         stage.toFront();
     }
     @Test
-    public void addNewMovie(FxRobot robot) {
+    public void addNewSerial(FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("user");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
@@ -49,13 +49,16 @@ class AddMovieControllerTest {
         robot.clickOn("#loginButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);
-        robot.clickOn("#addNewMovieButton");
+        robot.clickOn("#serialTab");
+        robot.clickOn("#addSerialButton");
         robot.clickOn("#titleField");
-        robot.write("Step Up Revolution");
+        robot.write("Rebelde");
         robot.clickOn("#yearField");
-        robot.write("2010");
-        robot.clickOn("#durationField");
-        robot.write("120");
+        robot.write("2007");
+        robot.clickOn("#seasonsField");
+        robot.write("3");
+        robot.clickOn("#episodesField");
+        robot.write("300");
         robot.clickOn("#addGenreButton");
         robot.clickOn("#saveGenreButton");
         robot.clickOn("#addGenreButton");
@@ -74,24 +77,25 @@ class AddMovieControllerTest {
         robot.clickOn("#deleteActorButton");
         assertTrue(listView1.getItems().size() == 1);
         robot.clickOn("#directorField");
-        robot.write("Test Test");
+        robot.write("Reziser");
         robot.clickOn("#descriptionArea");
-        robot.write("opis...");
+        robot.write("Serija za tinejdzere...");
         robot.clickOn("#ratingValueField");
         robot.write("9");
         robot.clickOn("#priceField");
-        robot.write("6.69");
+        robot.write("100");
         TextArea area = robot.lookup("#imageUrlArea").queryAs(TextArea.class);
         area.setText("https://i.pinimg.com/564x/42/07/4a/42074ae20aef2e95c7c2a233c28a519d.jpg");
         robot.clickOn("#saveChangesButton");
         tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
-        TableView tableView = robot.lookup("#tableViewMovies").queryAs(TableView.class);
-        assertEquals(5, tableView.getItems().size());
+        robot.clickOn("#serialTab");
+        TableView tableView = robot.lookup("#tableViewSeries").queryAs(TableView.class);
+        assertEquals(6, tableView.getItems().size());
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }
     @Test
-    public void addNewMovieError(FxRobot robot) {
+    public void addNewSerialError(FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("user");
         TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
@@ -100,13 +104,16 @@ class AddMovieControllerTest {
         robot.clickOn("#loginButton");
         TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
         assertNotNull(tabPane);
-        robot.clickOn("#addNewMovieButton");
+        robot.clickOn("#serialTab");
+        robot.clickOn("#addSerialButton");
         robot.clickOn("#titleField");
-        robot.write("Step Up Revolution");
+        robot.write("Rebelde");
         robot.clickOn("#yearField");
-        robot.write("2010");
-        robot.clickOn("#durationField");
-        robot.write("120");
+        robot.write("2007");
+        robot.clickOn("#seasonsField");
+        robot.write("3");
+        robot.clickOn("#episodesField");
+        robot.write("300");
         robot.clickOn("#addGenreButton");
         robot.clickOn("#saveGenreButton");
         ListView listView = robot.lookup("#genresListView").queryAs(ListView.class);
@@ -115,9 +122,6 @@ class AddMovieControllerTest {
         robot.clickOn("#addButton");
         ListView listView1 = robot.lookup("#actorsListView").queryAs(ListView.class);
         assertTrue(listView1.getItems().size() == 1);
-        robot.clickOn("#addActorButton");
-        robot.clickOn("#addButton");
-        assertTrue(listView1.getItems().size() == 2);
         robot.clickOn("#directorField");
         robot.write("Test Test");
         robot.clickOn("#descriptionArea");
@@ -130,9 +134,11 @@ class AddMovieControllerTest {
         robot.clickOn("OK");
         robot.clickOn("#cancelButton");
         tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
-        TableView tableView = robot.lookup("#tableViewMovies").queryAs(TableView.class);
-        assertEquals(4, tableView.getItems().size());
+        robot.clickOn("#serialTab");
+        TableView tableView = robot.lookup("#tableViewSeries").queryAs(TableView.class);
+        assertEquals(5, tableView.getItems().size());
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }
+
 }

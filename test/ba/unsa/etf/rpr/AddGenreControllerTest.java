@@ -73,7 +73,7 @@ class AddGenreControllerTest {
         robot.clickOn("#addNewMovieButton");
         robot.clickOn("#addGenreButton");
         robot.clickOn("#genreRadio");
-        robot.clickOn("#titleField");
+        robot.clickOn("#titleGenreField");
         robot.write("Historijski");
         robot.clickOn("#saveGenreButton");
         ListView listView = robot.lookup("#genresListView").queryAs(ListView.class);

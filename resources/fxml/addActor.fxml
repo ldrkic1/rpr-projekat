@@ -65,11 +65,11 @@
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="7" GridPane.rowIndex="21" GridPane.rowSpan="2">
         <buttons>
           <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="61.0" prefWidth="127.0" text="Poništi" />
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addActorAction" prefHeight="61.0" prefWidth="127.0" text="Dodaj" />
+            <Button fx:id="addActorButton" mnemonicParsing="false" onAction="#addActorAction" prefHeight="61.0" prefWidth="127.0" text="Dodaj" />
         </buttons>
       </ButtonBar>
       <Label fx:id="imgLabel" prefHeight="43.0" prefWidth="109.0" text="Slika: " GridPane.rowIndex="13" />
-      <Pane fx:id="pane" prefHeight="262.0" prefWidth="380.0" GridPane.columnSpan="3" GridPane.rowIndex="14" GridPane.rowSpan="8" />
+      <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="14" GridPane.rowSpan="8" />
    </children>
    <padding>
       <Insets bottom="10.0" left="170.0" right="50.0" top="10.0" />

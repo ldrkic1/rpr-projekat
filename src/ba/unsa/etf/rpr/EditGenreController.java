@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class EditGenreController {
     private VideoLibraryDAO dao = null;
-    public TextField titleField;
+    public TextField titleGenreField;
     private Genre genre;
     private boolean fieldCorrect = true;
     public Button cancelButton;
@@ -26,16 +26,16 @@ public class EditGenreController {
     }
     @FXML
     public void initialize() {
-        titleField.setText(genre.getName());
-        titleField.textProperty().addListener(new ChangeListener<String>() {
+        titleGenreField.setText(genre.getName());
+        titleGenreField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 3) {
-                    titleField.getStyleClass().add("fieldIncorrect");
+                    titleGenreField.getStyleClass().add("fieldIncorrect");
                     fieldCorrect = false;
                 }
                 else {
-                    titleField.getStyleClass().removeAll("fieldIncorrect");
+                    titleGenreField.getStyleClass().removeAll("fieldIncorrect");
                     fieldCorrect = true;
                 }
             }
@@ -49,7 +49,7 @@ public class EditGenreController {
 
     public void saveGenreAction(ActionEvent actionEvent) throws IOException {
         if(fieldCorrect) {
-            genre.setName(titleField.getText());
+            genre.setName(titleGenreField.getText());
             dao.updateGenre(genre);
             cancelAction(actionEvent);
         }

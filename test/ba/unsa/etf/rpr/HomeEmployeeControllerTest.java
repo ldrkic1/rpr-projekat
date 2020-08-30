@@ -362,7 +362,7 @@ class HomeEmployeeControllerTest {
         robot.clickOn("#addGenreButton");
         Button button = robot.lookup("#saveGenreButton").queryAs(Button.class);
         assertTrue(button.isVisible());
-        robot.clickOn("#titleField");
+        robot.clickOn("#titleGenreField");
         robot.write("Horor");
         robot.clickOn("#saveGenreButton");
         assertTrue(tableView.getItems().size() == 8);
@@ -385,7 +385,7 @@ class HomeEmployeeControllerTest {
         assertTrue(tableView.getItems().size() == 7);
         tableView.getSelectionModel().selectFirst();
         robot.clickOn("#editGenreButton");
-        TextField textField = robot.lookup("#titleField").queryAs(TextField.class);
+        TextField textField = robot.lookup("#titleGenreField").queryAs(TextField.class);
         assertTrue(textField.isVisible());
         assertTrue(textField.getText().equals("Drama"));
         robot.clickOn("#cancelButton");

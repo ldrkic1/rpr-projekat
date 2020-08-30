@@ -23,7 +23,7 @@ public class AddGenreController {
     public ChoiceBox choiceGenre;
     public RadioButton genreRadio;
     public Label titleLabel;
-    public TextField titleField;
+    public TextField titleGenreField;
     public Button cancelButton;
     public Button saveGenreButton;
     public Separator separator;
@@ -91,7 +91,7 @@ public class AddGenreController {
         if(!newGenreToDatabase) {
             choiceGenre.setItems(genres);
             choiceGenre.getSelectionModel().selectFirst();
-            titleField.setDisable(true);
+            titleGenreField.setDisable(true);
             titleLabel.setDisable(true);
             genreRadio.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
@@ -99,13 +99,13 @@ public class AddGenreController {
                     if (genreRadio.isSelected()) {
                         genreLabel.setDisable(true);
                         choiceGenre.setDisable(true);
-                        titleField.setDisable(false);
+                        titleGenreField.setDisable(false);
                         titleLabel.setDisable(false);
                         allControlsCorrect = false;
                     } else {
                         genreLabel.setDisable(false);
                         choiceGenre.setDisable(false);
-                        titleField.setDisable(true);
+                        titleGenreField.setDisable(true);
                         titleLabel.setDisable(true);
                         allControlsCorrect = true;
                     }
@@ -118,15 +118,15 @@ public class AddGenreController {
             genreRadio.setVisible(false);
             separator.setVisible(false);
         }
-        titleField.textProperty().addListener(new ChangeListener<String>() {
+        titleGenreField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 3) {
-                    titleField.getStyleClass().add("fieldIncorrect");
+                    titleGenreField.getStyleClass().add("fieldIncorrect");
                     allControlsCorrect = false;
                 }
                 else {
-                    titleField.getStyleClass().removeAll("fieldIncorrect");
+                    titleGenreField.getStyleClass().removeAll("fieldIncorrect");
                     allControlsCorrect = true;
                 }
             }
@@ -143,7 +143,7 @@ public class AddGenreController {
             if(!newGenreToDatabase) {
                 if (genreRadio.isSelected()) {
                     Genre g = new Genre();
-                    g.setName(titleField.getText());
+                    g.setName(titleGenreField.getText());
                     dao.addGenre(g);
                     if(!newContent) {
                         dao.addContentGenre(g, content);
@@ -165,7 +165,7 @@ public class AddGenreController {
             }
             else {
                 Genre g = new Genre();
-                g.setName(titleField.getText());
+                g.setName(titleGenreField.getText());
                 dao.addGenre(g);
             }
             cancelAction(actionEvent);
