@@ -38,19 +38,15 @@ public class AddActorController {
     private ObservableList<Actor> actors = null;
     private ArrayList<Actor> actorsInMovie = null;
     private Content content;
-    private boolean allControlsCorrect = true;
+    private boolean firstNameCorrect = true, dateCorrect = true, lastNameCorrect = true, biographyCorrect = true, urlCorrect = true;
     private boolean newContent = false;
-    private ListView listView = null;
     private Employee employee;
-    private ObservableList<Actor> actorsList = null;
-    public AddActorController(Content content, boolean newContent, ListView actorsListView, ObservableList<Actor> actorsList, Employee employee) {
+    public AddActorController(Content content, boolean newContent, Employee employee) {
         this.content = content;
         this.newContent = newContent;
         dao = VideoLibraryDAO.getInstance();
         actors = FXCollections.observableArrayList(dao.getActors());
-        this.actorsList = actorsList;
         this.employee = employee;
-        listView = actorsListView;
         if(content.getMainActors().size() != 0) {
             for (Actor a: content.getMainActors()) {
                 if(getActorIndex(a.getId()) != -1) {
@@ -133,7 +129,11 @@ public class AddActorController {
                     surnameField.getStyleClass().add("fieldIncorrect");
                     biographyArea.getStyleClass().add("fieldIncorrect");
                     urlArea.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    urlCorrect=false;
+                    biographyCorrect = false;
+                    firstNameCorrect = false;
+                    lastNameCorrect = false;
+                    //dateCorrect = false;
                 }
                 else {
                     actorsChoice.setDisable(false);
@@ -150,14 +150,17 @@ public class AddActorController {
                     urlArea.setDisable(true);
                     imgLabel.setDisable(true);
                     pane.setDisable(true);
-                    allControlsCorrect = true;
+                    urlCorrect=true;
+                    biographyCorrect = true;
+                    firstNameCorrect = true;
+                    lastNameCorrect = true;
+                    dateCorrect = true;
                 }
             }
         });
         birthDatePicker.setConverter(new StringConverter<LocalDate>()
         {
             private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
             @Override
             public String toString(LocalDate localDate)
             {
@@ -165,7 +168,6 @@ public class AddActorController {
                     return "";
                 return dateTimeFormatter.format(localDate);
             }
-
             @Override
             public LocalDate fromString(String dateString)
             {
@@ -180,14 +182,13 @@ public class AddActorController {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate oldLocalDate, LocalDate newLocalDate) {
                 LocalDate date = birthDatePicker.getValue();
-                //System.out.println(date);
                 if (date.toString().equals("")) {
-                    allControlsCorrect = false;
                     birthDatePicker.getStyleClass().add("fieldIncorrect");
+                    dateCorrect = false;
                 }
                 else {
                     birthDatePicker.getStyleClass().removeAll("fieldIncorrect");
-                    allControlsCorrect = true;
+                    dateCorrect = true;
                 }
             }
         });
@@ -204,13 +205,13 @@ public class AddActorController {
                     img.setFitHeight(200);
                     pane.getChildren().add(img);
                     pane.setPadding(new Insets(20,20,20,20));
-                    allControlsCorrect = true;
+                    urlCorrect = true;
 
                 }
                 else {
                     urlArea.getStyleClass().removeAll("fieldCorrect");
                     urlArea.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    urlCorrect = false;
                 }
             }
         });
@@ -219,11 +220,11 @@ public class AddActorController {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
                     nameField.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    firstNameCorrect = false;
                 }
                 else {
                     nameField.getStyleClass().removeAll("fieldIncorrect");
-                    allControlsCorrect = true;
+                    firstNameCorrect = true;
                 }
             }
         });
@@ -232,11 +233,11 @@ public class AddActorController {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 2) {
                     surnameField.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    lastNameCorrect = false;
                 }
                 else {
                     surnameField.getStyleClass().removeAll("fieldIncorrect");
-                    allControlsCorrect = true;
+                    lastNameCorrect = true;
                 }
             }
         });
@@ -245,18 +246,18 @@ public class AddActorController {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.isEmpty()) {
                     biographyArea.getStyleClass().add("fieldIncorrect");
-                    allControlsCorrect = false;
+                    biographyCorrect = false;
                 }
                 else {
                     biographyArea.getStyleClass().removeAll("fieldIncorrect");
-                    allControlsCorrect = true;
+                    biographyCorrect = true;
                 }
             }
         });
     }
 
     public void addActorAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
-        if(allControlsCorrect) {
+        if(biographyCorrect && lastNameCorrect  && firstNameCorrect && dateCorrect && urlCorrect) {
             if(addActorRadio.isSelected()) {
                 String date = birthDatePicker.getValue().format(formatter).toString();
                 date = date.replace("/", ".");
@@ -275,8 +276,7 @@ public class AddActorController {
                     if(id != 0) {
                         a.setId(id);
                         content.getMainActors().add(a);
-                        actorsList.add(a);
-                        listView.setItems(actorsList);
+
                     }
                 }
             }
@@ -285,37 +285,22 @@ public class AddActorController {
                 if(!newContent) dao.addContentActor(a,content);
                 else {
                     content.getMainActors().add(a);
-                    actorsList.add(a);
-                    listView.setItems(actorsList);
                 }
             }
             cancelAction(actionEvent);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Upozorenje");
+            alert.setHeaderText(null);
+            alert.setContentText("Unesite ispravne podatke!");
+            alert.showAndWait();
         }
 
     }
 
     public void cancelAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) actorsChoice.getScene().getWindow();
-        if(!newContent) {
-            if (content instanceof Movie) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editMovieDetails.fxml"));
-                EditMovieDetailsController ctrl = new EditMovieDetailsController((Movie) content, employee);
-                loader.setController(ctrl);
-                Parent root = loader.load();
-                stage.setScene(new Scene(root, 1200, 700));
-            } else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editSerialDetails.fxml"));
-                EditSerialDetailsController ctrl = new EditSerialDetailsController((Serial) content, employee);
-                loader.setController(ctrl);
-                Parent root = loader.load();
-                stage.setScene(new Scene(root, 1200, 700));
-            }
-            stage.setTitle(content.getTitle());
-            stage.show();
-        }
-        else {
-            stage.close();
-        }
-
+        stage.close();
     }
 }

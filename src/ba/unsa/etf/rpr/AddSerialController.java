@@ -5,12 +5,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -192,12 +194,19 @@ public class AddSerialController {
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(serial, true, actorsListView, actorsList, employee);
+        AddActorController ctrl = new AddActorController(serial, true, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
         stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                actorsList.setAll(dao.getActorsInSerial(serial.getId()));
+                actorsListView.setItems(actorsList);
+            }
+        });
     }
 
     public void deleteActorAction(ActionEvent actionEvent) throws SQLException {

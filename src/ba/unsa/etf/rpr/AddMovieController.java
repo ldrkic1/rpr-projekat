@@ -5,14 +5,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -219,20 +222,39 @@ public class AddMovieController {
 
     }
 
-    public void deleteGenreAction(ActionEvent actionEvent) {
+    public void deleteGenreAction(ActionEvent actionEvent) throws SQLException {
+        Genre g = (Genre) genresListView.getSelectionModel().getSelectedItem();
+        if(g != null) {
+            dao.deleteGenreFromContent(g, movie);
+            genresListView.getItems().remove(genresListView.getSelectionModel().getSelectedItem());
+            genresListView.refresh();
+        }
     }
 
-    public void deleteActorAction(ActionEvent actionEvent) {
+    public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
+        Actor a = (Actor) actorsListView.getSelectionModel().getSelectedItem();
+        if(a != null) {
+            dao.deleteActorFromContent(a, movie);
+            actorsListView.getItems().remove(actorsListView.getSelectionModel().getSelectedItem());
+            actorsListView.refresh();
+        }
     }
 
     public void addActorAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
-        AddActorController ctrl = new AddActorController(movie, true, actorsListView, actorsList, employee);
+        AddActorController ctrl = new AddActorController(movie, true, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
         stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                actorsList.setAll(movie.getMainActors());
+                actorsListView.setItems(actorsList);
+            }
+        });
     }
 }

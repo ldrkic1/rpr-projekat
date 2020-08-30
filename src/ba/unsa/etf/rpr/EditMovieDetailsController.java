@@ -212,14 +212,21 @@ public class EditMovieDetailsController {
         });
     }
     public void addActorAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) imageUrlArea.getScene().getWindow();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addActor.fxml"));
         AddActorController ctrl = new AddActorController(movie, employee);
         loader.setController(ctrl);
         Parent root = loader.load();
         stage.setTitle("Dodaj glumca");
-        stage.setScene(new Scene(root, 1200,700));
+        stage.setScene(new Scene(root, USE_COMPUTED_SIZE,USE_COMPUTED_SIZE));
         stage.show();
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                actors.setAll(dao.getActorsInMovie(movie.getId()));
+                actorsListView.setItems(actors);
+            }
+        });
     }
     public void deleteActorAction(ActionEvent actionEvent) throws SQLException {
         Actor a = actorsListView.getSelectionModel().getSelectedItem();
