@@ -43,11 +43,13 @@ public class AddEmployeeController {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if(newValue.length() < 3 || checkUsername(newValue)) {
+                    usernameField.getStyleClass().removeAll("fieldCorrect");
                     usernameField.getStyleClass().add("fieldIncorrect");
                     allFieldsCorrect = false;
                 }
                 else {
                     usernameField.getStyleClass().removeAll("fieldIncorrect");
+                    usernameField.getStyleClass().add("fieldCorrect");
                     allFieldsCorrect = true;
                 }
             }
