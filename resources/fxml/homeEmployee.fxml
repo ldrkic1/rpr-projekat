@@ -211,9 +211,9 @@
          <children>
             <MenuBar prefHeight="40.0" prefWidth="80.0" stylesheets="@../css/homeEmployee.css">
               <menus>
-                <Menu mnemonicParsing="false" text="O hotelu">
+                <Menu fx:id="hotelMenu" mnemonicParsing="false" text="O hotelu">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#roomsNumberAction" text="Broj soba" />
+                    <MenuItem fx:id="roomsNumberMenuItem" mnemonicParsing="false" onAction="#roomsNumberAction" text="Broj soba" />
                   </items>
                 </Menu>
               </menus>

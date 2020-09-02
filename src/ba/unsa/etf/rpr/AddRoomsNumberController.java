@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddRoomsNumberController {
-    public Button saveButton;
+    public Button saveRoomNumberButton;
     public TextField numberField;
     private VideoLibraryDAO dao = null;
     private boolean checkHotel = false;
@@ -56,7 +56,7 @@ public class AddRoomsNumberController {
             else {
                 dao.updateHotel(Integer.parseInt(numberField.getText()));
             }
-            Stage stage = (Stage) saveButton.getScene().getWindow();
+            Stage stage = (Stage) saveRoomNumberButton.getScene().getWindow();
             stage.close();
         }
         else {
