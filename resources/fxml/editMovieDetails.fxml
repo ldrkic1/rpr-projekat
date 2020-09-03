@@ -87,7 +87,7 @@
       <ButtonBar BorderPane.alignment="CENTER">
          <buttons>
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" prefHeight="48.0" text="Poništi" />
-            <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj izmjene" />
+            <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChangesAction" prefHeight="48.0" prefWidth="152.0" text="Sačuvaj" />
          </buttons>
          <BorderPane.margin>
             <Insets left="10.0" right="10.0" />
