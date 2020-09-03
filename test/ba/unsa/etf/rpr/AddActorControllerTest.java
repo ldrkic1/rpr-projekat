@@ -84,7 +84,7 @@ class AddActorControllerTest {
         Stage stage = (Stage) textField.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }
-    /*@Test
+    @Test
     public void addMovieNewActor2(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
         robot.clickOn("#usernameField");
@@ -106,14 +106,19 @@ class AddActorControllerTest {
         robot.clickOn("#biographyArea");
         robot.write("Test");
         robot.clickOn("#urlArea");
-        //TextArea urlArea = robot.lookup("#urlArea").queryAs(TextArea.class);
-        robot.write("https://i.pinimg.com/564x/bf/ac/2e/bfac2efd7126ff0cc999194ed5830590.jpg");
+        TextArea urlArea = robot.lookup("#urlArea").queryAs(TextArea.class);
+        Platform.runLater(() ->  urlArea.setText("https://i.pinimg.com/564x/bf/ac/2e/bfac2efd7126ff0cc999194ed5830590.jpg"));
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         robot.clickOn("#addButton");
         ListView listView = robot.lookup("#actorsListView").queryAs(ListView.class);
         assertTrue(listView.getItems().size() == 1);
         Stage stage = (Stage) listView.getScene().getWindow();
         Platform.runLater(() -> stage.close());
-    }*/
+    }
     @Test
     public void addMovieActor3(FxRobot robot) {
         TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);

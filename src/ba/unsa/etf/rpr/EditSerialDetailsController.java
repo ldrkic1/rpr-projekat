@@ -34,7 +34,7 @@ public class EditSerialDetailsController {
     public TextField episodesField;
     public ListView<Actor> actorsListView;
     public ListView<Genre> genresListView;
-    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelButton;
+    public Button addActorButton, deleteActorButton, addGenreButton, deleteGenreButton, cancelEditSerialButton;
     private ObservableList<Actor> actors = null;
     private ObservableList<Genre> genres = null;
     private boolean titleCorrect = true, yearCorrect = true, directorCorrect = true, descriptionCorrect = true, priceCorrect = true, ratingCorrect = true, seasonsCorrect = true, episodesCorrect = true, urlCorrect = true;
@@ -278,7 +278,7 @@ public class EditSerialDetailsController {
         loader.setController(ctrl);
         Parent root = loader.load();
         Scene scene = new Scene(root, 1200, 700);
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        Stage stage = (Stage) cancelEditSerialButton.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle(serial.getTitle());
         stage.show();

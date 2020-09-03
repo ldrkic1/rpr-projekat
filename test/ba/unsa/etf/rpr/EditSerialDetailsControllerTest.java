@@ -176,9 +176,11 @@ class EditSerialDetailsControllerTest {
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         assertNotNull(okButton);
         robot.clickOn("OK");
-        robot.clickOn("#cancelButton");
+        robot.clickOn("#cancelEditSerialButton");
         robot.clickOn("#backButton");
         tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        tableView = robot.lookup("#tableViewSeries").queryAs(TableView.class);
+        tableView.getSelectionModel().selectFirst();
         Serial serial = (Serial) tableView.getSelectionModel().getSelectedItem();
         assertEquals("Viza za budućnost", serial.getTitle());
         Stage stage = (Stage) tabPane.getScene().getWindow();
