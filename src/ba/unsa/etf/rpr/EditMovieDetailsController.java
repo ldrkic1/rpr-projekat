@@ -200,7 +200,7 @@ public class EditMovieDetailsController {
         imageUrlArea.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(newValue.isEmpty()) {
+                if(newValue.isEmpty() || !AddActorController.isValid(newValue)) {
                     urlCorrect = false;
                     imageUrlArea.getStyleClass().add("fieldIncorrect");
                 }
