@@ -283,18 +283,6 @@ public class EditMovieDetailsController {
                 stage.setScene(scene);
                 stage.show();
             }
-            else {
-                dao.addContent(movie);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homeEmployee.fxml"));
-                HomeEmployeeController ctrl = new HomeEmployeeController(employee);
-                loader.setController(ctrl);
-                Parent root = loader.load();
-                Scene scene = new Scene(root, 1200, 700);
-                Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-                stage.setTitle("Početna");
-                stage.setScene(scene);
-                stage.show();
-            }
         }
         else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
