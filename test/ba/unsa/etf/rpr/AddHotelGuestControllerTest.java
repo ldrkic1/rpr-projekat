@@ -60,10 +60,15 @@ class AddHotelGuestControllerTest {
         robot.clickOn("#addButton");
         Button okButton = robot.lookup("OK").queryAs(Button.class);
         robot.clickOn("OK");
-        robot.clickOn("#generatePasswordButton");
         ChoiceBox choiceBox1 = robot.lookup("#privilegeChoice").queryAs(ChoiceBox.class);
         robot.clickOn("#privilegeChoice");
-        robot.clickOn("NE");
+        Platform.runLater(() -> robot.clickOn("NE"));
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        robot.clickOn("#generatePasswordButton");
         assertTrue(choiceBox1.getSelectionModel().getSelectedItem().toString().equals("NE"));
         robot.clickOn("#addButton");
         assertEquals(4, tableView1.getItems().size());
