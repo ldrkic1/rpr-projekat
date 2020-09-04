@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JRException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -58,7 +59,7 @@ public class HomeEmployeeController {
     public Menu settingsMenu;
 
     public Tab employeesTab;
-    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton;
+    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -441,6 +442,14 @@ public class HomeEmployeeController {
             requestList.setAll((dao.getUserRequests()));
             requestsTable.setItems(requestList);
         }
+    }
+    public void createUserReportAction(ActionEvent actionEvent) {
+        try {
+            new PrintReport().showReport(dao.getConnection(),"user");
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
+
     }
 }
 

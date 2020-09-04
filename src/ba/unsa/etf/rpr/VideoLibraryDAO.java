@@ -29,6 +29,10 @@ public class VideoLibraryDAO {
         return instance;
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public static void removeInstance() {
         if (instance == null) return;
         instance.close();
