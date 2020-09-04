@@ -80,7 +80,7 @@ public class HomeController {
                     final TableCell<Content, Void> cell = new TableCell<Content, Void>() {
                         private final Button btn = new Button("Opširnije");
                         {
-                            btn.getStyleClass().add("detailsButton");
+                            btn.setId("detailsButton");
                             btn.setOnAction((ActionEvent event) -> {
                                 Content data = getTableView().getItems().get(getIndex());
                                 try {
@@ -127,8 +127,7 @@ public class HomeController {
                     final TableCell<Movie, Void> cell = new TableCell<Movie, Void>() {
                         private final Button btn = new Button("Opširnije");
                         {
-                            btn.getStyleClass().add("detailsButton");
-                            btn.setOnAction((ActionEvent event) -> {
+                                btn.setId("detailsButton");                            btn.setOnAction((ActionEvent event) -> {
                                 Movie data = getTableView().getItems().get(getIndex());
                                 try {
                                     Stage stage = (Stage) movieTable.getScene().getWindow();
@@ -166,7 +165,7 @@ public class HomeController {
                     final TableCell<Serial, Void> cell = new TableCell<Serial, Void>() {
                         private final Button btn = new Button("Opširnije");
                         {
-                            btn.getStyleClass().add("detailsButton");
+                            btn.setId("detailsButton");
                             btn.setOnAction((ActionEvent event) -> {
                                 Serial data = getTableView().getItems().get(getIndex());
                                 try {
@@ -216,6 +215,9 @@ public class HomeController {
             button.setText(g.getName());
             button.setPrefWidth(115);
             button.setPrefHeight(48);
+            String id = g.getName().toLowerCase();
+            id+="Button";
+            button.setId(id);
             button.getStyleClass().add("button");
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override

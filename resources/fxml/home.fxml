@@ -39,7 +39,7 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#showAllGenresAction" prefHeight="48.0" prefWidth="115.0" stylesheets="@../css/home.css" text="Svi žanrovi">
+            <Button fx:id="allgenresButton" mnemonicParsing="false" onAction="#showAllGenresAction" prefHeight="48.0" prefWidth="115.0" stylesheets="@../css/home.css" text="Svi žanrovi">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
@@ -83,7 +83,7 @@
                           </columns>
                       </TableView>
                   </content></Tab>
-          <Tab text="Filmovi">
+          <Tab fx:id="moviesTab" text="Filmovi">
                <content>
                   <TableView fx:id="movieTable" prefHeight="200.0" prefWidth="200.0">
                     <columns>
@@ -94,7 +94,7 @@
                     </columns>
                   </TableView>
                </content></Tab>
-          <Tab text="Serije">
+          <Tab fx:id="serialTab" text="Serije">
                <content>
                   <TableView fx:id="serialTable" prefHeight="200.0" prefWidth="200.0">
                     <columns>
