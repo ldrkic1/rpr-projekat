@@ -39,6 +39,12 @@ class MovieTest {
         assertEquals(123, m.getDurationMinutes());
     }
     @Test
+    void constructor4() {
+        assertThrows(InvalidURLException.class, () -> {
+            Movie m = new Movie(1, "Test",null, 2002, "Test", null, "Testtt", 5, "link",12,123);
+        });
+    }
+    @Test
     void movieTest() {
         Movie m = new Movie();
         m.setYear(2015);

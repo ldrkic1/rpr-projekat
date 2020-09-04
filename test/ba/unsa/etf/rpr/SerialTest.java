@@ -19,6 +19,12 @@ class SerialTest {
         assertEquals(84, s.getEpisodesNumber());
     }
     @Test
+    void constructor3() {
+        assertThrows(InvalidURLException.class, () -> {
+            Serial m = new Serial(1, "Test",null, 2002, "Test", null, "Testtt", 5, "link",12,1,30);
+        });
+    }
+    @Test
     void serialTest() throws InvalidURLException {
         Genre g = new Genre(1, "Akcija");
         ArrayList<Genre> genres = new ArrayList<>();

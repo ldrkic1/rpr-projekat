@@ -113,7 +113,7 @@ public class Content {
     }
 
     public void setImage(String image) throws InvalidURLException {
-        if(!AddActorController.isValid(image)) throw new InvalidURLException();
+        if(!AddActorController.isValid(image)) throw new InvalidURLException("Invalid URL");
         this.image = image;
         Image img = new Image(image);
         if(image!=null) {
