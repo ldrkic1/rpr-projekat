@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr;
 
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
@@ -308,7 +310,6 @@ public class HomeController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
-        root.setId("body");
         Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         stage.setScene(scene);
         stage.setTitle("Prijava");

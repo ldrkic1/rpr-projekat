@@ -1,9 +1,22 @@
-#body {
-    -fx-background-image: url("https://i.pinimg.com/564x/d6/13/1c/d6131c3912e32640d583da8db8dffeb9.jpg");
+.backgroundImage1 {
+    -fx-background-image: url("../images/image1.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    /*-fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);*/
+}
+.backgroundImage2 {
+    -fx-background-image: url("../images/image2.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.backgroundImage3 {
+    -fx-background-image: url("../images/image3.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.backgroundImage4 {
+    -fx-background-image: url("../images/image4.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 .button {
     -fx-background-color:

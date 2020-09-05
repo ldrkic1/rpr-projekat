@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,6 +70,7 @@ public class HomeEmployeeController {
     private ObservableList<Request> requestList = null;
     private boolean newGenre = true;
     private Employee employee = null;
+    private Thread threadUserReport;
     public HomeEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
@@ -198,6 +200,7 @@ public class HomeEmployeeController {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         requestUserCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUser().getFirstName() + " " + data.getValue().getUser().getLastName()));
         requestContentCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getContent().getTitle()));
+
     }
 
     public void addGenreAction(ActionEvent actionEvent) throws IOException {
@@ -305,7 +308,6 @@ public class HomeEmployeeController {
                 alert.setContentText("Brisanje admina nije dozvoljeno!");
                 alert.showAndWait();
             }
-
         }
     }
     public void logOutAction(ActionEvent actionEvent) throws SQLException, IOException {
@@ -315,12 +317,12 @@ public class HomeEmployeeController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         loader.setController(ctrl);
         Parent root = loader.load();
-        root.setId("body");
         Scene scene = new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         stage.setScene(scene);
         stage.setTitle("Prijava");
         currentStage.close();
         stage.show();
+
     }
     public void changePasswordAction(ActionEvent actionEvent) throws IOException {
         Stage stage = new Stage();
@@ -444,26 +446,37 @@ public class HomeEmployeeController {
         }
     }
     public void createUserReportAction(ActionEvent actionEvent) {
-        try {
-            new PrintReport().showReport(dao.getConnection(),"user");
-        } catch (JRException e1) {
-            e1.printStackTrace();
-        }
+        Thread threadUserReport = new Thread(() -> {
+            try {
+                new PrintReport().showReport(dao.getConnection(),"user");
+            } catch (JRException e1) {
+                e1.printStackTrace();
+            }
+        });
+        threadUserReport.start();
+
     }
     public void createMovieReportAction(ActionEvent actionEvent) {
-        try {
-            new PrintReport().showReport(dao.getConnection(),"movie");
-        } catch (JRException e1) {
-            e1.printStackTrace();
-        }
+        Thread threadMovieReport = new Thread(() -> {
+            try {
+                new PrintReport().showReport(dao.getConnection(),"movie");
+            } catch (JRException e1) {
+                e1.printStackTrace();
+            }
+        });
+        threadMovieReport.start();
     }
     public void createSerialReportAction(ActionEvent actionEvent) {
-        try {
-            new PrintReport().showReport(dao.getConnection(),"serial");
-        } catch (JRException e1) {
-            e1.printStackTrace();
-        }
+        Thread threadSerialReport = new Thread(()-> {
+            try {
+                new PrintReport().showReport(dao.getConnection(),"serial");
+            } catch (JRException e1) {
+                e1.printStackTrace();
+            }
+        });
+        threadSerialReport.start();
     }
+
 }
 
 
