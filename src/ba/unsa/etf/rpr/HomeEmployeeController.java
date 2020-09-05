@@ -59,7 +59,7 @@ public class HomeEmployeeController {
     public Menu settingsMenu;
 
     public Tab employeesTab;
-    public Button addGenreButton, editGenreAction, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
+    public Button addGenreButton, editGenreAction, createMovieReportButton, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
     private ObservableList<Serial> serialList = null;
@@ -446,6 +446,14 @@ public class HomeEmployeeController {
     public void createUserReportAction(ActionEvent actionEvent) {
         try {
             new PrintReport().showReport(dao.getConnection(),"user");
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
+
+    }
+    public void createMovieReportAction(ActionEvent actionEvent) {
+        try {
+            new PrintReport().showReport(dao.getConnection(),"movie");
         } catch (JRException e1) {
             e1.printStackTrace();
         }
