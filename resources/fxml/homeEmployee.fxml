@@ -41,9 +41,10 @@
                         </HBox>
                      </bottom>
                       <right>
-                          <VBox prefHeight="529.0" prefWidth="144.0" BorderPane.alignment="CENTER">
+                          <VBox prefHeight="529.0" prefWidth="144.0" spacing="7.0" BorderPane.alignment="CENTER">
                               <children>
                                   <Button fx:id="createMovieReportButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createMovieReportAction" prefHeight="49.0" prefWidth="136.0" text="Kreiraj izvještaj" />
+                              <Button fx:id="saveJSONButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveJSONAction" prefHeight="49.0" prefWidth="134.0" text="Sačuvaj kao JSON" textAlignment="CENTER" wrapText="true" />
                               </children>
                               <padding>
                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

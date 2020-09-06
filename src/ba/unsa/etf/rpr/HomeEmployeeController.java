@@ -13,13 +13,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import net.sf.jasperreports.engine.JRException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -58,7 +64,6 @@ public class HomeEmployeeController {
     public TableColumn requestButtonCol;
     public MenuItem logoutMenuOption, changeUsernameOption;
     public Menu settingsMenu;
-
     public Tab employeesTab;
     public Button addGenreButton, editGenreAction, createSerialReportButton, createMovieReportButton, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
     private static VideoLibraryDAO dao = null;
@@ -71,6 +76,7 @@ public class HomeEmployeeController {
     private boolean newGenre = true;
     private Employee employee = null;
     private Thread threadUserReport;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public HomeEmployeeController(Employee employee) {
         dao = VideoLibraryDAO.getInstance();
         moviesList = FXCollections.observableArrayList(dao.getMovies());
@@ -476,7 +482,60 @@ public class HomeEmployeeController {
         });
         threadSerialReport.start();
     }
+    public void saveJSONAction(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) tableViewMovies.getScene().getWindow();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sačuvaj filmove");
+            File file = fileChooser.showOpenDialog(stage);
+            if(file == null) return;
 
+            JSONArray jsonMoviesArray = new JSONArray();
+            for(Movie movie: moviesList) {
+                JSONObject jsonObjectMovie = new JSONObject();
+                jsonObjectMovie.put("id", movie.getId());
+                jsonObjectMovie.put("year", movie.getYear());
+                jsonObjectMovie.put("title", movie.getTitle());
+                jsonObjectMovie.put("director", movie.getDirector());
+                jsonObjectMovie.put("description", movie.getDescription());
+                jsonObjectMovie.put("image", movie.getImage());
+                jsonObjectMovie.put("price", movie.getPrice());
+                jsonObjectMovie.put("rating", movie.getRating());
+                jsonObjectMovie.put("duration", movie.getDurationMinutes());
+                JSONArray jsonMovieGenreArray = new JSONArray();
+                for (Genre genre: movie.getGenre()) {
+                    JSONObject jsonObjectGenre = new JSONObject();
+                    jsonObjectGenre.put("id", genre.getId());
+                    jsonObjectGenre.put("name", genre.getName());
+                    jsonMovieGenreArray.put(jsonObjectGenre);
+                }
+                jsonObjectMovie.put("genres", jsonMovieGenreArray);
+                JSONArray jsonMovieActorsArray = new JSONArray();
+                for (Actor actor: movie.getMainActors()) {
+                    JSONObject jsonObjectActor = new JSONObject();
+                    jsonObjectActor.put("id", actor.getId());
+                    jsonObjectActor.put("firstName", actor.getFirstName());
+                    jsonObjectActor.put("lastName", actor.getLastName());
+                    String date = actor.getBornDate().format(formatter);
+                    date = date.replace("/", ".");
+                    jsonObjectActor.put("bornDate", date);
+                    jsonObjectActor.put("image", actor.getImage());
+                    jsonObjectActor.put("biography", actor.getBiography());
+                    jsonMovieActorsArray.put(jsonObjectActor);
+                }
+                jsonObjectMovie.put("actors", jsonMovieActorsArray);
+                jsonMoviesArray.put(jsonObjectMovie);
+            }
+            Files.writeString(file.toPath(), jsonMoviesArray.toString());
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neispravan format dokumenta");
+            alert.setContentText("Došlo je do greške prilikom spašavanja dokumenta.");
+            alert.showAndWait();
+        }
+
+    }
 }
 
 
