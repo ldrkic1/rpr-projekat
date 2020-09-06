@@ -534,7 +534,60 @@ public class HomeEmployeeController {
             alert.setContentText("Došlo je do greške prilikom spašavanja dokumenta.");
             alert.showAndWait();
         }
+    }
+    public void saveSerialJSONAction(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) tableViewSeries.getScene().getWindow();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sačuvaj serije");
+            File file = fileChooser.showOpenDialog(stage);
+            if(file == null) return;
 
+            JSONArray jsonSerialArray = new JSONArray();
+            for(Serial serial: serialList) {
+                JSONObject jsonObjectSerial = new JSONObject();
+                jsonObjectSerial.put("id", serial.getId());
+                jsonObjectSerial.put("year", serial.getYear());
+                jsonObjectSerial.put("title", serial.getTitle());
+                jsonObjectSerial.put("director", serial.getDirector());
+                jsonObjectSerial.put("description", serial.getDescription());
+                jsonObjectSerial.put("image", serial.getImage());
+                jsonObjectSerial.put("price", serial.getPrice());
+                jsonObjectSerial.put("rating", serial.getRating());
+                jsonObjectSerial.put("seasons", serial.getSeasonsNumber());
+                jsonObjectSerial.put("episodes", serial.getEpisodesNumber());
+                JSONArray jsonSerialGenreArray = new JSONArray();
+                for (Genre genre: serial.getGenre()) {
+                    JSONObject jsonObjectGenre = new JSONObject();
+                    jsonObjectGenre.put("id", genre.getId());
+                    jsonObjectGenre.put("name", genre.getName());
+                    jsonSerialGenreArray.put(jsonObjectGenre);
+                }
+                jsonObjectSerial.put("genres", jsonSerialGenreArray);
+                JSONArray jsonSerialActorsArray = new JSONArray();
+                for (Actor actor: serial.getMainActors()) {
+                    JSONObject jsonObjectActor = new JSONObject();
+                    jsonObjectActor.put("id", actor.getId());
+                    jsonObjectActor.put("firstName", actor.getFirstName());
+                    jsonObjectActor.put("lastName", actor.getLastName());
+                    String date = actor.getBornDate().format(formatter);
+                    date = date.replace("/", ".");
+                    jsonObjectActor.put("bornDate", date);
+                    jsonObjectActor.put("image", actor.getImage());
+                    jsonObjectActor.put("biography", actor.getBiography());
+                    jsonSerialActorsArray.put(jsonObjectActor);
+                }
+                jsonObjectSerial.put("actors", jsonSerialActorsArray);
+                jsonSerialArray.put(jsonObjectSerial);
+            }
+            Files.writeString(file.toPath(), jsonSerialArray.toString());
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neispravan format dokumenta");
+            alert.setContentText("Došlo je do greške prilikom spašavanja dokumenta.");
+            alert.showAndWait();
+        }
     }
 }
 
