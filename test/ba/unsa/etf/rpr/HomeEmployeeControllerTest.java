@@ -18,7 +18,10 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
+import java.beans.XMLDecoder;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 @ExtendWith(ApplicationExtension.class)
 
@@ -485,6 +488,44 @@ class HomeEmployeeControllerTest {
         robot.clickOn("#roomChoice");
         robot.clickOn("19");
         robot.clickOn("#saveChangesButton");
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        Platform.runLater(() -> stage.close());
+    }
+
+    @Test
+    public void guestsXMLTest(FxRobot robot) {
+        TextField usernameFld = robot.lookup("#usernameField").queryAs(TextField.class);
+        assertNotNull(usernameFld);
+        robot.clickOn("#usernameField");
+        robot.write("admin");
+        TextField passwordFld = robot.lookup("#passwordField").queryAs(TextField.class);
+        assertNotNull(passwordFld);
+        robot.clickOn("#passwordField");
+        robot.write("password");
+        robot.clickOn("#loginButton");
+
+        TabPane tabPane = robot.lookup("#tabPane").queryAs(TabPane.class);
+        assertNotNull(tabPane);
+        robot.clickOn("#guestsTab");
+
+        Button button = robot.lookup("#createGuestXMLButton").queryAs(Button.class);
+        assertTrue(button.isVisible()); // button vidljiv samo adminu
+        robot.clickOn("#createGuestXMLButton");
+        GuestDirectory guestDirectory = new GuestDirectory();
+        try {
+            XMLDecoder xmlDecoder = new XMLDecoder(new FileInputStream("hotelGuests.xml"));
+            guestDirectory = (GuestDirectory) xmlDecoder.readObject();
+            assertNotNull(guestDirectory);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        User dino = null;
+        for (User user: guestDirectory.getHotelGuests()) {
+            if(user.getFirstName().equals("Dino") && user.getLastName().equals("Merlin") && user.getUsername().equals("merlin")) {
+                dino = user;
+            }
+        }
+        assertNotNull(dino);
         Stage stage = (Stage) tabPane.getScene().getWindow();
         Platform.runLater(() -> stage.close());
     }

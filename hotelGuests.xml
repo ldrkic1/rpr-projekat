@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="14.0.2" class="java.beans.XMLDecoder">
+ <object class="ba.unsa.etf.rpr.GuestDirectory" id="GuestDirectory0">
+  <void property="hotelGuests">
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.User">
+     <void property="firstName">
+      <string>Lamija</string>
+     </void>
+     <void property="id">
+      <int>1</int>
+     </void>
+     <void property="lastName">
+      <string>Drkić</string>
+     </void>
+     <void property="password">
+      <string>lamka123</string>
+     </void>
+     <void property="roomNumber">
+      <int>1</int>
+     </void>
+     <void property="username">
+      <string>lamka</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.User">
+     <void property="firstName">
+      <string>Dino</string>
+     </void>
+     <void property="id">
+      <int>2</int>
+     </void>
+     <void property="lastName">
+      <string>Merlin</string>
+     </void>
+     <void property="password">
+      <string>svejelaz</string>
+     </void>
+     <void property="privilege">
+      <boolean>true</boolean>
+     </void>
+     <void property="roomNumber">
+      <int>2</int>
+     </void>
+     <void property="username">
+      <string>merlin</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ba.unsa.etf.rpr.User">
+     <void property="firstName">
+      <string></string>
+     </void>
+     <void property="id">
+      <int>3</int>
+     </void>
+     <void property="lastName">
+      <string></string>
+     </void>
+     <void property="password">
+      <string>3Cs6HrRLJl</string>
+     </void>
+     <void property="roomNumber">
+      <int>14</int>
+     </void>
+     <void property="username">
+      <string>14</string>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>

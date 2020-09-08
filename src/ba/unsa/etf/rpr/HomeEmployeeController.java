@@ -21,7 +21,10 @@ import net.sf.jasperreports.engine.JRException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.beans.XMLEncoder;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
@@ -65,6 +68,7 @@ public class HomeEmployeeController {
     public MenuItem logoutMenuOption, changeUsernameOption;
     public Menu settingsMenu;
     public Tab employeesTab;
+    public Button saveJSONButton, saveSerialJSONButton, createGuestXMLButton;
     public Button addGenreButton, editGenreAction, createSerialReportButton, createMovieReportButton, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
     private static VideoLibraryDAO dao = null;
     private ObservableList<Movie> moviesList = null;
@@ -172,9 +176,13 @@ public class HomeEmployeeController {
     public void initialize() {
         if(!employee.getUsername().equals("admin")) {
             tabPane.getTabs().remove(employeesTab);
+            saveJSONButton.setVisible(false);
+            saveSerialJSONButton.setVisible(false);
+            createGuestXMLButton.setVisible(false);
         }
         else {
             settingsMenu.getItems().remove(changeUsernameOption);
+
         }
         tableViewMovies.setItems(moviesList);
         colMovieId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -587,6 +595,21 @@ public class HomeEmployeeController {
             alert.setTitle("Neispravan format dokumenta");
             alert.setContentText("Došlo je do greške prilikom spašavanja dokumenta.");
             alert.showAndWait();
+        }
+    }
+    public void createGuestXMLAction(ActionEvent actionEvent) {
+        File guestsFile = new File("hotelGuests.xml");
+        guestsFile.delete();
+
+        GuestDirectory guestDirectory = new GuestDirectory();
+        guestDirectory.setHotelGuests(dao.getUsers());
+        try {
+            XMLEncoder xmlEncoder = new XMLEncoder(new FileOutputStream("hotelGuests.xml"));
+            xmlEncoder.writeObject(guestDirectory);
+            xmlEncoder.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

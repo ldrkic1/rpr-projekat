@@ -83,7 +83,7 @@
                         </HBox>
                      </bottom>
                         <right>
-                            <VBox prefHeight="529.0" prefWidth="144.0" BorderPane.alignment="CENTER">
+                            <VBox prefHeight="529.0" prefWidth="144.0" spacing="7.0" BorderPane.alignment="CENTER">
                                 <children>
                                     <Button fx:id="createSerialReportButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createSerialReportAction" prefHeight="49.0" prefWidth="136.0" text="Kreiraj izvještaj" />
                                     <Button fx:id="saveSerialJSONButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveSerialJSONAction" prefHeight="49.0" prefWidth="134.0" text="Sačuvaj kao JSON" textAlignment="CENTER" wrapText="true" />
@@ -131,6 +131,7 @@
                         <VBox prefHeight="529.0" prefWidth="144.0" BorderPane.alignment="CENTER">
                            <children>
                               <Button fx:id="createUserReportButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createUserReportAction" prefHeight="49.0" prefWidth="136.0" text="Kreiraj izvještaj" />
+                               <Button fx:id="createGuestXMLButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createGuestXMLAction" prefHeight="49.0" prefWidth="134.0" text="Zapiši u XML" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
