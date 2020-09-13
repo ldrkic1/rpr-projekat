@@ -193,7 +193,7 @@ public class AddMovieController {
         stage.show();
     }
 
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidUrlException {
         if(descriptionCorrect && directorCorrect && durationCorrect && priceCorrect && ratingCorrect && titleCorrect && urlCorrect && yearCorrect) {
             movie.setTitle(titleField.getText());
             movie.setYear(Integer.parseInt(yearField.getText()));

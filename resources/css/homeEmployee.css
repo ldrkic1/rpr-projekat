@@ -89,7 +89,10 @@
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: #030e24;
 }
-
+.selectedButton {
+    -fx-background-color: linear-gradient(#6191b1, #96aee8);
+    -fx-text-fill: #141a2d;
+}
 .button {
     -fx-background-color: linear-gradient(#6191b1, #141a2d);
     -fx-background-insets: 0,1,2,0;

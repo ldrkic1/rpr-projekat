@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ActorTest {
 
     @Test
-    void constructor1() throws InvalidURLException {
+    void constructor1() throws InvalidUrlException {
         Actor a = new Actor(1,"Tolga", "Saritas", "Biografija...", LocalDate.of(1991,5,30),"https://i2.cnnturk.com/i/cnnturk/75/800x400/5e1ae3d117aca93390e41d99");
         assertEquals("Tolga", a.getFirstName());
         assertEquals(30, a.getBornDate().getDayOfMonth());
@@ -34,12 +34,12 @@ class ActorTest {
     }
 
     @Test
-    void imageURLTest1() throws InvalidURLException {
+    void imageURLTest1() throws InvalidUrlException {
         Actor a = new Actor();
-        assertThrows(InvalidURLException.class, () -> a.setImage("neispravan link"));
+        assertThrows(InvalidUrlException.class, () -> a.setImage("neispravan link"));
     }
     @Test
-    void imageURLTest2() throws InvalidURLException {
+    void imageURLTest2() throws InvalidUrlException {
         Actor a = new Actor();
         assertDoesNotThrow(() -> a.setImage("https://www.turkishdrama.com/wp-content/uploads/2017/01/Hande-Ercel-Actress.jpg"));
         assertFalse(a.getImage().isEmpty());

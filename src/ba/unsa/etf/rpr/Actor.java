@@ -1,8 +1,6 @@
 package ba.unsa.etf.rpr;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class Actor {
     private int id;
@@ -16,10 +14,10 @@ public class Actor {
 
     }
 
-    public Actor(int id,String firstName, String lastName, String biography, LocalDate bornDate, String image) throws InvalidURLException {
+    public Actor(int id,String firstName, String lastName, String biography, LocalDate bornDate, String image) throws InvalidUrlException {
         if (firstName.equals("") || lastName.equals("")) throw new IllegalArgumentException();
         if (bornDate == null) throw new NullPointerException();
-        if (!AddActorController.isValid(image)) throw new InvalidURLException();
+        if (!AddActorController.isValid(image)) throw new InvalidUrlException();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -76,8 +74,8 @@ public class Actor {
         return image;
     }
 
-    public void setImage(String image) throws InvalidURLException {
-        if(!AddActorController.isValid(image)) throw new InvalidURLException();
+    public void setImage(String image) throws InvalidUrlException {
+        if(!AddActorController.isValid(image)) throw new InvalidUrlException();
         this.image = image;
     }
 

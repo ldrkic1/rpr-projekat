@@ -14,7 +14,7 @@ class MovieTest {
         assertNull(m.getTitle());
     }
     @Test
-    void constructor2() throws InvalidURLException {
+    void constructor2() throws InvalidUrlException {
         ArrayList<Genre> genres = new ArrayList<>();
         genres.add(new Genre(1, "Romantika"));
         genres.add(new Genre(2, "Drama"));
@@ -40,7 +40,7 @@ class MovieTest {
     }
     @Test
     void constructor4() {
-        assertThrows(InvalidURLException.class, () -> {
+        assertThrows(InvalidUrlException.class, () -> {
             Movie m = new Movie(1, "Test",null, 2002, "Test", null, "Testtt", 5, "link",12,123);
         });
     }

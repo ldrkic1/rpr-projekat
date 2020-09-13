@@ -20,12 +20,12 @@ class SerialTest {
     }
     @Test
     void constructor3() {
-        assertThrows(InvalidURLException.class, () -> {
+        assertThrows(InvalidUrlException.class, () -> {
             Serial m = new Serial(1, "Test",null, 2002, "Test", null, "Testtt", 5, "link",12,1,30);
         });
     }
     @Test
-    void serialTest() throws InvalidURLException {
+    void serialTest() throws InvalidUrlException {
         Genre g = new Genre(1, "Akcija");
         ArrayList<Genre> genres = new ArrayList<>();
         genres.add(g);

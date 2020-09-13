@@ -257,7 +257,7 @@ public class AddSerialController {
         stage.show();
     }
 
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidUrlException {
         if(yearCorrect && descriptionCorrect && directorCorrect && episodesCorrect && priceCorrect && ratingCorrect && seasonsCorrect && titleCorrect && urlCorrect) {
             serial.setTitle(titleField.getText());
             serial.setYear(Integer.parseInt(yearField.getText()));

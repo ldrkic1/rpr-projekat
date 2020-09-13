@@ -66,7 +66,7 @@ public class HomeEmployeeController {
     public TableColumn<Request, String> requestContentCol;
     public TableColumn requestButtonCol;
     public MenuItem logoutMenuOption, changeUsernameOption;
-    public Menu settingsMenu;
+    public Menu settingsMenu, hotelMenu;
     public Tab employeesTab;
     public Button saveJSONButton, saveSerialJSONButton, createGuestXMLButton;
     public Button addGenreButton, editGenreAction, createSerialReportButton, createMovieReportButton, addNewMovieButton, addEmployeeButton, addSerialButton, editHotelGuestButton, deleteRequestButton, createUserReportButton;
@@ -131,7 +131,7 @@ public class HomeEmployeeController {
         };
         colMovieDetailsButton.setCellFactory(cellFactory);
     }
-    private void addButtonToserialTable() {
+    private void addButtonToSerialTable() {
         Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>> cellFactory = new Callback<TableColumn<Serial, Void>, TableCell<Serial, Void>>() {
             @Override
             public TableCell<Serial, Void> call(final TableColumn<Serial, Void> param) {
@@ -179,6 +179,7 @@ public class HomeEmployeeController {
             saveJSONButton.setVisible(false);
             saveSerialJSONButton.setVisible(false);
             createGuestXMLButton.setVisible(false);
+            hotelMenu.setVisible(false);
         }
         else {
             settingsMenu.getItems().remove(changeUsernameOption);
@@ -195,7 +196,7 @@ public class HomeEmployeeController {
         colSerialTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colSerialDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
         colSerialActors.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getActorsString()));
-        addButtonToserialTable();
+        addButtonToSerialTable();
         usersTableView.setItems(usersList);
         colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -336,6 +337,13 @@ public class HomeEmployeeController {
         stage.setTitle("Prijava");
         currentStage.close();
         stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
     }
     public void changePasswordAction(ActionEvent actionEvent) throws IOException {
@@ -460,42 +468,32 @@ public class HomeEmployeeController {
         }
     }
     public void createUserReportAction(ActionEvent actionEvent) {
-        Thread threadUserReport = new Thread(() -> {
-            try {
-                new PrintReport().showReport(dao.getConnection(),"user");
-            } catch (JRException e1) {
-                e1.printStackTrace();
-            }
-        });
-        threadUserReport.start();
-
+        try {
+            new PrintReport().showReport(dao.getConnection(),"user");
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
     }
     public void createMovieReportAction(ActionEvent actionEvent) {
-        Thread threadMovieReport = new Thread(() -> {
-            try {
-                new PrintReport().showReport(dao.getConnection(),"movie");
-            } catch (JRException e1) {
-                e1.printStackTrace();
-            }
-        });
-        threadMovieReport.start();
+        try {
+            new PrintReport().showReport(dao.getConnection(),"movie");
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
     }
     public void createSerialReportAction(ActionEvent actionEvent) {
-        Thread threadSerialReport = new Thread(()-> {
-            try {
-                new PrintReport().showReport(dao.getConnection(),"serial");
-            } catch (JRException e1) {
-                e1.printStackTrace();
-            }
-        });
-        threadSerialReport.start();
+        try {
+            new PrintReport().showReport(dao.getConnection(),"serial");
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
     }
     public void saveJSONAction(ActionEvent actionEvent) {
         try {
             Stage stage = (Stage) tableViewMovies.getScene().getWindow();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Sačuvaj filmove");
-            File file = fileChooser.showOpenDialog(stage);
+            File file = fileChooser.showSaveDialog(stage);
             if(file == null) return;
 
             JSONArray jsonMoviesArray = new JSONArray();
@@ -548,7 +546,7 @@ public class HomeEmployeeController {
             Stage stage = (Stage) tableViewSeries.getScene().getWindow();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Sačuvaj serije");
-            File file = fileChooser.showOpenDialog(stage);
+            File file = fileChooser.showSaveDialog(stage);
             if(file == null) return;
 
             JSONArray jsonSerialArray = new JSONArray();

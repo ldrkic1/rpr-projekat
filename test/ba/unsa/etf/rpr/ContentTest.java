@@ -9,7 +9,7 @@ import java.util.ArrayList;
 class ContentTest {
 
     @Test
-    void constructor1() throws InvalidURLException {
+    void constructor1() throws InvalidUrlException {
         Genre g = new Genre(1, "Akcija");
         ArrayList<Genre> genres = new ArrayList<>();
         genres.add(g);
@@ -39,7 +39,7 @@ class ContentTest {
     }
 
     @Test
-    void contentTest1() throws InvalidURLException {
+    void contentTest1() throws InvalidUrlException {
         Content c = new Content();
         Genre g = new Genre(1, "Akcija");
         ArrayList<Genre> genres = new ArrayList<>();
@@ -66,7 +66,7 @@ class ContentTest {
         assertEquals(1, c.getId());
     }
     @Test
-    void contentTest2() throws InvalidURLException {
+    void contentTest2() throws InvalidUrlException {
         Content c = new Content();
         Genre g = new Genre(1, "Akcija");
         ArrayList<Genre> genres = new ArrayList<>();

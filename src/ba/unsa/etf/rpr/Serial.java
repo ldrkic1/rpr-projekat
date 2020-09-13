@@ -14,7 +14,7 @@ public class Serial extends Content {
         this.episodesNumber = episodesNumber;
     }
 
-    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price, int seasonsNumber, int episodesNumber) throws InvalidURLException {
+    public Serial(int id, String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price, int seasonsNumber, int episodesNumber) throws InvalidUrlException {
         super(id, title, genre, year, director, mainActors, description, rating, image, price);
         this.seasonsNumber = seasonsNumber;
         this.episodesNumber = episodesNumber;

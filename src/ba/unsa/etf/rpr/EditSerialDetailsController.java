@@ -242,7 +242,7 @@ public class EditSerialDetailsController {
             genresListView.refresh();
         }
     }
-    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidURLException {
+    public void saveChangesAction(ActionEvent actionEvent) throws IOException, InvalidUrlException {
         if(descriptionCorrect && directorCorrect && episodesCorrect && seasonsCorrect && priceCorrect && ratingCorrect && titleCorrect && urlCorrect && yearCorrect) {
             serial.setTitle(titleField.getText());
             serial.setPrice(Double.parseDouble(priceField.getText()));

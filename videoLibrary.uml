@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>b40aa37c-a60a-4189-ba1c-dfd275514211</OriginalElement>
+  <nodes>
+    <node x="142.815" y="298.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_genre</node>
+    <node x="205.0075" y="11.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user</node>
+    <node x="454.815" y="298.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.serial</node>
+    <node x="661.815" y="309.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.movie</node>
+    <node x="298.815" y="298.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_requests</node>
+    <node x="489.315" y="0.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content</node>
+    <node x="181.0" y="461.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.employee</node>
+    <node x="0.0" y="461.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.sqlite_master</node>
+    <node x="0.0" y="298.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_genres</node>
+    <node x="52.19499999999999" y="66.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.genre</node>
+    <node x="896.315" y="22.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.actor</node>
+    <node x="851.815" y="298.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_actor</node>
+    <node x="337.0" y="461.0">b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.hotel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_actor" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.actor">
+      <point x="34.0" y="-59.0" />
+      <point x="0.0" y="92.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_requests" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content">
+      <point x="34.0" y="-59.0" />
+      <point x="400.815" y="278.0" />
+      <point x="524.7149999999999" y="278.0" />
+      <point x="-23.600000000000023" y="114.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_requests" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user">
+      <point x="-34.0" y="-59.0" />
+      <point x="332.815" y="258.0" />
+      <point x="319.0075" y="258.0" />
+      <point x="38.0" y="103.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_genres" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user">
+      <point x="30.25" y="-59.0" />
+      <point x="90.75" y="258.0" />
+      <point x="243.0075" y="258.0" />
+      <point x="-38.0" y="103.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.movie" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content">
+      <point x="5.6843418860808015E-14" y="-48.0" />
+      <point x="746.815" y="278.0" />
+      <point x="571.915" y="278.0" />
+      <point x="23.600000000000023" y="114.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_genre" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.genre">
+      <point x="-34.0" y="-59.0" />
+      <point x="176.815" y="248.0" />
+      <point x="117.445" y="248.0" />
+      <point x="21.75" y="48.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_genre" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content">
+      <point x="34.0" y="-59.0" />
+      <point x="244.815" y="268.0" />
+      <point x="501.115" y="268.0" />
+      <point x="-47.19999999999999" y="114.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content_actor" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content">
+      <point x="-34.0" y="-59.0" />
+      <point x="885.815" y="268.0" />
+      <point x="595.5150000000001" y="268.0" />
+      <point x="47.200000000000045" y="114.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.serial" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content">
+      <point x="0.0" y="-59.0" />
+      <point x="0.0" y="114.0" />
+    </edge>
+    <edge source="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.user_genres" target="b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.genre">
+      <point x="-30.25" y="-59.0" />
+      <point x="30.25" y="278.0" />
+      <point x="73.945" y="278.0" />
+      <point x="-21.75" y="48.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5922953451043339" x="506.0" y="301.5" />
+  <SelectedNodes>
+    <node>b40aa37c-a60a-4189-ba1c-dfd275514211.TABLE:main.content</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

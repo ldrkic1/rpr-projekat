@@ -22,9 +22,9 @@ public class Content {
         genre = new ArrayList<>();
     }
 
-    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) throws InvalidURLException {
+    public Content(int id,String title, ArrayList<Genre> genre, int year, String director, ArrayList<Actor> mainActors, String description, double rating, String image, double price) throws InvalidUrlException {
         if (title.equals("")) throw new IllegalArgumentException();
-        if(!AddActorController.isValid(image)) throw new InvalidURLException();
+        if(!AddActorController.isValid(image)) throw new InvalidUrlException();
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -112,8 +112,8 @@ public class Content {
         return image;
     }
 
-    public void setImage(String image) throws InvalidURLException {
-        if(!AddActorController.isValid(image)) throw new InvalidURLException("Invalid URL");
+    public void setImage(String image) throws InvalidUrlException {
+        if(!AddActorController.isValid(image)) throw new InvalidUrlException("Invalid URL");
         this.image = image;
         Image img = new Image(image);
         if(image!=null) {
